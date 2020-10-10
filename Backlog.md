@@ -1,44 +1,41 @@
-# Task 1
-Backlogs:
-| Role | Story | Estimation time (Day) | Priority |
-|-|-|-|-|
-|Developer|I have a dummy webserver so that I can use it as a target to monitor.| 2 | High |
-| User | I can see potential security threats on my web server. | 2 | High |
-| User | I can see detail of a security threat. | 0.5 | Low |
-| User | I can see the alert ranging from low to high. |0.5 | Low |
-| User | I can decide priority of the alert on my own. |0.5 | Low |
-|||
-|||
+### [Update your working progress](https://docs.google.com/spreadsheets/d/18XOCYiPlReWLvm8figp2Bqw22co1El8d6yE1n-eLEi8/edit?usp=sharing)
+# Sprint 1 - Task 1
+## Product Backlog:
+|Number| Role | Story | Estimation time (Day) | Priority |
+|-|-|-|-|-|
+|1|Developer|I have a dummy webserver so that I can use it as a target to monitor.| 1 | High |
+|2| User | I can see potential security threats on my web server. | 2 | High |
+|3| User | I can see detail of a security threat. | 0.5 | Low |
+|4| User | I can see the alert ranging from low to high. |0.5 | Low |
+|5| User | I can decide priority of the alert on my own. |0.5 | Low |
 
-Implementation tasks:
-- Create web server: https://www.vogella.com/tutorials/ApacheHTTP/article.html
-- Basic of Apache Web Server: https://www.youtube.com/watch?v=rCr3-YlL5S8
+Note:
+- To create dummy web server, we decided to have buttons/URLs for generate log messages of: failed logins, access restricted resource... [See more vulnerabilities](https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring)
+  - [Create web server](https://www.vogella.com/tutorials/ApacheHTTP/article.html)
+  - [Basic of Apache Web Server](https://www.youtube.com/watch?v=rCr3-YlL5S8)
+
+## Questions:
+- [Martin] The webserver will be given or create by ourselves? If not given:
+  - [Martin] Is the dummy web server above is valid?
+- [Manuel & Team] Does Esper have alert ranking or just define the alert message is LOW/HIGH?
+- [Team] Find: web server potential security threats? List them out.
+- [Team] How we define the Event Hierarchy? How do we define patterns for recognizing the alert from events?
 
 # Task 2
-
-Overall task is develop a SIEM system which:
-- **monitors** the network connections of hosts and **alerts** users (network admin) when a port scan is detected.
-- automatically prioritise the produces alerts in a range from low to high.
-
-Example threats:
-- Five failures of a connection within five minutes on a closed port from one IP address might come from a incorrect configured software which uses a wrong port number and can therefore have a low prioritisation. 
-- On the other hand, 100++ connections within five minutes on different ports coming from different IP addresses are likely to be a distributed port scan coming from a bot net. This could be a high priority alert.
+## Product Backlog:
+|ID|Role|Story|Estimation time (day) | Priority |
+|-|-|-|-|-|
+|1|Developer|I have a networked host so that I can simulate a port scanning on it and use it as target to monitor.|1|High|
+|2|User|I can see alerts when a port scan is detected.|2|High|
+|3|User|I can see alerts ranking from low to high (SIEM system have to proritize alerts)|0.5|Low|
 
 Implementation tasks:
 - How can we simulate the port scanning? Found: `nmap` https://www.youtube.com/watch?v=4t4kBkMsDbQ
-- How can determine the pattern for vertical, horizontal, block port scanning?
+- Determine the pattern for vertical, horizontal, block port scanning?
 
-Backlogs:
-|Role|Story|
-|-|-|
-|||
-|||
-|||
-|||
-|||
 
 Questions:
-- Do you have any suggestion about simulate a port scanning: vertical, horizontal, block scan?
-- Event Hierarchy? For what, its uses? (Ex: previous SSH task)
-- Pcap4j, how to capture network traffic?
-- How to create a pattern?
+- [Manuel] Do you have any suggestion about simulate a port scanning: vertical, horizontal, block scan?
+- [Team] Event Hierarchy? For what, its uses? (Ex: previous SSH task)
+- [Team] Pcap4j, how to capture network traffic?
+- [Team] How to create a pattern?
