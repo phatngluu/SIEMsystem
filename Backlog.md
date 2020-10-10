@@ -42,6 +42,8 @@ Questions:
 
 # Task 3
 
+## Questions
+- [Martin] What do you mean by at least 3 of out 4? Can we just only skip task 3? Is the score of 4 tasks done higher than 3 tasks?
 # Task 4
 ## Product Backlog:
 |ID|Role|Story|Estimation time (day) | Priority |
