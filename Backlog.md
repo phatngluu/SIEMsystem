@@ -1,7 +1,7 @@
 # Task 1
 Backlogs:
 | Role | Story | Estimation time (Day) | Priority |
-| - | - |
+|-|-|-|-|
 |Developer|I have a dummy webserver so that I can use it as a target to monitor.| 2 | High |
 | User | I can see potential security threats on my web server. | 2 | High |
 | User | I can see detail of a security threat. | 0.5 | Low |
