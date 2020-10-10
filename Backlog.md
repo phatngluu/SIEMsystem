@@ -34,7 +34,7 @@ Implementation tasks:
 - Determine the pattern for vertical, horizontal, block port scanning?
 
 
-Questions:
+## Questions:
 - [Manuel] Do you have any suggestion about simulate a port scanning: vertical, horizontal, block scan?
 - [Team] Event Hierarchy? For what, its uses? (Ex: previous SSH task)
 - [Team] Pcap4j, how to capture network traffic?
