@@ -1,5 +1,5 @@
 ### [Update your working progress](https://docs.google.com/spreadsheets/d/18XOCYiPlReWLvm8figp2Bqw22co1El8d6yE1n-eLEi8/edit?usp=sharing)
-# Sprint 1 - Task 1
+# Task 1
 ## Product Backlog:
 |Number| Role | Story | Estimation time (Day) | Priority |
 |-|-|-|-|-|
@@ -39,3 +39,13 @@ Questions:
 - [Team] Event Hierarchy? For what, its uses? (Ex: previous SSH task)
 - [Team] Pcap4j, how to capture network traffic?
 - [Team] How to create a pattern?
+
+# Task 3
+
+# Task 4
+## Product Backlog:
+|ID|Role|Story|Estimation time (day) | Priority |
+|-|-|-|-|-|
+|1|User|I can see a list of recent and past alerts including the automatically assigned priority.||
+|2|User|I can see number of processed events for each event type.||
+|3|User|I can set options (required for configuration) of the SIEM system (e.g. thresholds).||
