@@ -6,3 +6,20 @@ Backlogs:
 | User | I can see detail of a security threat. |
 | User | I can see the alert ranging from low to high. |
 | User | I can decide priority of the alert on my own. |
+|||
+|||
+|||
+
+# Task 2
+ deve  deOverall task:
+Backlogs:
+|Role|Story|
+|-|-|
+|||
+|||
+|||
+|||
+|||
+
+Questions:
+- Do you have any suggestion about simulate a port scanning: vertical, horizontal, block scan?
