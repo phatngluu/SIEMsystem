@@ -1,4 +1,4 @@
-package SIEMsystem.event;
+package SIEMsystem.collector;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -29,7 +29,7 @@ public class CEPEngine {
 
     // Step 2
     public void compileAndDeploy(String name, String epl, Class eventType) {
-        System.out.print("Class: " + eventType.getSimpleName() + ". ");
+        System.out.print("Class: " + eventType.getSimpleName());
         CompilerArguments compilerArguments = new CompilerArguments(this.configuration);
 
         // Compile
@@ -37,22 +37,22 @@ public class CEPEngine {
         EPCompiler compiler = EPCompilerProvider.getCompiler();
         try {
             EPCompiled epCompiled = compiler.compile("@name('" + name + "') " + epl, compilerArguments);
-            System.out.print("OK.");
+            System.out.print("OK");
             // Deploy
             System.out.print("\tDeploying...");
             EPDeployment epDeployment;
             try {
                 epDeployment = runtime.getDeploymentService().deploy(epCompiled);
-                System.out.print("\tOK.");
+                System.out.print("OK");
                 EPStatement statement = runtime.getDeploymentService().getStatement(epDeployment.getDeploymentId(), name);
                 this.statement = statement;
             } catch (EPDeployException ex) {
-                System.out.print("\tFailed.");
+                System.out.print("FAILED");
                 ex.printStackTrace();
             }
             
         } catch (EPCompileException ex) {
-            System.out.print("\tFailed.");
+            System.out.print("FAILED");
             ex.printStackTrace();
         }
         System.out.println("");
