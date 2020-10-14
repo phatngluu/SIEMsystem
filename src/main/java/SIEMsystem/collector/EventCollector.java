@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.espertech.esper.runtime.client.EPRuntime;
 
+import SIEMsystem.event.AccessLog;
 import nl.basjes.parse.core.Parser;
 import nl.basjes.parse.core.exceptions.DissectionFailure;
 import nl.basjes.parse.core.exceptions.InvalidDissectorException;

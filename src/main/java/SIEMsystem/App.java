@@ -1,7 +1,8 @@
 package SIEMsystem;
 
 import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.collector.*;
+import SIEMsystem.collector.EventCollector;
+import SIEMsystem.event.AccessLog;
 
 /**
  * Hello world!
