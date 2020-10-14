@@ -1,4 +1,6 @@
 package SIEMsystem.collector;
+
+import SIEMsystem.event.AccessLog;
 import lombok.Getter;
 import lombok.Setter;
 

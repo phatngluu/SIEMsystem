@@ -2,6 +2,9 @@ package SIEMsystem;
 
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
+import SIEMsystem.collector.FailedLoginEvent;
+import SIEMsystem.collector.LoginAlert;
+import SIEMsystem.collector.UnauthorizedEvent;
 import SIEMsystem.event.AccessLog;
 
 import java.util.ArrayList;
