@@ -1,5 +1,6 @@
 package SIEMsystem;
 
+import SIEMsystem.AlertManager.AlertManager;
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
 import SIEMsystem.event.FailedLoginEvent;
@@ -15,8 +16,8 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) {
-        AlertPriorities alertPriorities = new AlertPriorities();
-        alertPriorities.setProperties();
+        AlertManager alertManager = new AlertManager();
+        alertManager.setPriorities();
 
         // Setting up engine
         CEPEngine engine = new CEPEngine();

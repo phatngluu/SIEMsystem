@@ -1,11 +1,11 @@
 package SIEMsystem.event;
 
-import SIEMsystem.AlertPriorities;
 import SIEMsystem.event.AccessLogEvent;
+import SIEMsystem.AlertManager.*;
 import lombok.Getter;
 import lombok.Setter;
 
-public class FailedLoginEvent {
+public class FailedLoginEvent  extends AbstractAlert{
     @Getter @Setter private String ip;
     @Getter @Setter private String user;
     @Getter @Setter private String time;
@@ -31,7 +31,10 @@ public class FailedLoginEvent {
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
         System.out.println("FailedLoginEvent created");
-        AlertPriorities alertPriorities = new AlertPriorities();
-        System.out.println("Alert Priority: " + alertPriorities.getFailedLogin() + "\n");
+    }
+
+    @Override
+    public String acceptAlert(String type){
+        return AlertManager.getPriorities(type);
     }
 }

@@ -1,11 +1,12 @@
 package SIEMsystem.event;
 
-
-import SIEMsystem.AlertPriorities;
+import SIEMsystem.AlertManager.AlertManager;
+import SIEMsystem.AlertManager.*;
+import SIEMsystem.event.AccessLogEvent;
 import lombok.Getter;
 import lombok.Setter;
 
-public class UnauthorizedEvent {
+public class UnauthorizedEvent extends AbstractAlert{
     @Getter @Setter private String ip;
     @Getter @Setter private String user;
     @Getter @Setter private String time;
@@ -31,7 +32,10 @@ public class UnauthorizedEvent {
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
         System.out.println("UnauthorizedEvent created");
-        AlertPriorities alertPriorities = new AlertPriorities();
-        System.out.println("Alert Priority: " + alertPriorities.getUnauthLogin() + "\n");
+    }
+
+    @Override
+    public String acceptAlert(String type){
+        return AlertManager.getPriorities(type);
     }
 }
