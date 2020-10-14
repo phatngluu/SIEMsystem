@@ -1,5 +1,6 @@
 package SIEMsystem.event;
 
+import SIEMsystem.AlertPriorities;
 import SIEMsystem.event.AccessLogEvent;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class FailedLoginEvent {
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
         System.out.println("FailedLoginEvent created");
-        System.out.println();
+        AlertPriorities alertPriorities = new AlertPriorities();
+        System.out.println("Alert Priority: " + alertPriorities.getFailedLogin() + "\n");
     }
 }

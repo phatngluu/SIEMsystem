@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) {
+        AlertPriorities alertPriorities = new AlertPriorities();
+        alertPriorities.setProperties();
+
         // Setting up engine
         CEPEngine engine = new CEPEngine();
         engine.addEventType(AccessLogEvent.class);
