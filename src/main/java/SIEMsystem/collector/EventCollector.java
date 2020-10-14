@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import com.espertech.esper.runtime.client.EPRuntime;
 
-import SIEMsystem.event.AccessLog;
+import SIEMsystem.event.AccessLogEvent;
 import nl.basjes.parse.core.Parser;
 import nl.basjes.parse.core.exceptions.DissectionFailure;
 import nl.basjes.parse.core.exceptions.InvalidDissectorException;
@@ -28,19 +28,19 @@ public class EventCollector {
         File file = new File(".resources/logs/input.log");
 
         String logformat = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"";
-        Parser<AccessLog> dummyParser = new HttpdLoglineParser<AccessLog>(AccessLog.class, logformat);
+        Parser<AccessLogEvent> dummyParser = new HttpdLoglineParser<AccessLogEvent>(AccessLogEvent.class, logformat);
 
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String log = scanner.nextLine();
-                AccessLog logObj;
+                AccessLogEvent logObj;
                 try {
                     logObj = dummyParser.parse(log);
                     System.out.println(logObj);
                     
                     // Send event bean
-                    this.runtime.getEventService().sendEventBean(logObj, "AccessLog");
+                    this.runtime.getEventService().sendEventBean(logObj, "AccessLogEvent");
                 } catch (DissectionFailure | InvalidDissectorException | MissingDissectorsException e) {
                     // e.printStackTrace();
                     System.out.println("Failed to parse.");

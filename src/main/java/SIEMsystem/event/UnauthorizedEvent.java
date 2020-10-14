@@ -1,10 +1,10 @@
-package SIEMsystem.collector;
+package SIEMsystem.event;
 
-import SIEMsystem.event.AccessLog;
+
 import lombok.Getter;
 import lombok.Setter;
 
-public class FailedLoginEvent {
+public class UnauthorizedEvent {
     @Getter @Setter private String ip;
     @Getter @Setter private String user;
     @Getter @Setter private String time;
@@ -17,7 +17,7 @@ public class FailedLoginEvent {
     @Getter @Setter private String referer;
     @Getter @Setter private String useragent;
 
-    public FailedLoginEvent(AccessLog al) {
+    public UnauthorizedEvent(AccessLogEvent al) {
         this.ip = al.getIp();
         this.user = al.getUser();
         this.time = al.getTime();
@@ -29,7 +29,6 @@ public class FailedLoginEvent {
         this.bytes = al.getBytes();
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
-        System.out.println("FailedLoginEvent created");
-        System.out.println();
+        System.out.println("UnauthorizedEvent created");
     }
 }

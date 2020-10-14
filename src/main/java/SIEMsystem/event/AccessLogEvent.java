@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.basjes.parse.core.Field;
 
-public class AccessLog{
+public class AccessLogEvent{
     @Getter @Setter(onMethod=@__(@Field("IP:connection.client.host"))) private String ip;
     @Getter @Setter(onMethod=@__(@Field("STRING:connection.client.user"))) private String user;
     @Getter @Setter(onMethod=@__(@Field("TIME.STAMP:request.receive.time"))) private String time;

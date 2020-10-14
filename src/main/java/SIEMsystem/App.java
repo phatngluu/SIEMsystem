@@ -2,10 +2,10 @@ package SIEMsystem;
 
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
-import SIEMsystem.collector.FailedLoginEvent;
-import SIEMsystem.collector.LoginAlert;
-import SIEMsystem.collector.UnauthorizedEvent;
-import SIEMsystem.event.AccessLog;
+import SIEMsystem.event.FailedLoginEvent;
+import SIEMsystem.alert.LoginAlert;
+import SIEMsystem.event.UnauthorizedEvent;
+import SIEMsystem.event.AccessLogEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +17,16 @@ public class App {
     public static void main(String[] args) {
         // Setting up engine
         CEPEngine engine = new CEPEngine();
-        engine.addEventType(AccessLog.class);
+        engine.addEventType(AccessLogEvent.class);
         engine.addEventType(FailedLoginEvent.class);
         engine.addEventType(UnauthorizedEvent.class);
         engine.addEventType(LoginAlert.class);
         engine.initRuntime();
 
-        engine.compileAndDeploy("select-access-log", "select * from AccessLog;",
-                AccessLog.class);
-        // engine.compileAndDeploy("select-access-log-2", "select count(*) as count, sum(bytes) as sum from AccessLog;",
-        //         AccessLog.class);
+        engine.compileAndDeploy("select-access-log", "select * from AccessLogEvent;",
+                AccessLogEvent.class);
+        // engine.compileAndDeploy("select-access-log-2", "select count(*) as count, sum(bytes) as sum from AccessLogEvent;",
+        //         AccessLogEvent.class);
 
         engine.addListener((newData, oldData, stmt, rt) -> {
             /*System.out.println("IP: " + newData[0].get("ip"));
@@ -43,23 +43,23 @@ public class App {
             System.out.println();*/
         });
 
-        engine.compileAndDeploy("select-failed-logins", "select * from AccessLog(status=\"401\");",
-                AccessLog.class);
+        engine.compileAndDeploy("select-failed-logins", "select * from AccessLogEvent(status=\"401\");",
+                AccessLogEvent.class);
         engine.addListener((newData, oldData, stmt, rt) -> {
-            AccessLog extractedEvent = (AccessLog) newData[0].getUnderlying();
+            AccessLogEvent extractedEvent = (AccessLogEvent) newData[0].getUnderlying();
             engine.getRuntime().getEventService().sendEventBean(new FailedLoginEvent(extractedEvent),
                     "FailedLoginEvent");
         });
 
-        engine.compileAndDeploy("select-authorized-events", "select * from AccessLog(status=\"403\");",
-                AccessLog.class);
+        engine.compileAndDeploy("select-authorized-events", "select * from AccessLogEvent(status=\"403\");",
+                AccessLogEvent.class);
         engine.addListener((newData, oldData, stmt, rt) -> {
-            AccessLog extractedEvent = (AccessLog) newData[0].getUnderlying();
+            AccessLogEvent extractedEvent = (AccessLogEvent) newData[0].getUnderlying();
             engine.getRuntime().getEventService().sendEventBean(new UnauthorizedEvent(extractedEvent),
                     "UnauthorizedEvent");
         });
 
-        String alertStatement = "select * from AccessLog " +
+        String alertStatement = "select * from AccessLogEvent " +
                 "match_recognize ( " +
                 "partition by ip " +
                 "measures A as event1, B as event2 " +
@@ -67,7 +67,7 @@ public class App {
                 "define " +
                 "A as A.status = \"401\", " +
                 "B as B.status != \"401\")";
-        engine.compileAndDeploy("login-alert-event", alertStatement, AccessLog.class);
+        engine.compileAndDeploy("login-alert-event", alertStatement, AccessLogEvent.class);
         engine.addListener((newData, oldData, stmt, rt) -> {
             System.out.println("Found alert event.");
             System.out.println((String) oldData[0].get("event1.time"));
