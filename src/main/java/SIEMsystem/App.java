@@ -1,6 +1,5 @@
 package SIEMsystem;
 
-import SIEMsystem.AlertManager.AbstractAlert;
 import SIEMsystem.AlertManager.AlertManager;
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
@@ -18,7 +17,8 @@ import java.util.List;
 public class App {
     public static void main(String[] args) {
         AlertManager alertManager = new AlertManager();
-        alertManager.setPriorities();
+        alertManager.setPriorities("FailedLogin", "High");
+
 
         // Setting up engine
         CEPEngine engine = new CEPEngine();
@@ -48,9 +48,8 @@ public class App {
             System.out.println();*/
         });
 
-        engine.compileAndDeploy("select-failed-logins", "insert into FailedLoginEvent select ip, " +
-                "time, status, \"" + AbstractAlert.acceptAlert() + "\" as priority from " +
-                "AccessLogEvent(status=\"401\");", AccessLogEvent.class);
+        engine.compileAndDeploy("select-failed-logins", "select * from AccessLogEvent(status=\"401\");",
+                AccessLogEvent.class);
         engine.addListener((newData, oldData, stmt, rt) -> {
             AccessLogEvent extractedEvent = (AccessLogEvent) newData[0].getUnderlying();
             engine.getRuntime().getEventService().sendEventBean(new FailedLoginEvent(extractedEvent),

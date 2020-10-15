@@ -1,12 +1,10 @@
 package SIEMsystem.event;
 
-import SIEMsystem.AlertManager.AlertManager;
 import SIEMsystem.AlertManager.*;
-import SIEMsystem.event.AccessLogEvent;
 import lombok.Getter;
 import lombok.Setter;
 
-public class UnauthorizedEvent extends AbstractAlert{
+public class UnauthorizedEvent {
     @Getter @Setter private String ip;
     @Getter @Setter private String user;
     @Getter @Setter private String time;
@@ -32,10 +30,5 @@ public class UnauthorizedEvent extends AbstractAlert{
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
         System.out.println("UnauthorizedEvent created");
-    }
-
-    @Override
-    public String acceptAlert(){
-        return AlertManager.getPriorities("FailedAuth");
     }
 }
