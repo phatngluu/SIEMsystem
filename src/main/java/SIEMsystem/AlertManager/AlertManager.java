@@ -16,13 +16,12 @@ public class AlertManager{
         }
     }
 
-    public String AlertWithProperty(String alertName) {
-        String value = properties.getProperty(alertName);
-        return value;
+    public String AlertWithProperty(Object Alert) {
+        return properties.getProperty(Alert.getClass().getSimpleName());
     }
 
-    public String acceptAlert(String alertName) {
-        return AlertWithProperty(alertName);
+    public String acceptAlert(Object Alert) {
+        return AlertWithProperty(Alert);
     }
 
 

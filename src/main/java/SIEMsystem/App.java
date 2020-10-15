@@ -16,8 +16,10 @@ import java.util.List;
  */
 public class App {
     public static void main(String[] args) {
+
+        //Test update config
         AlertManager alertManager = new AlertManager();
-        alertManager.setPriorities("FailedLogin", "High");
+        alertManager.setPriorities("FailedLoginEvent", "Low");
 
 
         // Setting up engine
