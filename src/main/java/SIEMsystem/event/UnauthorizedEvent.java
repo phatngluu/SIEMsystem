@@ -35,7 +35,7 @@ public class UnauthorizedEvent extends AbstractAlert{
     }
 
     @Override
-    public String acceptAlert(String type){
-        return AlertManager.getPriorities(type);
+    public String acceptAlert(){
+        return AlertManager.getPriorities("FailedAuth");
     }
 }

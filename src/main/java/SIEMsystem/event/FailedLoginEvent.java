@@ -34,7 +34,7 @@ public class FailedLoginEvent  extends AbstractAlert{
     }
 
     @Override
-    public String acceptAlert(String type){
-        return AlertManager.getPriorities(type);
+    public String acceptAlert(){
+        return AlertManager.getPriorities("FaliedLogin");
     }
 }
