@@ -1,6 +1,5 @@
 package SIEMsystem.event;
 
-import SIEMsystem.AlertManager.*;
 import lombok.Getter;
 import lombok.Setter;
 

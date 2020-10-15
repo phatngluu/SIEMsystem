@@ -1,18 +1,17 @@
 package SIEMsystem;
 
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import SIEMsystem.alert.AlertManager;
 import SIEMsystem.alert.ConsecutiveFailLoginAlert;
 import SIEMsystem.alert.FailLoginAlert;
 import SIEMsystem.alert.UnauthorizedAlert;
-import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.collector.EventCollector;
-
-/**
- * Hello world!
- */
-public class App {
-    public static void main(String[] args) {
-
+public class AlertManagerTest {
+    @Test
+    public void testAlertManager()
+    {
         //Test alert manager
         AlertManager alertManager = AlertManager.getInstance();
         System.out.println(
@@ -37,10 +36,6 @@ public class App {
         new ConsecutiveFailLoginAlert().getPriority()
         );
 
-        // // Setting up engine
-        // CEPEngine engine = new CEPEngine();
-
-        // EventCollector collector = new EventCollector(engine.getRuntime());
-        // collector.collectAccessLog();
+        assertTrue(true);
     }
 }
