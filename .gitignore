@@ -1,6 +1,9 @@
+.idea/
 .vscode/
 .settings/
 target/
+bin
 .classpath
 .factorypath
 .project
+SIEMsystem.iml
