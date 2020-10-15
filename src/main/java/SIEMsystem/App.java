@@ -1,5 +1,6 @@
 package SIEMsystem;
 
+import SIEMsystem.AlertManager.AlertManager;
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
 
@@ -8,8 +9,11 @@ import SIEMsystem.collector.EventCollector;
  */
 public class App {
     public static void main(String[] args) {
-        AlertPriorities alertPriorities = new AlertPriorities();
-        alertPriorities.setProperties();
+
+        //Test update config
+        AlertManager alertManager = new AlertManager();
+        alertManager.setPriorities("FailedLoginEvent", "Low");
+
 
         // Setting up engine
         CEPEngine engine = new CEPEngine();

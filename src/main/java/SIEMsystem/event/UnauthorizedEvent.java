@@ -1,7 +1,6 @@
 package SIEMsystem.event;
 
-
-import SIEMsystem.AlertPriorities;
+import SIEMsystem.AlertManager.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +30,5 @@ public class UnauthorizedEvent {
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
         System.out.println("UnauthorizedEvent created");
-        AlertPriorities alertPriorities = new AlertPriorities();
-        System.out.println("Alert Priority: " + alertPriorities.getUnauthLogin() + "\n");
     }
 }

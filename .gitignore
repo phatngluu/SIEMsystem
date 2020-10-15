@@ -1,6 +1,5 @@
-.idea/
-.settings/
 .vscode/
+.settings/
 target/
 .classpath
 .factorypath
