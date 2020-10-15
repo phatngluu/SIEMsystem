@@ -8,23 +8,27 @@ import com.espertech.esper.compiler.client.EPCompiler;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.*;
 
+import SIEMsystem.alert.LoginAlert;
+import SIEMsystem.event.AccessLogEvent;
+import SIEMsystem.event.FailedLoginEvent;
+import SIEMsystem.event.UnauthorizedEvent;
+
 
 public class CEPEngine {
     private EPStatement statement;
     private EPRuntime runtime;
     private Configuration configuration;
 
-    // Step 0
-    public void addEventType(Class eventType){
-        if (this.configuration == null){
-            this.configuration = new Configuration();
-        }
-        this.configuration.getCommon().addEventType(eventType);
-    }
+    public CEPEngine() {
+        this.configuration = new Configuration();
+        this.configuration.getCommon().addEventType(AccessLogEvent.class);
+        this.configuration.getCommon().addEventType(FailedLoginEvent.class);
+        this.configuration.getCommon().addEventType(UnauthorizedEvent.class);
+        this.configuration.getCommon().addEventType(LoginAlert.class);
+        this.runtime = EPRuntimeProvider.getDefaultRuntime(this.configuration);
 
-    // Step 1
-    public void initRuntime(){
-        this.runtime = EPRuntimeProvider.getDefaultRuntime(this.configuration); 
+        WebserverSubEngine.activate(this);
+        // PortscanSubEngine.activate(this);
     }
 
     // Step 2
@@ -66,5 +70,21 @@ public class CEPEngine {
     // Step 4
     public EPRuntime getRuntime(){
         return this.runtime;
+    }
+
+    public EPStatement compileAndDeploy(String epl) {
+        try {
+            CompilerArguments args = new CompilerArguments(this.configuration);
+            args.getPath().add(this.runtime.getRuntimePath());
+            System.out.print("\nCompiling... ");
+            EPCompiled compiled = EPCompilerProvider.getCompiler().compile(epl, args);
+            System.out.print("OK");
+            System.out.print("\tDeploying...");
+            EPDeployment epDeployment = this.runtime.getDeploymentService().deploy(compiled);
+            System.out.print("OK");
+            return epDeployment.getStatements()[0];
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
