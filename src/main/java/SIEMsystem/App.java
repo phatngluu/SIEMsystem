@@ -1,5 +1,7 @@
 package SIEMsystem;
 
+import java.io.FileNotFoundException;
+
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
 
@@ -7,11 +9,12 @@ import SIEMsystem.collector.EventCollector;
  * Hello world!
  */
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         // Setting up engine
         CEPEngine engine = new CEPEngine();
 
         EventCollector collector = new EventCollector(engine.getRuntime());
-        collector.collectAccessLog();
+        // collector.collectAccessLog();
+        collector.collectLog();
     }
 }
