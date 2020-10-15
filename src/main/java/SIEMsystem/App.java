@@ -1,9 +1,5 @@
 package SIEMsystem;
 
-import SIEMsystem.alert.AlertManager;
-import SIEMsystem.alert.ConsecutiveFailLoginAlert;
-import SIEMsystem.alert.FailLoginAlert;
-import SIEMsystem.alert.UnauthorizedAlert;
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.collector.EventCollector;
 
@@ -12,35 +8,10 @@ import SIEMsystem.collector.EventCollector;
  */
 public class App {
     public static void main(String[] args) {
+        // Setting up engine
+        CEPEngine engine = new CEPEngine();
 
-        //Test alert manager
-        AlertManager alertManager = AlertManager.getInstance();
-        System.out.println(
-        alertManager.acceptAlert(new UnauthorizedAlert()).getPriority() + 
-        alertManager.acceptAlert(new FailLoginAlert()).getPriority() + 
-        alertManager.acceptAlert(new ConsecutiveFailLoginAlert()).getPriority()
-        );
-
-        alertManager.setPriority(UnauthorizedAlert.class, "Medium");
-        alertManager.setPriority(FailLoginAlert.class, "Medium");
-        alertManager.setPriority(ConsecutiveFailLoginAlert.class, "Medium");
-
-        System.out.println(
-        alertManager.acceptAlert(new UnauthorizedAlert()).getPriority() + 
-        alertManager.acceptAlert(new FailLoginAlert()).getPriority() + 
-        alertManager.acceptAlert(new ConsecutiveFailLoginAlert()).getPriority()
-        );
-
-        System.out.println(
-        new UnauthorizedAlert().getPriority() + 
-        new FailLoginAlert().getPriority() + 
-        new ConsecutiveFailLoginAlert().getPriority()
-        );
-
-        // // Setting up engine
-        // CEPEngine engine = new CEPEngine();
-
-        // EventCollector collector = new EventCollector(engine.getRuntime());
-        // collector.collectAccessLog();
+        EventCollector collector = new EventCollector(engine.getRuntime());
+        collector.collectAccessLog();
     }
 }

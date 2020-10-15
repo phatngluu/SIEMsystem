@@ -8,6 +8,7 @@ import com.espertech.esper.compiler.client.EPCompiler;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.*;
 
+import SIEMsystem.alert.BruteForceAttackAlert;
 import SIEMsystem.alert.LoginAlert;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.FailedLoginEvent;
@@ -25,6 +26,7 @@ public class CEPEngine {
         this.configuration.getCommon().addEventType(FailedLoginEvent.class);
         this.configuration.getCommon().addEventType(UnauthorizedEvent.class);
         this.configuration.getCommon().addEventType(LoginAlert.class);
+        this.configuration.getCommon().addEventType(BruteForceAttackAlert.class);
         this.runtime = EPRuntimeProvider.getDefaultRuntime(this.configuration);
 
         WebserverSubEngine.activate(this);

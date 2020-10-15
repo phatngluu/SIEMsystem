@@ -1,79 +1,72 @@
 package SIEMsystem.cep;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import SIEMsystem.alert.LoginAlert;
-import SIEMsystem.event.AccessLogEvent;
-import SIEMsystem.event.FailedLoginEvent;
-import SIEMsystem.event.UnauthorizedEvent;
+import SIEMsystem.alert.AlertManager;
+import SIEMsystem.alert.BruteForceAttackAlert;
+import SIEMsystem.alert.BruteForceAttackAlert2;
+import SIEMsystem.alert.ConsecutiveFailLoginAlert;
+import SIEMsystem.alert.FailLoginAlert;
+import SIEMsystem.alert.UnauthorizedAlert;
 
 public class WebserverSubEngine {
-    public static void activate(CEPEngine engine){
-        engine.compileAndDeploy("select-access-log", "select * from AccessLogEvent;",
-                AccessLogEvent.class);
-        // engine.compileAndDeploy("select-access-log-2", "select count(*) as count, sum(bytes) as sum from AccessLogEvent;",
-        //         AccessLogEvent.class);
+        public static void activate(CEPEngine engine) {
+                int threshold = 3;
+                int attackThreshold = 50;
 
-        engine.addListener((newData, oldData, stmt, rt) -> {
-            /*System.out.println("IP: " + newData[0].get("ip"));
-            System.out.println("User: " + newData[0].get("user"));
-            System.out.println("Time: " + newData[0].get("time"));
-            System.out.println("Method: " + newData[0].get("method"));
-            System.out.println("URI: " + newData[0].get("uri"));
-            System.out.println("Query: " + newData[0].get("query"));
-            System.out.println("Protocol: " + newData[0].get("protocol"));
-            System.out.println("Status: " + newData[0].get("status"));
-            System.out.println("Bytes: " + newData[0].get("bytes"));
-            System.out.println("Referer: " + newData[0].get("referer"));
-            System.out.println("User agent: " + newData[0].get("useragent"));
-            System.out.println();*/
-        });
+                engine.compileAndDeploy("insert into FailedLoginEvent " + "select ip, time, status "
+                                + "from AccessLogEvent(status=\"401\");");
+                engine.compileAndDeploy("select ip, time, status from FailedLoginEvent")
+                                .addListener((newData, oldData, stmt, rt) -> {
+                                        // Failed login alert - LOW
+                                        String IP = (String) newData[0].get("ip");
+                                        String TIME = (String) newData[0].get("time");
+                                        String STATUS = (String) newData[0].get("status");
+                                        FailLoginAlert alert = new FailLoginAlert(IP, TIME, STATUS);
+                                        AlertManager am = AlertManager.getInstance();
+                                        am.acceptAlert(alert);
+                                });
 
-        engine.compileAndDeploy("select-failed-logins", "select * from AccessLogEvent(status=\"401\");",
-                AccessLogEvent.class);
-        engine.addListener((newData, oldData, stmt, rt) -> {
-            AccessLogEvent extractedEvent = (AccessLogEvent) newData[0].getUnderlying();
-            engine.getRuntime().getEventService().sendEventBean(new FailedLoginEvent(extractedEvent),
-                    "FailedLoginEvent");
-        });
+                engine.compileAndDeploy("insert into UnauthorizedEvent " + "select ip, time, status "
+                                + "from AccessLogEvent(status=\"403\");");
+                engine.compileAndDeploy("select ip, time, status from UnauthorizedEvent")
+                                .addListener((newData, oldData, stmt, rt) -> {
+                                        // Unauth
+                                        String IP = (String) newData[0].get("ip");
+                                        String TIME = (String) newData[0].get("time");
+                                        String STATUS = (String) newData[0].get("status");
+                                        UnauthorizedAlert alert = new UnauthorizedAlert(IP, TIME, STATUS);
+                                        AlertManager am = AlertManager.getInstance();
+                                        am.acceptAlert(alert);
+                                });
 
-        engine.compileAndDeploy("select-authorized-events", "select * from AccessLogEvent(status=\"403\");",
-                AccessLogEvent.class);
-        engine.addListener((newData, oldData, stmt, rt) -> {
-            AccessLogEvent extractedEvent = (AccessLogEvent) newData[0].getUnderlying();
-            engine.getRuntime().getEventService().sendEventBean(new UnauthorizedEvent(extractedEvent),
-                    "UnauthorizedEvent");
-        });
+                engine.compileAndDeploy("insert into LoginAlert " + "select ip, time, status, count(*) as count "
+                                + "from FailedLoginEvent#time(5 minutes) " + "group by ip " + "having count(*) >= "
+                                + threshold + ";");
+                engine.compileAndDeploy("select count, ip, time from LoginAlert;")
+                                .addListener((newData, oldData, stmt, rt) -> {
+                                        // Consec
+                                        String IP = (String) newData[0].get("ip");
+                                        String TIME = (String) newData[0].get("time");
+                                        Long COUNT = (Long) newData[0].get("count");
+                                        ConsecutiveFailLoginAlert alert = new ConsecutiveFailLoginAlert(IP, TIME,
+                                                        COUNT);
+                                        AlertManager am = AlertManager.getInstance();
+                                        am.acceptAlert(alert);
 
-        String alertStatement = "select * from AccessLogEvent " +
-                "match_recognize ( " +
-                "partition by ip " +
-                "measures A as event1, B as event2 " +
-                "pattern ((A B*){3}) " +
-                "define " +
-                "A as A.status = \"401\", " +
-                "B as B.status != \"401\")";
-        engine.compileAndDeploy("login-alert-event", alertStatement, AccessLogEvent.class);
-        engine.addListener((newData, oldData, stmt, rt) -> {
-            System.out.println("Found alert event.");
-            System.out.println((String) oldData[0].get("event1.time"));
-            List<String> parameterList = new ArrayList<>();
-            parameterList.add((String) newData[0].get("event1.ip"));
-            parameterList.add((String) newData[0].get("event1.user"));
-            parameterList.add((String) newData[0].get("event1.time"));
-            parameterList.add((String) newData[0].get("event1.method"));
-            parameterList.add((String) newData[0].get("event1.uri"));
-            parameterList.add((String) newData[0].get("event1.query"));
-            parameterList.add((String) newData[0].get("event1.protocol"));
-            parameterList.add((String) newData[0].get("event1.status"));
-            parameterList.add((String) newData[0].get("event1.bytes"));
-            parameterList.add((String) newData[0].get("event1.referer"));
-            parameterList.add((String) newData[0].get("event1.useragent"));
-            engine.getRuntime().getEventService().sendEventBean(new LoginAlert(parameterList), "LoginAlert");
-        });
-        // engine.addListener((newData, oldData, stmt, rt) -> {
-        //     System.out.println("Count: " + newData[0].get("count") + ". Bytes: " + (int) newData[0].get("sum"));
-        // });
-    }
+                                });
+
+                engine.compileAndDeploy("insert into BruteForceAttackAlert " + "select time, count(*) as count "
+                                + "from FailedLoginEvent#time(5 minutes) " + "having count(*) >= " + attackThreshold
+                                + ";");
+
+                engine.compileAndDeploy("select time, count from BruteForceAttackAlert;")
+                                .addListener((newData, oldData, stmt, rt) -> {
+                                        // Bruteforce
+                                        String TIME = (String) newData[0].get("time");
+                                        Long COUNT = (Long) newData[0].get("count");
+                                        BruteForceAttackAlert2 alert = new BruteForceAttackAlert2(TIME, COUNT);
+                                        AlertManager am = AlertManager.getInstance();
+                                        am.acceptAlert(alert);
+
+                                });
+        }
 }
