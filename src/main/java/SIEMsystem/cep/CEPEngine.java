@@ -28,11 +28,8 @@ public class CEPEngine {
         this.configuration.getCommon().addEventType(LoginAlert.class);
         this.configuration.getCommon().addEventType(BruteForceAttackAlert.class);
         this.runtime = EPRuntimeProvider.getDefaultRuntime(this.configuration);
-
-        WebserverSubEngine.activate(this);
-        // PortscanSubEngine.activate(this);
     }
-
+    
     // Step 2
     public void compileAndDeploy(String name, String epl, Class eventType) {
         System.out.print("Class: " + eventType.getSimpleName());
@@ -88,5 +85,9 @@ public class CEPEngine {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public void activate(SubEngine subEngine){
+        subEngine.activate(this);
     }
 }

@@ -7,8 +7,19 @@ import SIEMsystem.alert.ConsecutiveFailLoginAlert;
 import SIEMsystem.alert.FailLoginAlert;
 import SIEMsystem.alert.UnauthorizedAlert;
 
-public class WebserverSubEngine {
-        public static void activate(CEPEngine engine) {
+public class WebserverSubEngine extends SubEngine {
+        private static WebserverSubEngine instance;
+        private WebserverSubEngine(){}
+        public static WebserverSubEngine getInstance(){
+            if (instance == null){
+                    instance = new WebserverSubEngine();
+                    return instance;
+            }
+            return instance;
+        }
+
+        @Override
+        protected void activate(CEPEngine engine) {
                 int threshold = 3;
                 int attackThreshold = 50;
 
