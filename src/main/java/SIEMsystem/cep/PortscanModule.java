@@ -8,12 +8,12 @@ import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.FailedLoginEvent;
 import SIEMsystem.event.UnauthorizedEvent;
 
-public class PortscanSubEngine extends SubEngine {
-    private static PortscanSubEngine instance;
-        private PortscanSubEngine(){}
-        public static PortscanSubEngine getInstance(){
+public class PortscanModule extends Module {
+    private static PortscanModule instance;
+        private PortscanModule(){}
+        public static PortscanModule getInstance(){
             if (instance == null){
-                    instance = new PortscanSubEngine();
+                    instance = new PortscanModule();
                     return instance;
             }
             return instance;

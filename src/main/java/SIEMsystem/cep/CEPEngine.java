@@ -35,7 +35,7 @@ public class CEPEngine {
         }
     }
 
-    public void activate(SubEngine subEngine){
-        subEngine.activate(this);
+    public void activate(Module module){
+        module.activate(this);
     }
 }

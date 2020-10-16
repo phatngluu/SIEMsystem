@@ -7,15 +7,15 @@ import SIEMsystem.alert.ConsecutiveFailLoginAlert;
 import SIEMsystem.alert.FailLoginAlert;
 import SIEMsystem.alert.UnauthorizedAlert;
 
-public class WebserverSubEngine extends SubEngine {
-    private static WebserverSubEngine instance;
+public class WebserverModule extends Module {
+    private static WebserverModule instance;
 
-    private WebserverSubEngine() {
+    private WebserverModule() {
     }
 
-    public static WebserverSubEngine getInstance() {
+    public static WebserverModule getInstance() {
         if (instance == null) {
-            instance = new WebserverSubEngine();
+            instance = new WebserverModule();
             return instance;
         }
         return instance;

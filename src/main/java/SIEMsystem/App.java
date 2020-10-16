@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import com.espertech.esper.common.client.configuration.Configuration;
 
 import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.cep.PortscanSubEngine;
-import SIEMsystem.cep.WebserverSubEngine;
+import SIEMsystem.cep.PortscanModule;
+import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
 
 import SIEMsystem.alert.BruteForceAttackAlert;
@@ -29,8 +29,8 @@ public class App {
         configuration.getCommon().addEventType(BruteForceAttackAlert.class);
         
         CEPEngine engine = new CEPEngine(configuration);
-        engine.activate(WebserverSubEngine.getInstance());
-        engine.activate(PortscanSubEngine.getInstance());
+        engine.activate(WebserverModule.getInstance());
+        engine.activate(PortscanModule.getInstance());
 
         EventCollector collector = new EventCollector(engine.getRuntime());
         // collector.collectAccessLog();

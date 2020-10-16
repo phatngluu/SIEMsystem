@@ -1,5 +1,5 @@
 package SIEMsystem.cep;
 
-public class SubEngine {
+public class Module {
     protected void activate(CEPEngine cepEngine){};
 }
