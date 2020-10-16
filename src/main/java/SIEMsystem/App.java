@@ -2,10 +2,18 @@ package SIEMsystem;
 
 import java.io.FileNotFoundException;
 
+import com.espertech.esper.common.client.configuration.Configuration;
+
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanSubEngine;
 import SIEMsystem.cep.WebserverSubEngine;
 import SIEMsystem.collector.EventCollector;
+
+import SIEMsystem.alert.BruteForceAttackAlert;
+import SIEMsystem.alert.LoginAlert;
+import SIEMsystem.event.AccessLogEvent;
+import SIEMsystem.event.FailedLoginEvent;
+import SIEMsystem.event.UnauthorizedEvent;
 
 /**
  * Hello world!
@@ -13,7 +21,14 @@ import SIEMsystem.collector.EventCollector;
 public class App {
     public static void main(String[] args) throws FileNotFoundException {
         // Setting up engine
-        CEPEngine engine = new CEPEngine();
+        Configuration configuration = new Configuration();
+        configuration.getCommon().addEventType(AccessLogEvent.class);
+        configuration.getCommon().addEventType(FailedLoginEvent.class);
+        configuration.getCommon().addEventType(UnauthorizedEvent.class);
+        configuration.getCommon().addEventType(LoginAlert.class);
+        configuration.getCommon().addEventType(BruteForceAttackAlert.class);
+        
+        CEPEngine engine = new CEPEngine(configuration);
         engine.activate(WebserverSubEngine.getInstance());
         engine.activate(PortscanSubEngine.getInstance());
 
