@@ -20,7 +20,7 @@ import SIEMsystem.event.UnauthorizedEvent;
  */
 public class App {
     public static void main(String[] args) throws FileNotFoundException {
-        // Setting up engine
+        // Setting up and run the engine
         Configuration configuration = new Configuration();
         configuration.getCommon().addEventType(AccessLogEvent.class);
         configuration.getCommon().addEventType(FailedLoginEvent.class);
@@ -32,6 +32,7 @@ public class App {
         engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
 
+        // Setting up and run the collector
         EventCollector collector = new EventCollector(engine.getRuntime());
         // collector.collectAccessLog();
         collector.collectLog();
