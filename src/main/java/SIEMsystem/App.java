@@ -19,11 +19,8 @@ import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.FailedLoginEvent;
 import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
-import SIEMsystem.event.TcpPacketClosedPortEvent;
-import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.TcpPacketIncomingEvent;
 import SIEMsystem.event.UnauthorizedEvent;
-import SIEMsystem.event.VerticalPortScanEvent;
 
 /**
  * Hello world!
@@ -37,10 +34,7 @@ public class App {
         configuration.getCommon().addEventType(UnauthorizedEvent.class);
         configuration.getCommon().addEventType(LoginAlert.class);
         configuration.getCommon().addEventType(BruteForceAttackAlert.class);
-        configuration.getCommon().addEventType(TcpPacketEvent.class);
         configuration.getCommon().addEventType(TcpPacketIncomingEvent.class);
-        configuration.getCommon().addEventType(TcpPacketClosedPortEvent.class);
-        configuration.getCommon().addEventType(VerticalPortScanEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
         configuration.getCommon().addEventType(VerticalPortScanAlert.class);
