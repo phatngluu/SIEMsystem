@@ -16,13 +16,9 @@ import org.pcap4j.core.*;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.TcpPacket;
-import org.pcap4j.packet.TcpPacket.TcpHeader;
-import org.pcap4j.util.NifSelector;
 
 import SIEMsystem.event.AccessLogEvent;
-import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.TcpPacketIncomingEvent;
-import SIEMsystem.event.TcpPacketIncomingEvent2;
 import nl.basjes.parse.core.Parser;
 import nl.basjes.parse.core.exceptions.DissectionFailure;
 import nl.basjes.parse.core.exceptions.InvalidDissectorException;
@@ -139,10 +135,10 @@ public class EventCollector {
                     TcpPacket tcpPacket = ipV4Packet.get(TcpPacket.class);
 
                     if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")) {
-                        TcpPacketIncomingEvent2 tcpPacketIncomingEvent2 = new TcpPacketIncomingEvent2(
+                        TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
                                 ipV4Packet.getHeader().getSrcAddr().toString(),
                                 tcpPacket.getHeader().getDstPort().valueAsInt());
-                        runtime.getEventService().sendEventBean(tcpPacketIncomingEvent2, "TcpPacketIncomingEvent2");
+                        runtime.getEventService().sendEventBean(tcpPacketIncomingEvent, "TcpPacketIncomingEvent");
                     }
                 }
             });

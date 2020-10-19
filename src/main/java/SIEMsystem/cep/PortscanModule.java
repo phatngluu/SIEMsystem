@@ -26,9 +26,9 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy(
             "insert into SourceCountPortEvent\n" +
             "select srcAddr, count(distinct(dstPort)) as countPort\n" +
-            "from TcpPacketIncomingEvent2#time(1 minutes)\n" +
+            "from TcpPacketIncomingEvent#time(1 minutes)\n" +
             "group by srcAddr\n" + 
-            "having count(distinct(dstPort)) > " + engine.getProperty("PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS") + ";"
+            "having count(distinct(dstPort)) >= " + engine.getProperty("PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS") + ";"
         );
 
         engine.compileAndDeploy(
@@ -47,9 +47,9 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy(
             "insert into PortCountSourceEvent\n" +
             "select dstPort, count(distinct(srcAddr)) as countSource\n" +
-            "from TcpPacketIncomingEvent2#time(1 minutes)\n" +
+            "from TcpPacketIncomingEvent#time(1 minutes)\n" +
             "group by dstPort\n" + 
-            "having count(distinct(srcAddr)) > " + engine.getProperty("PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS") + ";"
+            "having count(distinct(srcAddr)) >= " + engine.getProperty("PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS") + ";"
         );
 
         engine.compileAndDeploy(

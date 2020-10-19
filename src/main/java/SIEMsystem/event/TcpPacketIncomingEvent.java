@@ -1,22 +1,27 @@
 package SIEMsystem.event;
 
-import org.pcap4j.packet.IpPacket;
-import org.pcap4j.packet.TcpPacket;
-
 public class TcpPacketIncomingEvent {
-    private IpPacket.IpHeader ipHeader;
-    private TcpPacket.TcpHeader tcpHeader;
+    private String srcAddr;
+    private int dstPort;
 
-    public TcpPacketIncomingEvent(IpPacket.IpHeader ipHeader, TcpPacket.TcpHeader tcpHeader) {
-        this.ipHeader = ipHeader;
-        this.tcpHeader = tcpHeader;
+    public TcpPacketIncomingEvent(String srcAddr, int dstPort) {
+        this.srcAddr = srcAddr;
+        this.dstPort = dstPort;
     }
 
-    public IpPacket.IpHeader getIpHeader() {
-        return ipHeader;
+    public String getSrcAddr() {
+        return srcAddr;
     }
 
-    public TcpPacket.TcpHeader getTcpHeader() {
-        return tcpHeader;
+    public void setSrcAddr(String srcAddr) {
+        this.srcAddr = srcAddr;
+    }
+
+    public int getDstPort() {
+        return dstPort;
+    }
+
+    public void setDstPort(int dstPort) {
+        this.dstPort = dstPort;
     }
 }
