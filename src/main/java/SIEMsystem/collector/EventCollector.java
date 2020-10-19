@@ -102,7 +102,6 @@ public class EventCollector {
             scanner.close();
         } catch (FileNotFoundException e) {
             System.out.println("Failed to open file.");
-            // e.printStackTrace();
         }
     }
 
@@ -117,7 +116,6 @@ public class EventCollector {
         try {
             InetAddress inetAddress = InetAddress.getByName("192.168.0.103");
             nif = Pcaps.getDevByAddress(inetAddress);
-            // nif = new NifSelector().selectNetworkInterface();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -140,25 +138,12 @@ public class EventCollector {
                     IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
                     TcpPacket tcpPacket = ipV4Packet.get(TcpPacket.class);
 
-                    // TcpPacketEvent tcpPacketEvent = new TcpPacketEvent(ipV4Packet.getHeader(),
-                    // tcpPacket.getHeader());
-                    // runtime.getEventService().sendEventBean(tcpPacketEvent, "TcpPacketEvent");
-
-                    // if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")){
-                    // TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
-                    // ipV4Packet.getHeader(),
-                    // tcpPacket.getHeader()
-                    // );
-                    // runtime.getEventService().sendEventBean(tcpPacketIncomingEvent,
-                    // "TcpPacketIncomingEvent");
-                    // };
-
                     if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")) {
                         TcpPacketIncomingEvent2 tcpPacketIncomingEvent2 = new TcpPacketIncomingEvent2(
-                                ipV4Packet.getHeader().getSrcAddr().toString(), tcpPacket.getHeader().getDstPort().valueAsInt());
+                                ipV4Packet.getHeader().getSrcAddr().toString(),
+                                tcpPacket.getHeader().getDstPort().valueAsInt());
                         runtime.getEventService().sendEventBean(tcpPacketIncomingEvent2, "TcpPacketIncomingEvent2");
                     }
-                    ;
                 }
             });
         } catch (InterruptedException e) {

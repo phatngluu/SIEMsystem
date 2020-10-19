@@ -24,5 +24,4 @@ public class TcpPacketIncomingEvent2 {
     public void setDstPort(int dstPort) {
         this.dstPort = dstPort;
     }
-    
 }
