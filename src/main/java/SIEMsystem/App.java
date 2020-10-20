@@ -40,18 +40,18 @@ public class App {
         configuration.getCommon().addEventType(VerticalPortScanAlert.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        // engine.activate(WebserverModule.getInstance());
-        engine.activate(PortscanModule.getInstance());
+        engine.activate(WebserverModule.getInstance());
+        // engine.activate(PortscanModule.getInstance());
         
         // Setting up and run the collector
         EventCollector collector = new EventCollector(engine.getRuntime());
         // collector.collectAccessLog();
-        // collector.collectLog();
-        try {
-            collector.collectPacket();
-        } catch (PcapNativeException | NotOpenException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        collector.collectLog();
+        // try {
+        //     collector.collectPacket();
+        // } catch (PcapNativeException | NotOpenException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
     }
 }

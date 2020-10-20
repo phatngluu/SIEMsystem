@@ -17,6 +17,7 @@ import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.TcpPacket;
 
+import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.TcpPacketIncomingEvent;
 import nl.basjes.parse.core.Parser;
@@ -103,10 +104,10 @@ public class EventCollector {
 
     public void collectPacket() throws PcapNativeException, NotOpenException {
         String filter = "tcp"; // Filter TCP packets
-
         int PACKET_COUNT = -1; // Infinite
         int READ_TIMEOUT = 100; // Milisec
         int SNAPLEN = 65536; // Bytes
+        String excludePorts = CEPEngine.getCreatedInstance().getProperty("PORTSCAN_EXCLUDE_PORTS"); 
 
         PcapNetworkInterface nif;
         try {
@@ -134,11 +135,15 @@ public class EventCollector {
                     IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
                     TcpPacket tcpPacket = ipV4Packet.get(TcpPacket.class);
 
+
                     if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")) {
-                        TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
-                                ipV4Packet.getHeader().getSrcAddr().toString(),
-                                tcpPacket.getHeader().getDstPort().valueAsInt());
-                        runtime.getEventService().sendEventBean(tcpPacketIncomingEvent, "TcpPacketIncomingEvent");
+                        int destinationPort = tcpPacket.getHeader().getDstPort().valueAsInt();
+                        if (!excludePorts.contains(String.valueOf(destinationPort))){
+                            TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
+                                    ipV4Packet.getHeader().getSrcAddr().toString(),
+                                    tcpPacket.getHeader().getDstPort().valueAsInt());
+                            runtime.getEventService().sendEventBean(tcpPacketIncomingEvent, "TcpPacketIncomingEvent");
+                        };
                     }
                 }
             });
