@@ -27,7 +27,7 @@ public class ShowAlertScene extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("Show Alert");
-        
+
         Label label2 = new Label("SHOW ALERT");
         label2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
