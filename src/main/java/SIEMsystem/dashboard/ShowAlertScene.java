@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 public class ShowAlertScene extends Application {
     Stage window;
     Scene scene2;
-
     TableView<Alert> table;
 
     public static void main(String[] args) {
@@ -28,9 +27,11 @@ public class ShowAlertScene extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         primaryStage.setTitle("Show Alert");
+        
         Label label2 = new Label("SHOW ALERT");
         label2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 
+        //create table column
         //Alert Name column
         TableColumn<Alert, String> alertNameColumn = new TableColumn<>("Alert name");
         alertNameColumn.setMinWidth(200);
@@ -57,7 +58,14 @@ public class ShowAlertScene extends Application {
         //backButton
         Button backButton = new Button("Back");
         backButton.setMinSize(50, 30);
-        //backButton.setOnAction(e -> window.setScene(dashboard_1.scene1));
+        backButton.setOnAction(e -> {
+            Dashboard dashboard = new Dashboard();
+            try {
+                dashboard.start(primaryStage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         //config button
         Button configButton = new Button("config");
