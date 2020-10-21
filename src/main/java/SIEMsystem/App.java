@@ -4,18 +4,14 @@ import java.io.FileNotFoundException;
 
 import com.espertech.esper.common.client.configuration.Configuration;
 
-import org.pcap4j.core.NotOpenException;
-import org.pcap4j.core.PcapNativeException;
-
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
 
-import SIEMsystem.alert.BruteForceAttackAlert;
-import SIEMsystem.alert.LoginAlert;
-import SIEMsystem.alert.VerticalPortScanAlert;
+import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
+import SIEMsystem.event.BruteForceAttackEvent;
 import SIEMsystem.event.FailedLoginEvent;
 import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
@@ -32,26 +28,25 @@ public class App {
         configuration.getCommon().addEventType(AccessLogEvent.class);
         configuration.getCommon().addEventType(FailedLoginEvent.class);
         configuration.getCommon().addEventType(UnauthorizedEvent.class);
-        configuration.getCommon().addEventType(LoginAlert.class);
-        configuration.getCommon().addEventType(BruteForceAttackAlert.class);
+        configuration.getCommon().addEventType(ConsecutiveFailedLoginEvent.class);
+        configuration.getCommon().addEventType(BruteForceAttackEvent.class);
         configuration.getCommon().addEventType(TcpPacketIncomingEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
-        configuration.getCommon().addEventType(VerticalPortScanAlert.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        // engine.activate(WebserverModule.getInstance());
+        engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
         
         // Setting up and run the collector
         EventCollector collector = new EventCollector(engine.getRuntime());
         // collector.collectAccessLog();
-        // collector.collectLog();
-        try {
-            collector.collectPacket();
-        } catch (PcapNativeException | NotOpenException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        collector.collectLog();
+        // try {
+        //     collector.collectPacket();
+        // } catch (PcapNativeException | NotOpenException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
     }
 }

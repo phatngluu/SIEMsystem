@@ -1,9 +1,9 @@
-package SIEMsystem.alert;
+package SIEMsystem.event;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class LoginAlert extends Alert {
+public class ConsecutiveFailedLoginEvent {
     @Getter @Setter private String ip;
     @Getter @Setter private String time;
     @Getter @Setter private String status;
