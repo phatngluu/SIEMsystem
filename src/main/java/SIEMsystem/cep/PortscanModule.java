@@ -88,28 +88,5 @@ public class PortscanModule extends Module {
             alertManager.acceptAlert(new BlockPortScanAlert());
         }
         );
-
-        // engine.compileAndDeploy(
-        //         "insert into TcpPacketClosedPortEvent\n" + "select a.ipHeader, a.tcpHeader from pattern [\n"
-        //                 + "   every a=TcpPacketEvent(tcpHeader.syn = true and tcpHeader.ack = false) ->\n"
-        //                 + "   b=TcpPacketEvent(\n" + "       tcpHeader.rst = true and\n"
-        //                 + "       ipHeader.srcAddr = a.ipHeader.dstAddr and\n"
-        //                 + "       ipHeader.dstAddr = a.ipHeader.srcAddr and\n"
-        //                 + "       tcpHeader.srcPort = a.tcpHeader.dstPort and\n"
-        //                 + "       tcpHeader.dstPort = a.tcpHeader.srcPort\n" + "   )\n"
-        //                 + "   where timer:within(100 millisecond)\n" + "];\n");
-
-        // int window_time = 1; // seconds
-        // int minimumClosedPort = 100; // port
-        // engine.compileAndDeploy("insert into VerticalPortScanEvent\n" + "select ipHeader.dstAddr\n"
-        //         + "from TcpPacketWithClosedPortEvent#time_batch( " + window_time + ")\n" + "group by ipHeader.dstAddr\n"
-        //         + "having count(*) > " + minimumClosedPort);
-
-        // engine.compileAndDeploy("select * from VerticalPortScanEvent").addListener((newData, __, ___, ____) -> {
-        //     InetAddress inetAddress = (InetAddress) newData[0].get("hostAddr");
-        //     System.out.println("Vertical port scan attack detected on: " + inetAddress.getHostAddress());
-        // });
-
-        // test RST packet from 192.168.0.103
     }
 }
