@@ -1,6 +1,7 @@
 package SIEMsystem.cep;
 
 import SIEMsystem.alert.AlertManager;
+import SIEMsystem.alert.BlockPortScanAlert;
 import SIEMsystem.alert.HorizontalPortScanAlert;
 import SIEMsystem.alert.VerticalPortScanAlert;
 
@@ -61,6 +62,31 @@ public class PortscanModule extends Module {
                 AlertManager alertManager = AlertManager.getInstance();
                 alertManager.acceptAlert(new HorizontalPortScanAlert(dstPort, countSource));
             }
+        );
+
+        // Block port scan
+        
+        engine.compileAndDeploy(
+            "insert into BlockPortScanEvent\n" +
+            "select \"Vertical\" as portScan\n" +
+            "from SourceCountPortEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") +
+            ")\n"
+        );
+        engine.compileAndDeploy(
+            "insert into BlockPortScanEvent\n" +
+            "select \"Horizontal\" as portScan\n" +
+            "from PortCountSourceEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") +
+            ")\n"
+        );
+        engine.compileAndDeploy(
+            "select * from BlockPortScanEvent\n" +
+            "where exists(select * from BlockPortScanEvent where portScan = \"Vertical\")\n" +
+            "and exists(select * from BlockPortScanEvent where portScan = \"Horizontal\")\n" +
+            "output last every " + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds"
+        ).addListener((newData, __, ___, ____) -> {
+            AlertManager alertManager = AlertManager.getInstance();
+            alertManager.acceptAlert(new BlockPortScanAlert());
+        }
         );
 
         // engine.compileAndDeploy(
