@@ -8,7 +8,8 @@ import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
-
+import SIEMsystem.collector.PortscanCollector;
+import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BruteForceAttackEvent;
@@ -38,15 +39,20 @@ public class App {
         engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
         
-        // Setting up and run the collector
-        EventCollector collector = new EventCollector(engine.getRuntime());
-        // collector.collectAccessLog();
-        collector.collectLog();
-        // try {
-        //     collector.collectPacket();
-        // } catch (PcapNativeException | NotOpenException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
+        PortscanCollector portscanCollector = new PortscanCollector();
+        WebserverCollector webserverCollector = new WebserverCollector();
+        portscanCollector.start();
+        webserverCollector.start();
+
+        // // Setting up and run the collector
+        // EventCollector collector = new EventCollector(engine.getRuntime());
+        // // collector.collectAccessLog();
+        // collector.collectLog();
+        // // try {
+        // //     collector.collectPacket();
+        // // } catch (PcapNativeException | NotOpenException e) {
+        // //     // TODO Auto-generated catch block
+        // //     e.printStackTrace();
+        // // }
     }
 }
