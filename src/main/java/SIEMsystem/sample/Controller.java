@@ -10,17 +10,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.Date;
+
 public class Controller {
     @FXML
     private TableView<Alert> alertview;
     @FXML
-    private TableColumn<Alert, String> name;
+    private TableColumn<Alert, String> namecol;
     @FXML
-    private TableColumn<Alert, java.util.Date> Date;
+    private TableColumn<Alert, java.util.Date> Datecol;
     @FXML
-    private TableColumn<Alert, String> message;
+    private TableColumn<Alert, String> messagecol;
     @FXML
-    private TableColumn<Alert, String> priority;
+    private TableColumn<Alert, String> prioritycol;
 
     private ObservableList<Alert> masterData = FXCollections.observableArrayList();
 
@@ -35,14 +37,11 @@ public class Controller {
 
     @FXML
     private void initialize(){
-        name.setCellValueFactory(new PropertyValueFactory<Alert, String>("name"));
-        message.setCellValueFactory(new PropertyValueFactory<Alert, String>("message"));
-        Date.setCellValueFactory(cellData -> (ObservableValue<java.util.Date>) cellData.getValue().getTimestamp());
-        priority.setCellValueFactory(new PropertyValueFactory<Alert, String>("priority"));
+        namecol.setCellValueFactory(new PropertyValueFactory<Alert, String>("name"));
+        messagecol.setCellValueFactory(new PropertyValueFactory<Alert, String>("message"));
+        Datecol.setCellValueFactory(new PropertyValueFactory<Alert, java.util.Date>("timestamp"));
+        prioritycol.setCellValueFactory(new PropertyValueFactory<Alert, String>("priority"));
 
-        FilteredList<Alert> filteredData = new FilteredList<>(masterData, p -> true);
-        SortedList<Alert> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(alertview.comparatorProperty());
         alertview.setItems(masterData);
     }
 
