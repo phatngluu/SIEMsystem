@@ -37,14 +37,31 @@ public class App {
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
         configuration.getCommon().addEventType(BlockPortScanEvent.class);
 
-
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
-        
+
         PortscanCollector portscanCollector = new PortscanCollector();
         WebserverCollector webserverCollector = new WebserverCollector();
         portscanCollector.start();
         webserverCollector.start();
+
+        long prev = System.currentTimeMillis();
+        while (true){
+            if (System.currentTimeMillis() - prev > 1000){
+                System.out.println(
+                    engine.getCountOfEvent(AccessLogEvent.class) + " - " +
+                    engine.getCountOfEvent(FailedLoginEvent.class) + " - " +
+                    engine.getCountOfEvent(UnauthorizedEvent.class) + " - " +
+                    engine.getCountOfEvent(ConsecutiveFailedLoginEvent.class) + " - " +
+                    engine.getCountOfEvent(BruteForceAttackEvent.class) + " - " +
+                    engine.getCountOfEvent(TcpPacketIncomingEvent.class) + " - " +
+                    engine.getCountOfEvent(SourceCountPortEvent.class) + " - " +
+                    engine.getCountOfEvent(PortCountSourceEvent.class) + " - " +
+                    engine.getCountOfEvent(BlockPortScanEvent.class) + " - "
+                );
+                prev = System.currentTimeMillis();
+            }
+        }
     }
 }

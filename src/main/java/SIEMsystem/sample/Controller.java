@@ -32,7 +32,6 @@ public class Controller {
         masterData.add(new Alert("c"));
         masterData.add(new Alert("d"));
         masterData.add(new Alert("e"));
-
     }
 
     @FXML
@@ -44,5 +43,4 @@ public class Controller {
 
         alertview.setItems(masterData);
     }
-
 }

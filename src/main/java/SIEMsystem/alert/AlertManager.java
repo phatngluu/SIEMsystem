@@ -38,7 +38,7 @@ public class AlertManager {
      */
     public Alert acceptAlert(Alert alert) {
         alert.setPriority(this.properties.getProperty(alert.getClass().getSimpleName()));
-        System.out.println(alert.getMessage());
+        // System.out.println(alert.getMessage());
         return alert;
         // Dashboard.acceptAlert(alert);
     }
