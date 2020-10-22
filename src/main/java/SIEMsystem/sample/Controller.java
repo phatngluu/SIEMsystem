@@ -1,5 +1,6 @@
 package SIEMsystem.sample;
 
+import SIEMsystem.alert.Alert;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,15 +25,9 @@ public class Controller {
     @FXML
     private TableColumn<Alert, String> prioritycol;
 
-    private ObservableList<Alert> masterData = FXCollections.observableArrayList();
+    private static ObservableList<Alert> masterData = FXCollections.observableArrayList();
 
     public Controller(){
-        masterData.add(new Alert("a"));
-        masterData.add(new Alert("b"));
-        masterData.add(new Alert("c"));
-        masterData.add(new Alert("d"));
-        masterData.add(new Alert("e"));
-
     }
 
     @FXML
@@ -43,6 +38,10 @@ public class Controller {
         prioritycol.setCellValueFactory(new PropertyValueFactory<Alert, String>("priority"));
 
         alertview.setItems(masterData);
+    }
+
+    public static void acceptAlert(Alert alert){
+        masterData.add(alert);
     }
 
 }
