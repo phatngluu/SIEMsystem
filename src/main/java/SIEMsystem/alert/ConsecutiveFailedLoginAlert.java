@@ -10,6 +10,7 @@ public class ConsecutiveFailedLoginAlert extends Alert {
         // sb.append("Time : " + time + "\n");
         // this.setMessage(sb.toString());
         super();
-        this.setMessage("At " + time + ": " + count + " failed login attempts from " + ip + " within 5 minutes detected.");
+        this.name = this.getClass().getSimpleName();
+        this.setMessage(count + " failed login attempts from " + ip + " within 5 minutes detected.");
     }
 }

@@ -9,6 +9,7 @@ public class UnauthorizedAlert extends Alert {
         //     "Time : " + time + "\n" +
         //     "Status : " + status);
         super();
-        this.setMessage("At " + time + ": " + ip + " access to restricted resource detected.");
+        this.name = this.getClass().getSimpleName();
+        this.setMessage(ip + " access to restricted resource detected.");
     }
 }

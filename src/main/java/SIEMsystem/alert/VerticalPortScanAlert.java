@@ -6,6 +6,7 @@ public class VerticalPortScanAlert extends Alert {
     
     public VerticalPortScanAlert(String srcAddr, long count) {
         super();
+        this.name = this.getClass().getSimpleName();
         this.setMessage("Vertical port scan detected from " + srcAddr);
     }
 
