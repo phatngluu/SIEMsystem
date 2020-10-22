@@ -43,7 +43,6 @@ public class AlertManager {
         System.out.println(alert.getMessage());
         Controller.acceptAlert(alert);
         return alert;
-
     }
     /**
      * 

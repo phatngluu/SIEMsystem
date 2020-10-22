@@ -19,8 +19,8 @@ import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
-import SIEMsystem.collector.PortscanCollector;
 import SIEMsystem.collector.WebserverCollector;
+import SIEMsystem.collector.PortscanCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -70,13 +70,13 @@ public class Controller {
         configuration.getCommon().addEventType(BlockPortScanEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        engine.activate(WebserverModule.getInstance());
+        // engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
 
         PortscanCollector portscanCollector = new PortscanCollector();
-        WebserverCollector webserverCollector = new WebserverCollector();
+        // WebserverCollector webserverCollector = new WebserverCollector();
         portscanCollector.start();
-        webserverCollector.start();
+        // webserverCollector.start();
 
         alertview.setItems(masterData);
     }

@@ -8,8 +8,8 @@ import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
-import SIEMsystem.collector.PortscanCollector;
 import SIEMsystem.collector.WebserverCollector;
+import SIEMsystem.collector.PortscanCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -41,27 +41,28 @@ public class App {
         engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
 
-        PortscanCollector portscanCollector = new PortscanCollector();
         WebserverCollector webserverCollector = new WebserverCollector();
-        portscanCollector.start();
+        PortscanCollector portscanCollector = new PortscanCollector();
+        
         webserverCollector.start();
+        portscanCollector.start();
 
-        long prev = System.currentTimeMillis();
-        while (true){
-            if (System.currentTimeMillis() - prev > 1000){
-                System.out.println(
-                    engine.getCountOfEvent(AccessLogEvent.class) + " - " +
-                    engine.getCountOfEvent(FailedLoginEvent.class) + " - " +
-                    engine.getCountOfEvent(UnauthorizedEvent.class) + " - " +
-                    engine.getCountOfEvent(ConsecutiveFailedLoginEvent.class) + " - " +
-                    engine.getCountOfEvent(BruteForceAttackEvent.class) + " - " +
-                    engine.getCountOfEvent(TcpPacketIncomingEvent.class) + " - " +
-                    engine.getCountOfEvent(SourceCountPortEvent.class) + " - " +
-                    engine.getCountOfEvent(PortCountSourceEvent.class) + " - " +
-                    engine.getCountOfEvent(BlockPortScanEvent.class) + " - "
-                );
-                prev = System.currentTimeMillis();
-            }
-        }
+        // long prev = System.currentTimeMillis();
+        // while (true){
+        //     if (System.currentTimeMillis() - prev > 1000){
+        //         System.out.println(
+        //             engine.getCountOfEvent(AccessLogEvent.class) + " - " +
+        //             engine.getCountOfEvent(FailedLoginEvent.class) + " - " +
+        //             engine.getCountOfEvent(UnauthorizedEvent.class) + " - " +
+        //             engine.getCountOfEvent(ConsecutiveFailedLoginEvent.class) + " - " +
+        //             engine.getCountOfEvent(BruteForceAttackEvent.class) + " - " +
+        //             engine.getCountOfEvent(TcpPacketIncomingEvent.class) + " - " +
+        //             engine.getCountOfEvent(SourceCountPortEvent.class) + " - " +
+        //             engine.getCountOfEvent(PortCountSourceEvent.class) + " - " +
+        //             engine.getCountOfEvent(BlockPortScanEvent.class) + " - "
+        //         );
+        //         prev = System.currentTimeMillis();
+        //     }
+        // }
     }
 }
