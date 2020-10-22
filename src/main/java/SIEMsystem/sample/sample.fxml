@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.Controller">
     <children>
@@ -16,10 +19,22 @@
                 <TableColumn fx:id="prioritycol" prefWidth="144.0" text="Priority" />
             </columns>
         </TableView>
-        <VBox alignment="TOP_CENTER" layoutX="887.0" layoutY="77.0" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="TOP_CENTER" layoutX="859.0" layoutY="77.0" prefHeight="200.0" prefWidth="167.0" spacing="10.0">
             <children>
-                <Button id="changePriorityButton" fx:id="changePriorityButton" mnemonicParsing="false" onAction="#handleButtonClick" text="Change priority" />
+                <Button id="changePriorityButton" fx:id="changePriorityButton" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="25.0" prefWidth="134.0" text="Change priority" />
+            <Button id="changeConfigurationButton" fx:id="changeConfigurationButton" mnemonicParsing="false" onAction="#handleConfigurationClick" prefHeight="25.0" prefWidth="135.0" text="Change configuration" />
             </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
         </VBox>
+      <Label layoutX="59.0" layoutY="24.0" text="Show Alert">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

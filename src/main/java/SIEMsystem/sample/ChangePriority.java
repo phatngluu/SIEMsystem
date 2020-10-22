@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
 
 public class ChangePriority {
     @FXML
@@ -18,7 +17,6 @@ public class ChangePriority {
     @FXML
     private Button cancelButton = new Button();
 
-    //HashMap<String, Class> map = new HashMap<>();
     Class BlockPortScanAlert = Class.forName("SIEMsystem.alert.BlockPortScanAlert");
     Class BruteForceAttackAlert = Class.forName("SIEMsystem.alert.BruteForceAttackAlert");
     Class ConsecutiveFailedLoginAlert = Class.forName("SIEMsystem.alert.ConsecutiveFailedLoginAlert");
@@ -29,7 +27,7 @@ public class ChangePriority {
 
     public ChangePriority() throws ClassNotFoundException {
     }
-    //BlockPortScanAlert, BruteForceAttackAlert, ConsecutiveFailedLoginAlert, FailedLoginAlert, HorizontalPortScanAlert, UnauthorizedAlert, VerticalPortScanAlert
+
     @FXML
     private void initialize(){
         //choicebox

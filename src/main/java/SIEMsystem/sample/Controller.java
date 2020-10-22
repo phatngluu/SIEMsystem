@@ -56,6 +56,8 @@ public class Controller {
     private TableColumn<Alert, String> prioritycol;
     @FXML
     private Button changePriorityButton = new Button();
+    @FXML
+    private Button changeConfigurationButton = new Button();
 
     private static ObservableList<Alert> masterData = FXCollections.observableArrayList();
 
@@ -101,7 +103,20 @@ public class Controller {
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Report Page");
+        stage.setTitle("Change Priority");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
+    public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/java/SIEMsystem/sample/configuration.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Change configuration");
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
