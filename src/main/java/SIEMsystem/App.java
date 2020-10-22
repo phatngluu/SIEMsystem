@@ -8,9 +8,11 @@ import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.EventCollector;
-
+import SIEMsystem.collector.PortscanCollector;
+import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
+import SIEMsystem.event.BlockPortScanEvent;
 import SIEMsystem.event.BruteForceAttackEvent;
 import SIEMsystem.event.FailedLoginEvent;
 import SIEMsystem.event.PortCountSourceEvent;
@@ -33,20 +35,16 @@ public class App {
         configuration.getCommon().addEventType(TcpPacketIncomingEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
+        configuration.getCommon().addEventType(BlockPortScanEvent.class);
+
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
         
-        // Setting up and run the collector
-        EventCollector collector = new EventCollector(engine.getRuntime());
-        // collector.collectAccessLog();
-        collector.collectLog();
-        // try {
-        //     collector.collectPacket();
-        // } catch (PcapNativeException | NotOpenException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
+        PortscanCollector portscanCollector = new PortscanCollector();
+        WebserverCollector webserverCollector = new WebserverCollector();
+        portscanCollector.start();
+        webserverCollector.start();
     }
 }

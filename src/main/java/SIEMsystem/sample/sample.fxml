@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.Controller">
+   <children>
+      <TableView id="alertview" layoutX="59.0" layoutY="77.0" maxHeight="490.0" maxWidth="790.0" minHeight="490.0" minWidth="790.0" prefHeight="490.0" prefWidth="790.0">
+        <columns>
+          <TableColumn id="name" prefWidth="180.0" text="Alert name" />
+            <TableColumn id="message" prefWidth="333.0" text="Message" />
+            <TableColumn id="Date" minWidth="0.0" prefWidth="132.0" text="Timestamp" />
+            <TableColumn id="priority" prefWidth="144.0" text="Priority" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
