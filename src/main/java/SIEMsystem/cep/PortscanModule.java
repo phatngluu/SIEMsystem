@@ -1,6 +1,7 @@
 package SIEMsystem.cep;
 
 import SIEMsystem.alert.AlertManager;
+import SIEMsystem.alert.BlockPortScanAlert;
 import SIEMsystem.alert.HorizontalPortScanAlert;
 import SIEMsystem.alert.VerticalPortScanAlert;
 
@@ -63,27 +64,29 @@ public class PortscanModule extends Module {
             }
         );
 
-        // engine.compileAndDeploy(
-        //         "insert into TcpPacketClosedPortEvent\n" + "select a.ipHeader, a.tcpHeader from pattern [\n"
-        //                 + "   every a=TcpPacketEvent(tcpHeader.syn = true and tcpHeader.ack = false) ->\n"
-        //                 + "   b=TcpPacketEvent(\n" + "       tcpHeader.rst = true and\n"
-        //                 + "       ipHeader.srcAddr = a.ipHeader.dstAddr and\n"
-        //                 + "       ipHeader.dstAddr = a.ipHeader.srcAddr and\n"
-        //                 + "       tcpHeader.srcPort = a.tcpHeader.dstPort and\n"
-        //                 + "       tcpHeader.dstPort = a.tcpHeader.srcPort\n" + "   )\n"
-        //                 + "   where timer:within(100 millisecond)\n" + "];\n");
-
-        // int window_time = 1; // seconds
-        // int minimumClosedPort = 100; // port
-        // engine.compileAndDeploy("insert into VerticalPortScanEvent\n" + "select ipHeader.dstAddr\n"
-        //         + "from TcpPacketWithClosedPortEvent#time_batch( " + window_time + ")\n" + "group by ipHeader.dstAddr\n"
-        //         + "having count(*) > " + minimumClosedPort);
-
-        // engine.compileAndDeploy("select * from VerticalPortScanEvent").addListener((newData, __, ___, ____) -> {
-        //     InetAddress inetAddress = (InetAddress) newData[0].get("hostAddr");
-        //     System.out.println("Vertical port scan attack detected on: " + inetAddress.getHostAddress());
-        // });
-
-        // test RST packet from 192.168.0.103
+        // Block port scan
+        
+        engine.compileAndDeploy(
+            "insert into BlockPortScanEvent\n" +
+            "select \"Vertical\" as portScan\n" +
+            "from SourceCountPortEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") +
+            ")\n"
+        );
+        engine.compileAndDeploy(
+            "insert into BlockPortScanEvent\n" +
+            "select \"Horizontal\" as portScan\n" +
+            "from PortCountSourceEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") +
+            ")\n"
+        );
+        engine.compileAndDeploy(
+            "select * from BlockPortScanEvent\n" +
+            "where exists(select * from BlockPortScanEvent where portScan = \"Vertical\")\n" +
+            "and exists(select * from BlockPortScanEvent where portScan = \"Horizontal\")\n" +
+            "output last every " + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds"
+        ).addListener((newData, __, ___, ____) -> {
+            AlertManager alertManager = AlertManager.getInstance();
+            alertManager.acceptAlert(new BlockPortScanAlert());
+        }
+        );
     }
 }
