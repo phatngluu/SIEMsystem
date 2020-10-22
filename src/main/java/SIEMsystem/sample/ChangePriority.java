@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class ChangePriority {
     @FXML
-    private ChoiceBox<Class> keyChoice = new ChoiceBox<>();
+    private ChoiceBox<String> keyChoice = new ChoiceBox<>();
     @FXML
     private ChoiceBox<String> valueChoice = new ChoiceBox<>();
     @FXML
@@ -32,10 +32,9 @@ public class ChangePriority {
     //BlockPortScanAlert, BruteForceAttackAlert, ConsecutiveFailedLoginAlert, FailedLoginAlert, HorizontalPortScanAlert, UnauthorizedAlert, VerticalPortScanAlert
     @FXML
     private void initialize(){
-        //map.put("BlockPortScanAlert", BlockPortScanAlert.class);
         //choicebox
-        keyChoice.getItems().addAll(BlockPortScanAlert, BruteForceAttackAlert, ConsecutiveFailedLoginAlert, FailedLoginAlert, HorizontalPortScanAlert, UnauthorizedAlert, VerticalPortScanAlert);
-        keyChoice.setValue(BlockPortScanAlert);
+        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert", "FailedLoginAlert", "HorizontalPortScanAlert", "UnauthorizedAlert", "VerticalPortScanAlert");
+        keyChoice.setValue("BlockPortScanAlert");
 
         valueChoice.getItems().addAll("Low", "Medium", "High");
         valueChoice.setValue("Low");
@@ -43,7 +42,11 @@ public class ChangePriority {
         //change priority scene
         AlertManager alertManager = AlertManager.getInstance();
         saveButton.setOnAction(e -> {
-            alertManager.setPriority(getKey(keyChoice), getValue(valueChoice));
+            try {
+                alertManager.setPriority(getKey(keyChoice), getValue(valueChoice));
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         cancelButton.setOnAction(e -> {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
@@ -51,8 +54,8 @@ public class ChangePriority {
         });
     }
 
-    public Class getKey(ChoiceBox<Class> keyChoice){
-        return keyChoice.getValue();
+    public Class getKey(ChoiceBox<String> keyChoice) throws ClassNotFoundException {
+        return Class.forName("SIEMsystem.alert." + keyChoice.getValue());
     }
 
     public String getValue(ChoiceBox<String> valueChoice){

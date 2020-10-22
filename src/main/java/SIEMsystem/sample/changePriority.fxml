@@ -4,17 +4,23 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="layout" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.ChangePriority">
    <children>
-      <AnchorPane layoutX="114.0" layoutY="67.0" prefHeight="267.0" prefWidth="372.0">
+      <AnchorPane layoutX="93.0" layoutY="47.0" prefHeight="306.0" prefWidth="414.0">
          <children>
-            <ChoiceBox id="valueChoice" fx:id="valueChoice" layoutX="111.0" layoutY="160.0" prefWidth="150.0" />
-            <ChoiceBox id="keyChoice" fx:id="keyChoice" layoutX="111.0" layoutY="79.0" prefWidth="150.0" />
-            <Label layoutX="166.0" layoutY="42.0" text="Change" />
-            <Label layoutX="160.0" layoutY="125.0" text="priority to" />
-            <Button id="saveButton" fx:id="saveButton" layoutX="111.0" layoutY="206.0" mnemonicParsing="false" onAction="#initialize" text="Save" />
-            <Button id="cancelButton" fx:id="cancelButton" layoutX="207.0" layoutY="206.0" mnemonicParsing="false" onAction="#initialize" text="Cancel" />
+            <ChoiceBox id="valueChoice" fx:id="valueChoice" layoutX="138.0" layoutY="180.0" prefWidth="150.0" />
+            <ChoiceBox id="keyChoice" fx:id="keyChoice" layoutX="138.0" layoutY="108.0" prefWidth="150.0" />
+            <Label layoutX="193.0" layoutY="73.0" text="Change" />
+            <Label layoutX="187.0" layoutY="145.0" text="priority to" />
+            <Button id="saveButton" fx:id="saveButton" layoutX="138.0" layoutY="219.0" mnemonicParsing="false" onAction="#initialize" text="Save" />
+            <Button id="cancelButton" fx:id="cancelButton" layoutX="234.0" layoutY="219.0" mnemonicParsing="false" onAction="#initialize" text="Cancel" />
+            <Label layoutX="14.0" layoutY="14.0" text="Change Priority">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
