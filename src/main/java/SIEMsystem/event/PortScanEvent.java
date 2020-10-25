@@ -2,13 +2,13 @@ package SIEMsystem.event;
 
 import java.net.InetAddress;
 
-import org.pcap4j.packet.namednumber.TcpPort;
+import org.pcap4j.packet.namednumber.Port;
 
 public class PortScanEvent {
     private InetAddress srcAddr;
-    private TcpPort dstPort;
+    private Port dstPort;
 
-    public PortScanEvent(InetAddress srcAddr, TcpPort dstPort) {
+    public PortScanEvent(InetAddress srcAddr, Port dstPort) {
         this.srcAddr = srcAddr;
         this.dstPort = dstPort;
     }
@@ -21,11 +21,11 @@ public class PortScanEvent {
         this.srcAddr = srcAddr;
     }
 
-    public TcpPort getDstPort() {
+    public Port getDstPort() {
         return dstPort;
     }
 
-    public void setDstPort(TcpPort dstPort) {
+    public void setDstPort(Port dstPort) {
         this.dstPort = dstPort;
     }
 }

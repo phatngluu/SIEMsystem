@@ -1,14 +1,16 @@
 package SIEMsystem.event;
 
+import org.pcap4j.packet.namednumber.Port;
+
 public class PortCountSourceEvent {
-    private int dstPort;
+    private Port dstPort;
     private long countSource;
 
-    public int getDstPort() {
+    public Port getDstPort() {
         return dstPort;
     }
 
-    public void setDstPort(int dstPort) {
+    public void setDstPort(Port dstPort) {
         this.dstPort = dstPort;
     }
 

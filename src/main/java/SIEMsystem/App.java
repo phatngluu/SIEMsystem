@@ -19,7 +19,6 @@ import SIEMsystem.event.OpenPortScanEvent;
 import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
 import SIEMsystem.event.TcpPacketEvent;
-import SIEMsystem.event.TcpPacketIncomingEvent;
 import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.UnauthorizedEvent;
 
@@ -35,7 +34,6 @@ public class App {
         configuration.getCommon().addEventType(UnauthorizedEvent.class);
         configuration.getCommon().addEventType(ConsecutiveFailedLoginEvent.class);
         configuration.getCommon().addEventType(BruteForceAttackEvent.class);
-        configuration.getCommon().addEventType(TcpPacketIncomingEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
         configuration.getCommon().addEventType(BlockPortScanEvent.class);
