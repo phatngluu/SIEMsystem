@@ -1,14 +1,16 @@
 package SIEMsystem.event;
 
+import java.net.InetAddress;
+
 public class SourceCountPortEvent {
-    private String srcAddr;
+    private InetAddress srcAddr;
     private long countPort;
 
-    public String getSrcAddr() {
+    public InetAddress getSrcAddr() {
         return srcAddr;
     }
 
-    public void setSrcAddr(String srcAddr) {
+    public void setSrcAddr(InetAddress srcAddr) {
         this.srcAddr = srcAddr;
     }
 

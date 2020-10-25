@@ -13,6 +13,7 @@ import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.*;
 
+@SuppressWarnings("rawtypes")
 public class CEPEngine {
     private static CEPEngine cepEngine;
     private EPRuntime runtime;
