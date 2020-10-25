@@ -8,6 +8,7 @@ import java.util.Properties;
  * This class is about attaching priority and forwarding alert to dashboard.
  * @author Nguyen T. Nguyen
  */
+@SuppressWarnings("rawtypes")
 public class AlertManager {
     private static AlertManager instance;
     private Properties properties = new Properties();
@@ -44,6 +45,7 @@ public class AlertManager {
         Controller.acceptAlert(alert);
         return alert;
     }
+
     /**
      * 
      * @param alertClass is a specific alert class (not an instance). Eg: UnauthorizedAlert

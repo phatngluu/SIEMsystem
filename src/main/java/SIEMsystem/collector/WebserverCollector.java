@@ -49,6 +49,7 @@ public class WebserverCollector extends Thread {
                 System.out.println("Failed to parse.");
             }
         }
+        reader.close();
         return rs;
     }
 }
