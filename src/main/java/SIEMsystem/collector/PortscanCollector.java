@@ -8,7 +8,8 @@ import org.pcap4j.packet.Packet;
 import org.pcap4j.packet.TcpPacket;
 
 import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.event.TcpPacketIncomingEvent;
+import SIEMsystem.event.TcpPacketEvent;
+import SIEMsystem.event.PortScanEvent;
 
 public class PortscanCollector extends Thread {
     @Override
@@ -31,17 +32,24 @@ public class PortscanCollector extends Thread {
                     IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
                     TcpPacket tcpPacket = ipV4Packet.get(TcpPacket.class);
 
-                    if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")) {
-                        int destinationPort = tcpPacket.getHeader().getDstPort().valueAsInt();
-                        if (!excludePorts.contains(String.valueOf(destinationPort))) {
-                            TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
-                                    ipV4Packet.getHeader().getSrcAddr().toString(),
-                                    tcpPacket.getHeader().getDstPort().valueAsInt());
-                            CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(tcpPacketIncomingEvent,
-                                    "TcpPacketIncomingEvent");
-                        }
-                        ;
-                    }
+                    TcpPacketEvent event = new TcpPacketEvent(
+                            ipV4Packet.getHeader(),
+                            tcpPacket.getHeader()
+                    );
+                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event, "TcpPacketEvent");
+
+                    // if (ipV4Packet.getHeader().getDstAddr().toString().equals("/192.168.0.103")) {
+                    //     int destinationPort = tcpPacket.getHeader().getDstPort().valueAsInt();
+                    //     if (!excludePorts.contains(String.valueOf(destinationPort))) {
+                    //         TcpPacketIncomingEvent tcpPacketIncomingEvent = new TcpPacketIncomingEvent(
+                    //                 ipV4Packet.getHeader().getSrcAddr().toString(),
+                    //                 tcpPacket.getHeader().getDstPort().valueAsInt());
+                    //         CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(tcpPacketIncomingEvent,
+                    //                 "TcpPacketIncomingEvent");
+                    //     }
+                    //     ;
+                    // }
+                    
                 }
             });
             handle.close();
