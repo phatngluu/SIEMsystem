@@ -2,11 +2,12 @@ package SIEMsystem.collector;
 
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.event.ResourceMonitorEvent;
-import com.profesorfalken.jsensors.JSensors;
-import com.profesorfalken.jsensors.model.components.Components;
-import com.profesorfalken.jsensors.model.components.Cpu;
-import com.profesorfalken.jsensors.model.sensors.Load;
-import com.profesorfalken.jsensors.model.sensors.Temperature;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.platform.linux.LinuxGlobalMemory;
+
 import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
@@ -17,19 +18,32 @@ public class ResourceCollector extends Thread {
     public void run() {
         long start = System.currentTimeMillis();
         while (true) {
-            if (System.currentTimeMillis() - start > 5000){
-                // ResourceMonitorEvent event = monitor();
-                // CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event, "ResourceMonitorEvent");
-                start = System.currentTimeMillis();
+            ResourceMonitorEvent event = monitor();
+            // CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event,  "ResourceMonitorEvent");
+            // System.out.println(event.getCpuLoad() + "% - " + event.getMemUsed() + "MB");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
             }
+            SystemInfo si = new SystemInfo();
+            HardwareAbstractionLayer hal = si.getHardware();
+            // CentralProcessor processor = hal.getProcessor();
+            // double loadAverage = processor.get * 100;
+
+            LinuxGlobalMemory memory = new LinuxGlobalMemory();
+            long availableMemory = memory.getAvailable();
+            long totalMemory = memory.getTotal();
+            long usedMemory = totalMemory - availableMemory;
+
+            System.out.println(event.getCpuLoad() + "% - " + usedMemory/1024/1024 + "MB");
+
         }
     }
     private ResourceMonitorEvent monitor() {
-        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
-                OperatingSystemMXBean.class);
-                double totalCpuLoad = osBean.getSystemCpuLoad() * 100;
-                long mem = (osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize())/(1024*1024); //in MB
-                return null;
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
+        double cpuLoad = osBean.getSystemCpuLoad() * 100;
+        long memUsed = (osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize() - osBean.getCommittedVirtualMemorySize())/(1024*1024); //in MB
+        return new ResourceMonitorEvent(cpuLoad, memUsed);
     }
     /*
     private ResourceMonitorEvent monitor(){
