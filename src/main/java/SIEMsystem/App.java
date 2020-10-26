@@ -2,6 +2,7 @@ package SIEMsystem;
 
 import java.io.FileNotFoundException;
 
+import SIEMsystem.event.*;
 import com.espertech.esper.common.client.configuration.Configuration;
 
 import SIEMsystem.cep.CEPEngine;
@@ -10,18 +11,6 @@ import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.collector.PortscanCollector;
 import SIEMsystem.collector.ResourceCollector;
-import SIEMsystem.event.ConsecutiveFailedLoginEvent;
-import SIEMsystem.event.AccessLogEvent;
-import SIEMsystem.event.BlockPortScanEvent;
-import SIEMsystem.event.BruteForceAttackEvent;
-import SIEMsystem.event.ClosedPortScanEvent;
-import SIEMsystem.event.FailedLoginEvent;
-import SIEMsystem.event.OpenPortScanEvent;
-import SIEMsystem.event.PortCountSourceEvent;
-import SIEMsystem.event.SourceCountPortEvent;
-import SIEMsystem.event.TcpPacketEvent;
-import SIEMsystem.event.PortScanEvent;
-import SIEMsystem.event.UnauthorizedEvent;
 
 /**
  * Hello world!
@@ -42,6 +31,7 @@ public class App {
         configuration.getCommon().addEventType(OpenPortScanEvent.class);
         configuration.getCommon().addEventType(ClosedPortScanEvent.class);
         configuration.getCommon().addEventType(PortScanEvent.class);
+        configuration.getCommon().addEventType(ResourceMonitorEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         // engine.activate(WebserverModule.getInstance());

@@ -7,7 +7,9 @@ import com.profesorfalken.jsensors.model.components.Components;
 import com.profesorfalken.jsensors.model.components.Cpu;
 import com.profesorfalken.jsensors.model.sensors.Load;
 import com.profesorfalken.jsensors.model.sensors.Temperature;
+import com.sun.management.OperatingSystemMXBean;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 
 public class ResourceCollector extends Thread {
@@ -22,6 +24,14 @@ public class ResourceCollector extends Thread {
             }
         }
     }
+    private ResourceMonitorEvent monitor() {
+        OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+                double totalCpuLoad = osBean.getSystemCpuLoad() * 100;
+                long mem = (osBean.getTotalPhysicalMemorySize() - osBean.getFreePhysicalMemorySize())/(1024*1024); //in MB
+                return null;
+    }
+    /*
     private ResourceMonitorEvent monitor(){
         Components components = JSensors.get.components();
 
@@ -43,7 +53,7 @@ public class ResourceCollector extends Thread {
                 }
             }
         } return null;
-    }
+    }*/
     /*public static void main(String[] args) {
         Components components = JSensors.get.components();
 
