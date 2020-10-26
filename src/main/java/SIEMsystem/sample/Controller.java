@@ -103,6 +103,19 @@ public class Controller {
 
     // open change priority window
     @FXML
+    public void handleCountingButtonClick(ActionEvent actionEvent) throws IOException {
+        URL url = new File("src/main/java/SIEMsystem/sample/Counting.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Change Priority");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
     public void handleButtonClick(ActionEvent actionEvent) throws IOException {
         URL url = new File("src/main/java/SIEMsystem/sample/changePriority.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
