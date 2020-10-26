@@ -15,11 +15,16 @@ import java.util.List;
 public class ResourceCollector extends Thread {
     @Override
     public void run() {
-        String event = null;
-        event = monitor();
-        CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event, "ResourceMonitorEvent");
+        long start = System.currentTimeMillis();
+        while (true) {
+            if (System.currentTimeMillis() - start > 5000){
+                ResourceMonitorEvent event = monitor();
+                CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event, "ResourceMonitorEvent");
+                start = System.currentTimeMillis();
+            }
+        }
     }
-    public String monitor(){
+    private String monitor(){
         Components components = JSensors.get.components();
 
         List<Cpu> cpus = components.cpus;
@@ -52,5 +57,36 @@ public class ResourceCollector extends Thread {
                 }
             }
         } return null;
+    }
+    public static void main(String[] args) {
+        Components components = JSensors.get.components();
+
+        List<Cpu> cpus = components.cpus;
+        if (cpus != null) {
+            for (final Cpu cpu : cpus) {
+                System.out.println("Found CPU component: " + cpu.name);
+                if (cpu.sensors != null) {
+                    System.out.println("Sensors: ");
+
+                    //Print temperatures
+                    List<Temperature> temps = cpu.sensors.temperatures;
+                    for (final Temperature temp : temps) {
+                        System.out.println(temp.name + ": " + temp.value + " C");
+                    }
+
+                    //Print fan speed
+                    List<Fan> fans = cpu.sensors.fans;
+                    for (final Fan fan : fans) {
+                        System.out.println(fan.name + ": " + fan.value + " RPM");
+                    }
+
+                    //Print load
+                    List<Load> load = cpu.sensors.loads;
+                    for (final Load loads : load) {
+                        System.out.println(loads.name + ": " + loads.value + " %");
+                    }
+                }
+            }
+        }
     }
 }

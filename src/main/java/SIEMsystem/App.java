@@ -9,6 +9,7 @@ import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.collector.PortscanCollector;
+import SIEMsystem.collector.ResourceCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -44,13 +45,15 @@ public class App {
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         // engine.activate(WebserverModule.getInstance());
-        engine.activate(PortscanModule.getInstance());
+        // engine.activate(PortscanModule.getInstance());
 
         // WebserverCollector webserverCollector = new WebserverCollector();
-        PortscanCollector portscanCollector = new PortscanCollector();
-        
+        // PortscanCollector portscanCollector = new PortscanCollector();
+        ResourceCollector resourceCollector = new ResourceCollector();
+        resourceCollector.start();
+
         // webserverCollector.start();
-        portscanCollector.start();
+        // portscanCollector.start();
 
         // long prev = System.currentTimeMillis();
         // while (true){

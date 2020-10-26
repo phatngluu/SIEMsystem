@@ -1,33 +1,38 @@
 package SIEMsystem.event;
 
 public class ResourceMonitorEvent {
-    //private List<Cpu> cpu;
+    private String cpuLoad;
     private String cpuTemp;
-    private String cpuFan;
     private String memoryLoad;
-    private String diskLoad;
 
-    public ResourceMonitorEvent(String cpuTemp, String cpuFan, String memoryLoad, String diskLoad) {
-        //this.cpu = cpu;
+    public ResourceMonitorEvent(String cpuLoad, String cpuTemp, String memoryLoad) {
+        this.cpuLoad = cpuLoad;
         this.cpuTemp = cpuTemp;
-        this.cpuFan = cpuFan;
         this.memoryLoad = memoryLoad;
-        this.diskLoad = diskLoad;
+    }
+    
+    public String getCpuLoad() {
+        return cpuLoad;
+    }
+
+    public void setCpuLoad(String cpuLoad) {
+        this.cpuLoad = cpuLoad;
     }
 
     public String getCpuTemp() {
         return cpuTemp;
     }
 
-    public String getCpuFan() {
-        return cpuFan;
+    public void setCpuTemp(String cpuTemp) {
+        this.cpuTemp = cpuTemp;
     }
 
     public String getMemoryLoad() {
         return memoryLoad;
     }
 
-    public String getDiskLoad() {
-        return diskLoad;
+    public void setMemoryLoad(String memoryLoad) {
+        this.memoryLoad = memoryLoad;
     }
+
 }
