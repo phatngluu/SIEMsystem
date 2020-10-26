@@ -8,8 +8,11 @@ import SIEMsystem.alert.BlockPortScanAlert;
 import SIEMsystem.alert.HorizontalPortScanAlert;
 import SIEMsystem.alert.VerticalPortScanAlert;
 import SIEMsystem.event.BlockPortScanEvent;
+import SIEMsystem.event.ClosedPortScanEvent;
+import SIEMsystem.event.OpenPortScanEvent;
 import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
+import SIEMsystem.event.TcpPacketEvent;
 
 public class PortscanModule extends Module {
     private static PortscanModule instance;
@@ -27,6 +30,9 @@ public class PortscanModule extends Module {
 
     @Override
     protected void activate(CEPEngine engine) {
+        engine.compileAndDeploy("select * from TcpPacketEvent;").addListener((newData, __, ___, ____) -> {
+            engine.countEvent(TcpPacketEvent.class);
+        });
 
         /* Closed Port Scan Event */
         engine.compileAndDeploy("insert into ClosedPortScanEvent\n" + "select a.ipHeader, a.tcpHeader from pattern [\n"
@@ -50,9 +56,14 @@ public class PortscanModule extends Module {
 
         /* Port Scan Event */
         engine.compileAndDeploy("insert into PortScanEvent\n"
-                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from ClosedPortScanEvent;");
+                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from ClosedPortScanEvent;")
+                .addListener((newData, __, ___, ____) -> {
+                    engine.countEvent(ClosedPortScanEvent.class);
+                });
         engine.compileAndDeploy("insert into PortScanEvent\n"
-                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from OpenPortScanEvent;");
+                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from OpenPortScanEvent;").addListener((newData, __, ___, ____) -> {
+                    engine.countEvent(OpenPortScanEvent.class);
+                });
 
         /* Vertical Port Scan */
         engine.compileAndDeploy(
