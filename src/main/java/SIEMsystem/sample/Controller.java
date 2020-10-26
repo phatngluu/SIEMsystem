@@ -30,9 +30,12 @@ import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
 import SIEMsystem.event.BruteForceAttackEvent;
+import SIEMsystem.event.ClosedPortScanEvent;
 import SIEMsystem.event.FailedLoginEvent;
+import SIEMsystem.event.OpenPortScanEvent;
 import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
+import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.UnauthorizedEvent;
 import javafx.stage.Modality;
@@ -77,19 +80,23 @@ public class Controller {
         configuration.getCommon().addEventType(UnauthorizedEvent.class);
         configuration.getCommon().addEventType(ConsecutiveFailedLoginEvent.class);
         configuration.getCommon().addEventType(BruteForceAttackEvent.class);
-        configuration.getCommon().addEventType(PortScanEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
         configuration.getCommon().addEventType(PortCountSourceEvent.class);
         configuration.getCommon().addEventType(BlockPortScanEvent.class);
+        configuration.getCommon().addEventType(TcpPacketEvent.class);
+        configuration.getCommon().addEventType(OpenPortScanEvent.class);
+        configuration.getCommon().addEventType(ClosedPortScanEvent.class);
+        configuration.getCommon().addEventType(PortScanEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         // engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
 
-        PortscanCollector portscanCollector = new PortscanCollector();
         // WebserverCollector webserverCollector = new WebserverCollector();
-        portscanCollector.start();
+        PortscanCollector portscanCollector = new PortscanCollector();
+        
         // webserverCollector.start();
+        portscanCollector.start();
 
         alertview.setItems(masterData);
     }
