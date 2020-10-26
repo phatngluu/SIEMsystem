@@ -1,38 +1,28 @@
 package SIEMsystem.event;
 
 public class ResourceMonitorEvent {
-    private String cpuLoad;
-    private String cpuTemp;
-    private String memoryLoad;
+    private double totalCpuLoad;
+    private long mem;
 
-    public ResourceMonitorEvent(String cpuLoad, String cpuTemp, String memoryLoad) {
-        this.cpuLoad = cpuLoad;
-        this.cpuTemp = cpuTemp;
-        this.memoryLoad = memoryLoad;
+    public ResourceMonitorEvent(double totalCpuLoad, long mem) {
+        this.totalCpuLoad = totalCpuLoad;
+        this.mem = mem;
     }
     
-    public String getCpuLoad() {
-        return cpuLoad;
+    public double getTotalCpuLoad() {
+        return totalCpuLoad;
     }
 
-    public void setCpuLoad(String cpuLoad) {
-        this.cpuLoad = cpuLoad;
+    public void setTotalCpuLoad(double totalCpuLoad) {
+        this.totalCpuLoad = totalCpuLoad;
     }
 
-    public String getCpuTemp() {
-        return cpuTemp;
+    public long getMem() {
+        return mem;
     }
 
-    public void setCpuTemp(String cpuTemp) {
-        this.cpuTemp = cpuTemp;
-    }
-
-    public String getMemoryLoad() {
-        return memoryLoad;
-    }
-
-    public void setMemoryLoad(String memoryLoad) {
-        this.memoryLoad = memoryLoad;
+    public void setMem(long mem) {
+        this.mem = mem;
     }
 
 }

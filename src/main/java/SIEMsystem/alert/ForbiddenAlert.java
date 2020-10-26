@@ -1,8 +1,8 @@
 package SIEMsystem.alert;
 
-public class UnauthorizedAlert extends Alert {
+public class ForbiddenAlert extends Alert {
 
-    public UnauthorizedAlert(String ip, String time, String status) {
+    public ForbiddenAlert(String ip, String time, String status) {
         // super();
         // this.setMessage("WARNING : Unauthorized access\n" +
         //     "IP : " + ip + "\n" +
