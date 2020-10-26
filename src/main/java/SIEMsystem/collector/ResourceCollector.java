@@ -5,8 +5,6 @@ import SIEMsystem.event.ResourceMonitorEvent;
 import com.profesorfalken.jsensors.JSensors;
 import com.profesorfalken.jsensors.model.components.Components;
 import com.profesorfalken.jsensors.model.components.Cpu;
-import com.profesorfalken.jsensors.model.components.Disk;
-import com.profesorfalken.jsensors.model.sensors.Fan;
 import com.profesorfalken.jsensors.model.sensors.Load;
 import com.profesorfalken.jsensors.model.sensors.Temperature;
 
@@ -24,41 +22,29 @@ public class ResourceCollector extends Thread {
             }
         }
     }
-    private String monitor(){
+    private ResourceMonitorEvent monitor(){
         Components components = JSensors.get.components();
 
         List<Cpu> cpus = components.cpus;
-        List<Disk> disks = components.disks;
-        if (cpus != null && disks != null) {
+        if (cpus != null) {
             for (final Cpu cpu : cpus ) {
                 if (cpu.sensors != null) {
                     List<Temperature> temps = cpu.sensors.temperatures;
-                    for (final Temperature temp : temps) {
-                        String cpuTemp = temp.name + ": " + temp.value + " C";
-                    }
+                    Temperature temp = temps.get(temps.size() - 1);
+                    String cpuTemp = temp.name + ": " + temp.value + " C";
 
-                    List<Fan> fans = cpu.sensors.fans;
-                    for (final Fan fan : fans) {
-                        String cpuFan = fan.name + ": " + fan.value + " RPM";
-                    }
-                    List<Load> loads = cpu.sensors.loads;
-                    for (final Load load : loads) {
-                        String memoryLoad = load.name + ": " + load.value + " %";
-                    }
-                }
-            }
-            for (final Disk disk : disks) {
-                if (disk.sensors != null) {
-                    //String diskName = disk.name;
-                    List<Load> loads = disk.sensors.loads;
-                    for (final Load load : loads) {
-                    String diskLoad = load.name + ": " + load.value + " %";
-                    }
+                    List<Load> cpuLoads = cpu.sensors.loads;
+                    Load cpuLoad = cpuLoads.get(cpuLoads.size() - 2);
+                    String avgCpuLoad = cpuLoad.name + ": " + cpuLoad.value + " %";
+
+                    List<Load> memLoads = cpu.sensors.loads;
+                    Load memLoad = memLoads.get(memLoads.size() - 1);
+                    String avgMemLoad = memLoad.name + ": " + memLoad.value + " %";
                 }
             }
         } return null;
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Components components = JSensors.get.components();
 
         List<Cpu> cpus = components.cpus;
@@ -69,24 +55,12 @@ public class ResourceCollector extends Thread {
                     System.out.println("Sensors: ");
 
                     //Print temperatures
-                    List<Temperature> temps = cpu.sensors.temperatures;
-                    for (final Temperature temp : temps) {
-                        System.out.println(temp.name + ": " + temp.value + " C");
-                    }
-
-                    //Print fan speed
-                    List<Fan> fans = cpu.sensors.fans;
-                    for (final Fan fan : fans) {
-                        System.out.println(fan.name + ": " + fan.value + " RPM");
-                    }
-
-                    //Print load
-                    List<Load> load = cpu.sensors.loads;
-                    for (final Load loads : load) {
-                        System.out.println(loads.name + ": " + loads.value + " %");
+                    List<Load> cpuLoads = cpu.sensors.loads;
+                    Load cpuLoad = cpuLoads.get(cpuLoads.size() - 2);
+                    String avgCpuLoad = cpuLoad.name + ": " + cpuLoad.value + " %";
+                    System.out.println(avgCpuLoad);
                     }
                 }
             }
-        }
+        }*/
     }
-}

@@ -1,22 +1,22 @@
 package SIEMsystem.event;
 
 public class ResourceMonitorEvent {
-    private String cpuLoad;
+    private String avgCpuLoad;
     private String cpuTemp;
-    private String memoryLoad;
+    private String avgMemLoad;
 
-    public ResourceMonitorEvent(String cpuLoad, String cpuTemp, String memoryLoad) {
-        this.cpuLoad = cpuLoad;
+    public ResourceMonitorEvent(String avgCpuLoad, String cpuTemp, String avgMemLoad) {
+        this.avgCpuLoad = avgCpuLoad;
         this.cpuTemp = cpuTemp;
-        this.memoryLoad = memoryLoad;
+        this.avgMemLoad = avgMemLoad;
     }
     
-    public String getCpuLoad() {
-        return cpuLoad;
+    public String getAvgCpuLoad() {
+        return avgCpuLoad;
     }
 
-    public void setCpuLoad(String cpuLoad) {
-        this.cpuLoad = cpuLoad;
+    public void setAvgCpuLoad(String avgCpuLoad) {
+        this.avgCpuLoad = avgCpuLoad;
     }
 
     public String getCpuTemp() {
@@ -27,12 +27,12 @@ public class ResourceMonitorEvent {
         this.cpuTemp = cpuTemp;
     }
 
-    public String getMemoryLoad() {
-        return memoryLoad;
+    public String getAvgMemLoad() {
+        return avgMemLoad;
     }
 
-    public void setMemoryLoad(String memoryLoad) {
-        this.memoryLoad = memoryLoad;
+    public void setAvgMemLoad(String avgMemLoad) {
+        this.avgMemLoad = avgMemLoad;
     }
 
 }
