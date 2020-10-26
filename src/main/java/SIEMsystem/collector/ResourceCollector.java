@@ -30,7 +30,7 @@ public class ResourceCollector extends Thread {
             // CentralProcessor processor = hal.getProcessor();
             // double loadAverage = processor.get * 100;
 
-            LinuxGlobalMemory memory = new LinuxGlobalMemory();
+            GlobalMemory memory = hal.getMemory();
             long availableMemory = memory.getAvailable();
             long totalMemory = memory.getTotal();
             long usedMemory = totalMemory - availableMemory;
