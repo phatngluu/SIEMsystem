@@ -3,11 +3,10 @@ package SIEMsystem.event;
 public class ResourceMonitorEvent {
     private double cpuLoad;
     private double memLoad;
-    private long memUsed;
 
-    public ResourceMonitorEvent(double cpuLoad, long memUsed) {
+    public ResourceMonitorEvent(double cpuLoad, double memLoad) {
         this.cpuLoad = cpuLoad;
-        this.memUsed = memUsed;
+        this.memLoad = memLoad;
     }
 
     public double getCpuLoad() {
@@ -24,13 +23,5 @@ public class ResourceMonitorEvent {
 
     public void setMemLoad(double memLoad) {
         this.memLoad = memLoad;
-    }
-
-    public long getMemUsed() {
-        return memUsed;
-    }
-
-    public void setMemUsed(long memUsed) {
-        this.memUsed = memUsed;
     }
 }

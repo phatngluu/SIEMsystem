@@ -144,5 +144,4 @@ public class Controller {
     public static void acceptAlert(Alert alert){
         masterData.add(alert);
     }
-
 }
