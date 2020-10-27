@@ -10,11 +10,11 @@ public class HighCPUUsageAlert extends Alert {
     return this.currentCPUUsage;
   }
 
-  public HighCPUUsageAlert(double cpuUsage) {
+  public HighCPUUsageAlert(double cpuUsage, int timeWindow) {
     super();
     this.name = this.getClass().getSimpleName();
     this.setCurrentCPUUsage(cpuUsage);
-    this.setMessage("CPU usage exceeds threshold for 5 seconds. Current CPU usage : " + roundDown(this.getCurrentCPUUsage()) + "%");
+    this.setMessage("CPU usage exceeds threshold for " + timeWindow + " seconds. Current CPU usage : " + roundDown(this.getCurrentCPUUsage()) + "%");
   }
 
   public static double roundDown(double d) {
