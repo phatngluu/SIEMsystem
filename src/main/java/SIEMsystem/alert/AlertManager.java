@@ -1,6 +1,6 @@
 package SIEMsystem.alert;
 
-import SIEMsystem.sample.Controller;
+import SIEMsystem.sample.Dashboard;
 
 import java.io.*;
 import java.util.Properties;
@@ -42,7 +42,7 @@ public class AlertManager {
     public Alert acceptAlert(Alert alert) {
         alert.setPriority(this.properties.getProperty(alert.getClass().getSimpleName()));
         System.out.println(alert.getMessage());
-        Controller.acceptAlert(alert);
+        Dashboard.acceptAlert(alert);
         return alert;
     }
 

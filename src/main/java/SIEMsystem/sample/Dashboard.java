@@ -45,7 +45,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 
-public class Controller {
+public class Dashboard {
     @FXML
     private TableView<Alert> alertview;
     @FXML
@@ -63,7 +63,7 @@ public class Controller {
 
     private static ObservableList<Alert> masterData = FXCollections.observableArrayList();
 
-    public Controller(){
+    public Dashboard(){
     }
 
     @FXML
@@ -130,7 +130,7 @@ public class Controller {
 
     @FXML
     public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/sample/configuration.fxml").toURI().toURL();
+        URL url = new File("src/main/java/SIEMsystem/sample/engineConfiguration.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         //set what you want on your stage

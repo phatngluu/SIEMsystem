@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        URL url = new File("src/main/java/SIEMsystem/sample/sample.fxml").toURI().toURL();
+        URL url = new File("src/main/java/SIEMsystem/sample/dashboard.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
         primaryStage.setScene(new Scene(root));

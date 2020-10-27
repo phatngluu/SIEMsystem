@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainParent" maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.Controller">
+<AnchorPane fx:id="mainParent" maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.Dashboard">
     <children>
         <TableView fx:id="alertview" layoutX="59.0" layoutY="77.0" maxHeight="490.0" maxWidth="790.0" minHeight="490.0" minWidth="790.0" prefHeight="490.0" prefWidth="790.0">
             <columns>
