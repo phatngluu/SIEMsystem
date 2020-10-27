@@ -115,6 +115,14 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <mainClass>SIEMsystem.dashboard.Main</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -135,5 +143,11 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <resources>
+        <!-- regular resource processsing for everything except logback.xml -->
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+    </resources>
   </build>
 </project>

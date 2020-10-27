@@ -49,8 +49,11 @@ public class Main extends Application {
         CEPEngineInitializer initializer = new CEPEngineInitializer();
         initializer.start();
 
-        URL url = new File("src/main/java/SIEMsystem/dashboard/dashboard.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        // URL url = new File("src/main/java/SIEMsystem/dashboard/dashboard.fxml").toURI().toURL();
+        // Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/dashboard.fxml"));
+        Parent root = loader.load();
         primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

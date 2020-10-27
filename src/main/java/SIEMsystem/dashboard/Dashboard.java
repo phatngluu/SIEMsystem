@@ -62,8 +62,11 @@ public class Dashboard {
     // open change priority window
     @FXML
     public void handleCountingButtonClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/dashboard/Counting.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        // URL url = new File("src/main/resources/javafx/Counting.fxml").toURI().toURL();
+        // Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/Counting.fxml"));
+        Parent root = loader.load();
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -75,8 +78,11 @@ public class Dashboard {
 
     @FXML
     public void handleButtonClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/dashboard/changePriority.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        // URL url = new File("src/main/resources/javafx/changePriority.fxml").toURI().toURL();
+        // Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/changePriority.fxml"));
+        Parent root = loader.load();
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -88,8 +94,11 @@ public class Dashboard {
 
     @FXML
     public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/dashboard/engineConfiguration.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
+        // URL url = new File("src/main/resources/javafx/engineConfiguration.fxml").toURI().toURL();
+        // Parent root = FXMLLoader.load(url);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/engineConfiguration.fxml"));
+        Parent root = loader.load();
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
