@@ -21,23 +21,6 @@ import java.io.FileNotFoundException;
 
 import com.espertech.esper.common.client.configuration.Configuration;
 
-import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.cep.PortscanModule;
-import SIEMsystem.cep.WebserverModule;
-import SIEMsystem.collector.WebserverCollector;
-import SIEMsystem.collector.PortscanCollector;
-import SIEMsystem.event.ConsecutiveFailedLoginEvent;
-import SIEMsystem.event.AccessLogEvent;
-import SIEMsystem.event.BlockPortScanEvent;
-import SIEMsystem.event.BruteForceAttackEvent;
-import SIEMsystem.event.ClosedPortScanEvent;
-import SIEMsystem.event.FailedLoginEvent;
-import SIEMsystem.event.OpenPortScanEvent;
-import SIEMsystem.event.PortCountSourceEvent;
-import SIEMsystem.event.SourceCountPortEvent;
-import SIEMsystem.event.TcpPacketEvent;
-import SIEMsystem.event.PortScanEvent;
-import SIEMsystem.event.ForbiddenEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -72,31 +55,6 @@ public class Dashboard {
         messagecol.setCellValueFactory(new PropertyValueFactory<Alert, String>("message"));
         Datecol.setCellValueFactory(new PropertyValueFactory<Alert, java.util.Date>("timestamp"));
         prioritycol.setCellValueFactory(new PropertyValueFactory<Alert, String>("priority"));
-
-        // Setting up and run the engine
-        Configuration configuration = new Configuration();
-        configuration.getCommon().addEventType(AccessLogEvent.class);
-        configuration.getCommon().addEventType(FailedLoginEvent.class);
-        configuration.getCommon().addEventType(ForbiddenEvent.class);
-        configuration.getCommon().addEventType(ConsecutiveFailedLoginEvent.class);
-        configuration.getCommon().addEventType(BruteForceAttackEvent.class);
-        configuration.getCommon().addEventType(SourceCountPortEvent.class);
-        configuration.getCommon().addEventType(PortCountSourceEvent.class);
-        configuration.getCommon().addEventType(BlockPortScanEvent.class);
-        configuration.getCommon().addEventType(TcpPacketEvent.class);
-        configuration.getCommon().addEventType(OpenPortScanEvent.class);
-        configuration.getCommon().addEventType(ClosedPortScanEvent.class);
-        configuration.getCommon().addEventType(PortScanEvent.class);
-
-        CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        // engine.activate(WebserverModule.getInstance());
-        engine.activate(PortscanModule.getInstance());
-
-        // WebserverCollector webserverCollector = new WebserverCollector();
-        PortscanCollector portscanCollector = new PortscanCollector();
-        
-        // webserverCollector.start();
-        portscanCollector.start();
 
         alertview.setItems(masterData);
     }

@@ -27,9 +27,15 @@ public class WebserverCollector extends Thread {
             int currnumberoflog = event.size();
             if (numberoflog < currnumberoflog) {
                 for (int i = numberoflog; i < currnumberoflog; i++) {
-                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
+                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i),
+                            "AccessLogEvent");
                 }
                 numberoflog = currnumberoflog;
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
