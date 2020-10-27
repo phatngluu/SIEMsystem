@@ -1,7 +1,5 @@
 package SIEMsystem.collector;
 
-import java.net.InetAddress;
-
 import org.pcap4j.core.*;
 import org.pcap4j.packet.IpV4Packet;
 import org.pcap4j.packet.Packet;
@@ -17,10 +15,11 @@ public class PortscanCollector extends Thread {
         int PACKET_COUNT = -1; // Infinite
         int READ_TIMEOUT = 100; // Milisec
         int SNAPLEN = 65536; // Bytes
+        String nifName = CEPEngine.getCreatedInstance().getProperty("PORTSCAN_NETWORK_INTERFACE_NAME");
 
         try {
-            InetAddress inetAddress = InetAddress.getByName("192.168.0.103");
-            PcapNetworkInterface nif = Pcaps.getDevByAddress(inetAddress);
+            PcapNetworkInterface nif = Pcaps.getDevByName(nifName);
+            if (nif == null) System.out.println("Interface " + nifName + " is unavailable.");
 
             PcapHandle handle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
             handle.setFilter(filter, BpfProgram.BpfCompileMode.OPTIMIZE);
@@ -38,7 +37,13 @@ public class PortscanCollector extends Thread {
                 }
             });
             handle.close();
-        } catch (Exception e) {
+        } catch (PcapNativeException | NotOpenException | InterruptedException e) {
+            if (e instanceof NotOpenException){
+                System.out.println("Set filter failed.");
+            }
+            if (e instanceof InterruptedException){
+                System.out.println("Set loop failed.");
+            }
             e.printStackTrace();
         }
     }

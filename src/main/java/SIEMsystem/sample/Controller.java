@@ -89,14 +89,14 @@ public class Controller {
         configuration.getCommon().addEventType(PortScanEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        engine.activate(WebserverModule.getInstance());
-        // engine.activate(PortscanModule.getInstance());
+        // engine.activate(WebserverModule.getInstance());
+        engine.activate(PortscanModule.getInstance());
 
-        WebserverCollector webserverCollector = new WebserverCollector();
-        // PortscanCollector portscanCollector = new PortscanCollector();
+        // WebserverCollector webserverCollector = new WebserverCollector();
+        PortscanCollector portscanCollector = new PortscanCollector();
         
-        webserverCollector.start();
-        // portscanCollector.start();
+        // webserverCollector.start();
+        portscanCollector.start();
 
         alertview.setItems(masterData);
     }
