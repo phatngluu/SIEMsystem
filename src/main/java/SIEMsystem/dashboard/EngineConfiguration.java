@@ -1,8 +1,6 @@
 package SIEMsystem.dashboard;
 
 import SIEMsystem.cep.CEPEngine;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,34 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import com.espertech.esper.common.client.configuration.Configuration;
-
-import javafx.stage.WindowEvent;
 import org.pcap4j.core.PcapNativeException;
-import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
-
-import SIEMsystem.event.ConsecutiveFailedLoginEvent;
-import SIEMsystem.event.AccessLogEvent;
-import SIEMsystem.event.BlockPortScanEvent;
-import SIEMsystem.event.BruteForceAttackEvent;
-import SIEMsystem.event.ClosedPortScanEvent;
-import SIEMsystem.event.FailedLoginEvent;
-import SIEMsystem.event.OpenPortScanEvent;
-import SIEMsystem.event.PortCountSourceEvent;
-import SIEMsystem.event.SourceCountPortEvent;
-import SIEMsystem.event.TcpPacketEvent;
-import SIEMsystem.event.PortScanEvent;
-import SIEMsystem.event.ForbiddenEvent;
-import SIEMsystem.cep.PortscanModule;
-import SIEMsystem.cep.WebserverModule;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
 
 public class EngineConfiguration {
     @FXML
@@ -108,25 +81,21 @@ public class EngineConfiguration {
         okButton.setOnAction(e -> {
             Stage stage = (Stage) okButton.getScene().getWindow();
             stage.close();
-            URL url = null;
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/restartNotification.fxml"));
+            Parent root;
             try {
-                url = new File("src/main/java/SIEMsystem/dashboard/restartNotification.fxml").toURI().toURL();
-            } catch (MalformedURLException ex) {
-                ex.printStackTrace();
+                root = loader.load();
+                Stage newStage = new Stage();
+                //set what you want on your stage
+                newStage.initModality(Modality.APPLICATION_MODAL);
+                newStage.setTitle("Change Priority");
+                newStage.setScene(new Scene(root));
+                newStage.setResizable(false);
+                newStage.show();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(url);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Stage newStage = new Stage();
-            //set what you want on your stage
-            newStage.initModality(Modality.APPLICATION_MODAL);
-            newStage.setTitle("Change Priority");
-            newStage.setScene(new Scene(root));
-            newStage.setResizable(false);
-            newStage.show();
         });
     }
 

@@ -1,11 +1,8 @@
 package SIEMsystem.dashboard;
 
 import SIEMsystem.alert.Alert;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,18 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import com.espertech.esper.common.client.configuration.Configuration;
-
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
 
 public class Dashboard {
     @FXML
@@ -62,8 +50,6 @@ public class Dashboard {
     // open change priority window
     @FXML
     public void handleCountingButtonClick(ActionEvent actionEvent) throws IOException {
-        // URL url = new File("src/main/resources/javafx/Counting.fxml").toURI().toURL();
-        // Parent root = FXMLLoader.load(url);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/Counting.fxml"));
         Parent root = loader.load();
@@ -78,8 +64,6 @@ public class Dashboard {
 
     @FXML
     public void handleButtonClick(ActionEvent actionEvent) throws IOException {
-        // URL url = new File("src/main/resources/javafx/changePriority.fxml").toURI().toURL();
-        // Parent root = FXMLLoader.load(url);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/changePriority.fxml"));
         Parent root = loader.load();
@@ -94,8 +78,6 @@ public class Dashboard {
 
     @FXML
     public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
-        // URL url = new File("src/main/resources/javafx/engineConfiguration.fxml").toURI().toURL();
-        // Parent root = FXMLLoader.load(url);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/engineConfiguration.fxml"));
         Parent root = loader.load();

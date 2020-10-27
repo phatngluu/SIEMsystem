@@ -33,9 +33,6 @@ import SIEMsystem.event.HighCPUUsageEvent;
 import SIEMsystem.event.HighMemoryUsageEvent;
 import javafx.stage.WindowEvent;
 
-import java.io.File;
-import java.net.URL;
-
 public class Main extends Application {
     private static boolean engineStarted;
 
@@ -46,22 +43,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         engineStarted = false;
-
-        /*URL url = new File("src/main/java/SIEMsystem/dashboard/preloader.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();*/
-
         CEPEngineInitializer initializer = new CEPEngineInitializer();
         initializer.start();
 
-        // URL url = new File("src/main/java/SIEMsystem/dashboard/dashboard.fxml").toURI().toURL();
-        // Parent root = FXMLLoader.load(url);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/dashboard.fxml"));
         Parent root = loader.load();
-        // engineStarted = true;
         primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

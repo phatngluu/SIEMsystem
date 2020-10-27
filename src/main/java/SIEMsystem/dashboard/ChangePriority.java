@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
-
+@SuppressWarnings("rawtypes")
 public class ChangePriority {
     @FXML
     private ChoiceBox<String> keyChoice = new ChoiceBox<>();

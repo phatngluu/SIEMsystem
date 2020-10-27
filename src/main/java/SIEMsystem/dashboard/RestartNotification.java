@@ -2,10 +2,7 @@ package SIEMsystem.dashboard;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 public class RestartNotification {
     @FXML
