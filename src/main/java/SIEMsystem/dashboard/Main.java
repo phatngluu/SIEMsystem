@@ -46,9 +46,17 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         engineStarted = false;
+
+        /*URL url = new File("src/main/java/SIEMsystem/dashboard/preloader.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+        primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();*/
+
         CEPEngineInitializer initializer = new CEPEngineInitializer();
         initializer.start();
 
+        engineStarted = true;
         URL url = new File("src/main/java/SIEMsystem/dashboard/dashboard.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
