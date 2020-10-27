@@ -4,7 +4,9 @@ import SIEMsystem.cep.CEPEngine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import com.espertech.esper.common.client.configuration.Configuration;
 
@@ -38,6 +40,8 @@ public class EngineConfiguration {
     private Button saveButton = new Button();
     @FXML
     private Button cancelButton = new Button();
+    @FXML
+    private Label notifyLabel = new Label();
 
     public EngineConfiguration() {
     }
@@ -60,13 +64,16 @@ public class EngineConfiguration {
                 case "PORTSCAN_NETWORK_INTERFACE_NAME":
                     try {
                         if (Pcaps.getDevByName(valueTextField.getText()) == null) {
-                            System.out.println("Interface " + valueTextField.getText() + " is unavailable.");
+                            notifyLabel.setText("Interface " + valueTextField.getText() + " is unavailable.");
+                            notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
                         } else {
-                            System.out.println("Interface " + valueTextField.getText() + " is chosen.");
+                            notifyLabel.setText("Interface " + valueTextField.getText() + " is chosen.");
+                            notifyLabel.setTextFill(Color.web("#15FF00"));
                         }
                     } catch (PcapNativeException e1) {
-                        System.out.println("Interface " + valueTextField.getText() + " is unavailable.");
+                        notifyLabel.setText("Interface " + valueTextField.getText() + " is unavailable.");
+                        notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
                     }
                     break;
