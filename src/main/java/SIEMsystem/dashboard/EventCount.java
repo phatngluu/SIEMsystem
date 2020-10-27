@@ -1,4 +1,4 @@
-package SIEMsystem.sample;
+package SIEMsystem.dashboard;
 
 public class EventCount {
     private String name;

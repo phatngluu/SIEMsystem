@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainParent" maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.Dashboard">
+<AnchorPane fx:id="mainParent" maxHeight="693.0" maxWidth="1031.0" minHeight="693.0" minWidth="1031.0" prefHeight="693.0" prefWidth="1031.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.dashboard.Dashboard">
     <children>
         <TableView fx:id="alertview" layoutX="59.0" layoutY="77.0" maxHeight="490.0" maxWidth="790.0" minHeight="490.0" minWidth="790.0" prefHeight="490.0" prefWidth="790.0">
             <columns>
@@ -28,7 +28,7 @@
             <children>
                 <Button id="changePriorityButton" fx:id="changePriorityButton" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="25.0" prefWidth="134.0" text="Change priority" />
             <Button id="changeConfigurationButton" fx:id="changeConfigurationButton" mnemonicParsing="false" onAction="#handleConfigurationClick" prefHeight="25.0" prefWidth="135.0" text="Change configuration" />
-            <Button id="CountingButton" fx:id="CountingButton" mnemonicParsing="false" onAction="#handleCountingButtonClick" prefHeight="31.0" prefWidth="134.0" text="AlertCounting" />
+            <Button id="CountingButton" fx:id="CountingButton" mnemonicParsing="false" onAction="#handleCountingButtonClick" prefHeight="31.0" prefWidth="134.0" text="Event statistics" />
             </children>
          <opaqueInsets>
             <Insets />

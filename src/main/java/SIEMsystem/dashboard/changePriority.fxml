@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="layout" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.sample.ChangePriority">
+<AnchorPane id="layout" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.dashboard.ChangePriority">
    <children>
       <AnchorPane layoutX="93.0" layoutY="47.0" prefHeight="306.0" prefWidth="414.0">
          <children>

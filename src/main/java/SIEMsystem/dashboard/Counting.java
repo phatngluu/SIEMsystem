@@ -1,4 +1,4 @@
-package SIEMsystem.sample;
+package SIEMsystem.dashboard;
 
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.event.*;

@@ -1,4 +1,4 @@
-package SIEMsystem.sample;
+package SIEMsystem.dashboard;
 
 import SIEMsystem.alert.Alert;
 import javafx.beans.value.ObservableValue;
@@ -62,7 +62,7 @@ public class Dashboard {
     // open change priority window
     @FXML
     public void handleCountingButtonClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/sample/Counting.fxml").toURI().toURL();
+        URL url = new File("src/main/java/SIEMsystem/dashboard/Counting.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         //set what you want on your stage
@@ -75,7 +75,7 @@ public class Dashboard {
 
     @FXML
     public void handleButtonClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/sample/changePriority.fxml").toURI().toURL();
+        URL url = new File("src/main/java/SIEMsystem/dashboard/changePriority.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         //set what you want on your stage
@@ -88,7 +88,7 @@ public class Dashboard {
 
     @FXML
     public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
-        URL url = new File("src/main/java/SIEMsystem/sample/engineConfiguration.fxml").toURI().toURL();
+        URL url = new File("src/main/java/SIEMsystem/dashboard/engineConfiguration.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = new Stage();
         //set what you want on your stage

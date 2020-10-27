@@ -1,9 +1,9 @@
 package SIEMsystem.alert;
 
-import SIEMsystem.sample.Dashboard;
-
 import java.io.*;
 import java.util.Properties;
+
+import SIEMsystem.dashboard.Dashboard;
 /**
  * This class is about attaching priority and forwarding alert to dashboard.
  * @author Nguyen T. Nguyen
