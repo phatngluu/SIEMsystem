@@ -21,15 +21,17 @@ public class ChangePriority {
     }
 
     @FXML
-    private void initialize(){
-        //choicebox
-        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert", "FailedLoginAlert", "HorizontalPortScanAlert", "ForbiddenAlert", "VerticalPortScanAlert");
+    private void initialize() {
+        // choicebox
+        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert",
+                "FailedLoginAlert", "ForbiddenAlert", "HorizontalPortScanAlert", "HighCPUUsageAlert",
+                "HighMemUsageAlert", "VerticalPortScanAlert");
         keyChoice.setValue("BlockPortScanAlert");
 
         valueChoice.getItems().addAll("Low", "Medium", "High");
         valueChoice.setValue("Low");
 
-        //change priority scene
+        // change priority scene
         AlertManager alertManager = AlertManager.getInstance();
         saveButton.setOnAction(e -> {
             try {
@@ -48,7 +50,7 @@ public class ChangePriority {
         return Class.forName("SIEMsystem.alert." + keyChoice.getValue());
     }
 
-    public String getValue(ChoiceBox<String> valueChoice){
+    public String getValue(ChoiceBox<String> valueChoice) {
         return valueChoice.getValue();
     }
 }

@@ -30,18 +30,20 @@ public class EngineConfiguration {
     @FXML
     private Label notifyLabel = new Label();
     Stage primaryStage;
+
     public EngineConfiguration() {
     }
 
     @FXML
     private void initialize() {
         // choicebox
-        keyChoice.getItems().addAll("PORTSCAN_NETWORK_INTERFACE_NAME", "PORTSCAN_EXCLUDE_PORTS",
-                "PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS",
-                "PORTSCAN_V_THROW_ALERT_EACH_SECONDS", "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS",
-                "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_H_THROW_ALERT_EACH_SECONDS",
-                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS", "WEBSERVER_LOG_FILE_PATH",
-                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD");
+        keyChoice.getItems().addAll("PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS", "RESOURCE_MEM_USAGE_THRESHOLD",
+                "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS",
+                "PORTSCAN_V_THROW_ALERT_EACH_SECONDS", "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD",
+                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS",
+                "WEBSERVER_LOG_FILE_PATH", "PORTSCAN_EXCLUDE_PORTS", "PORTSCAN_H_THROW_ALERT_EACH_SECONDS",
+                "PORTSCAN_NETWORK_INTERFACE_NAME", "RESOURCE_CPU_USAGE_THRESHOLD", "RESOURCE_TIME_OF_WINDOW_IN_SECONDS",
+                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS");
         keyChoice.setValue("PORTSCAN_NETWORK_INTERFACE_NAME");
         valueTextField.setText(CEPEngine.getCreatedInstance().getProperty(getKey(keyChoice)));
         keyChoice.setOnAction(e -> {
@@ -87,7 +89,7 @@ public class EngineConfiguration {
             try {
                 root = loader.load();
                 Stage newStage = new Stage();
-                //set what you want on your stage
+                // set what you want on your stage
                 newStage.initModality(Modality.APPLICATION_MODAL);
                 newStage.setTitle("Change Priority");
                 newStage.setScene(new Scene(root));
