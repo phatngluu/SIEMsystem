@@ -23,9 +23,11 @@ import com.espertech.esper.common.client.configuration.Configuration;
 
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.cep.PortscanModule;
+import SIEMsystem.cep.ResourceModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.collector.PortscanCollector;
+import SIEMsystem.collector.ResourceCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -37,7 +39,10 @@ import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
 import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.PortScanEvent;
+import SIEMsystem.event.ResourceMonitorEvent;
 import SIEMsystem.event.ForbiddenEvent;
+import SIEMsystem.event.HighCPUUsageEvent;
+import SIEMsystem.event.HighMemoryUsageEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -87,16 +92,22 @@ public class Controller {
         configuration.getCommon().addEventType(OpenPortScanEvent.class);
         configuration.getCommon().addEventType(ClosedPortScanEvent.class);
         configuration.getCommon().addEventType(PortScanEvent.class);
+        configuration.getCommon().addEventType(ResourceMonitorEvent.class);
+        configuration.getCommon().addEventType(HighCPUUsageEvent.class);
+        configuration.getCommon().addEventType(HighMemoryUsageEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         engine.activate(WebserverModule.getInstance());
-        // engine.activate(PortscanModule.getInstance());
+        engine.activate(PortscanModule.getInstance());
+        engine.activate(ResourceModule.getInstance());
 
         WebserverCollector webserverCollector = new WebserverCollector();
-        // PortscanCollector portscanCollector = new PortscanCollector();
+        PortscanCollector portscanCollector = new PortscanCollector();
+        ResourceCollector resourceCollector = new ResourceCollector();
         
         webserverCollector.start();
-        // portscanCollector.start();
+        portscanCollector.start();
+        resourceCollector.start();
 
         alertview.setItems(masterData);
     }
