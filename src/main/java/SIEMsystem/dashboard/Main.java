@@ -1,6 +1,8 @@
 package SIEMsystem.dashboard;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,6 +31,7 @@ import SIEMsystem.event.ResourceMonitorEvent;
 import SIEMsystem.event.ForbiddenEvent;
 import SIEMsystem.event.HighCPUUsageEvent;
 import SIEMsystem.event.HighMemoryUsageEvent;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.net.URL;
@@ -51,6 +54,14 @@ public class Main extends Application {
         primaryStage.setTitle("SIEM System Dashboard - Team Uranus");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 
     private class CEPEngineInitializer extends Thread {

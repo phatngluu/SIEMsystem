@@ -73,7 +73,7 @@ public class EngineConfiguration {
                             validConfig = false;
                         } else {
                             notifyLabel.setText("Interface " + valueTextField.getText() + " is chosen.");
-                            notifyLabel.setTextFill(Color.web("#15FF00"));
+                            notifyLabel.setTextFill(Color.web("#2ECF20"));
                         }
                     } catch (PcapNativeException e1) {
                         notifyLabel.setText("Interface " + valueTextField.getText() + " is unavailable.");
