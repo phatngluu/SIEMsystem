@@ -3,7 +3,7 @@ package SIEMsystem.event;
 import lombok.Getter;
 import lombok.Setter;
 
-public class UnauthorizedEvent {
+public class ForbiddenEvent {
     @Getter @Setter private String ip;
     @Getter @Setter private String user;
     @Getter @Setter private String time;
@@ -16,7 +16,7 @@ public class UnauthorizedEvent {
     @Getter @Setter private String referer;
     @Getter @Setter private String useragent;
 
-    public UnauthorizedEvent(AccessLogEvent al) {
+    public ForbiddenEvent(AccessLogEvent al) {
         this.ip = al.getIp();
         this.user = al.getUser();
         this.time = al.getTime();

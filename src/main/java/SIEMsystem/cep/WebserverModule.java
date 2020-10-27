@@ -4,12 +4,12 @@ import SIEMsystem.alert.AlertManager;
 import SIEMsystem.alert.BruteForceAttackAlert;
 import SIEMsystem.alert.ConsecutiveFailedLoginAlert;
 import SIEMsystem.alert.FailedLoginAlert;
-import SIEMsystem.alert.UnauthorizedAlert;
+import SIEMsystem.alert.ForbiddenAlert;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BruteForceAttackEvent;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.FailedLoginEvent;
-import SIEMsystem.event.UnauthorizedEvent;
+import SIEMsystem.event.ForbiddenEvent;
 
 public class WebserverModule extends Module {
     private static WebserverModule instance;
@@ -48,16 +48,16 @@ public class WebserverModule extends Module {
                 });
 
         engine.compileAndDeploy(
-                "insert into UnauthorizedEvent " + "select ip, time, status " + "from AccessLogEvent(status=\"403\");");
-        engine.compileAndDeploy("select ip, time, status from UnauthorizedEvent;")
+                "insert into ForbiddenEvent " + "select ip, time, status " + "from AccessLogEvent(status=\"403\");");
+        engine.compileAndDeploy("select ip, time, status from ForbiddenEvent;")
                 .addListener((newData, oldData, stmt, rt) -> {
                     String IP = (String) newData[0].get("ip");
                     String TIME = (String) newData[0].get("time");
                     String STATUS = (String) newData[0].get("status");
-                    UnauthorizedAlert alert = new UnauthorizedAlert(IP, TIME, STATUS);
+                    ForbiddenAlert alert = new ForbiddenAlert(IP, TIME, STATUS);
                     AlertManager am = AlertManager.getInstance();
                     am.acceptAlert(alert);
-                    engine.countEvent(UnauthorizedEvent.class);
+                    engine.countEvent(ForbiddenEvent.class);
                 });
 
         engine.compileAndDeploy("insert into ConsecutiveFailedLoginEvent "

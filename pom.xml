@@ -82,6 +82,13 @@
       <artifactId>javafx-fxml</artifactId>
       <version>11</version>
     </dependency>
+
+    <dependency>
+        <groupId>com.github.oshi</groupId>
+        <artifactId>oshi-core</artifactId>
+        <version>5.3.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -2,6 +2,7 @@ package SIEMsystem;
 
 import java.io.FileNotFoundException;
 
+import SIEMsystem.event.*;
 import com.espertech.esper.common.client.configuration.Configuration;
 
 import SIEMsystem.cep.CEPEngine;
@@ -9,6 +10,7 @@ import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
 import SIEMsystem.collector.WebserverCollector;
 import SIEMsystem.collector.PortscanCollector;
+import SIEMsystem.collector.ResourceCollector;
 import SIEMsystem.event.ConsecutiveFailedLoginEvent;
 import SIEMsystem.event.AccessLogEvent;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -20,7 +22,7 @@ import SIEMsystem.event.PortCountSourceEvent;
 import SIEMsystem.event.SourceCountPortEvent;
 import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.PortScanEvent;
-import SIEMsystem.event.UnauthorizedEvent;
+import SIEMsystem.event.ForbiddenEvent;
 
 /**
  * Hello world!
@@ -31,7 +33,7 @@ public class App {
         Configuration configuration = new Configuration();
         configuration.getCommon().addEventType(AccessLogEvent.class);
         configuration.getCommon().addEventType(FailedLoginEvent.class);
-        configuration.getCommon().addEventType(UnauthorizedEvent.class);
+        configuration.getCommon().addEventType(ForbiddenEvent.class);
         configuration.getCommon().addEventType(ConsecutiveFailedLoginEvent.class);
         configuration.getCommon().addEventType(BruteForceAttackEvent.class);
         configuration.getCommon().addEventType(SourceCountPortEvent.class);
@@ -41,16 +43,19 @@ public class App {
         configuration.getCommon().addEventType(OpenPortScanEvent.class);
         configuration.getCommon().addEventType(ClosedPortScanEvent.class);
         configuration.getCommon().addEventType(PortScanEvent.class);
+        configuration.getCommon().addEventType(ResourceMonitorEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
         // engine.activate(WebserverModule.getInstance());
-        engine.activate(PortscanModule.getInstance());
+        // engine.activate(PortscanModule.getInstance());
 
         // WebserverCollector webserverCollector = new WebserverCollector();
-        PortscanCollector portscanCollector = new PortscanCollector();
+        // PortscanCollector portscanCollector = new PortscanCollector();
+        ResourceCollector resourceCollector = new ResourceCollector();
         
         // webserverCollector.start();
-        portscanCollector.start();
+        // portscanCollector.start();
+        resourceCollector.start();
 
         // long prev = System.currentTimeMillis();
         // while (true){
@@ -69,5 +74,7 @@ public class App {
         //         prev = System.currentTimeMillis();
         //     }
         // }
+
+
     }
 }

@@ -33,7 +33,7 @@ public class Counting{
         masterData.add(new EventCount("PortCountSource", CEPEngine.getCreatedInstance().getCountOfEvent(PortCountSourceEvent.class)));
         masterData.add(new EventCount("PortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(PortScanEvent.class)));
         masterData.add(new EventCount("TcpPacket", CEPEngine.getCreatedInstance().getCountOfEvent(TcpPacketEvent.class)));
-        masterData.add(new EventCount("Unauthorized", CEPEngine.getCreatedInstance().getCountOfEvent(UnauthorizedEvent.class)));
+        masterData.add(new EventCount("Forbidden", CEPEngine.getCreatedInstance().getCountOfEvent(ForbiddenEvent.class)));
     }
 
     @FXML

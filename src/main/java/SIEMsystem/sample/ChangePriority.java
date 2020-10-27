@@ -17,21 +17,13 @@ public class ChangePriority {
     @FXML
     private Button cancelButton = new Button();
 
-    Class BlockPortScanAlert = Class.forName("SIEMsystem.alert.BlockPortScanAlert");
-    Class BruteForceAttackAlert = Class.forName("SIEMsystem.alert.BruteForceAttackAlert");
-    Class ConsecutiveFailedLoginAlert = Class.forName("SIEMsystem.alert.ConsecutiveFailedLoginAlert");
-    Class FailedLoginAlert = Class.forName("SIEMsystem.alert.FailedLoginAlert");
-    Class HorizontalPortScanAlert = Class.forName("SIEMsystem.alert.HorizontalPortScanAlert");
-    Class UnauthorizedAlert = Class.forName("SIEMsystem.alert.UnauthorizedAlert");
-    Class VerticalPortScanAlert = Class.forName("SIEMsystem.alert.VerticalPortScanAlert");
-
     public ChangePriority() throws ClassNotFoundException {
     }
 
     @FXML
     private void initialize(){
         //choicebox
-        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert", "FailedLoginAlert", "HorizontalPortScanAlert", "UnauthorizedAlert", "VerticalPortScanAlert");
+        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert", "FailedLoginAlert", "HorizontalPortScanAlert", "ForbiddenAlert", "VerticalPortScanAlert");
         keyChoice.setValue("BlockPortScanAlert");
 
         valueChoice.getItems().addAll("Low", "Medium", "High");
@@ -43,7 +35,7 @@ public class ChangePriority {
             try {
                 alertManager.setPriority(getKey(keyChoice), getValue(valueChoice));
             } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                System.out.println("ClassNotFoundException: \"" + keyChoice.getValue() + "\"");
             }
         });
         cancelButton.setOnAction(e -> {
