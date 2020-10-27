@@ -17,35 +17,53 @@ public class WebserverCollector extends Thread {
     @Override
     public void run() {
         int numberoflog = 0;
+        int currLog = 0;
+        try {
+            currLog = runfirst();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         while (true) {
             ArrayList<AccessLogEvent> event = null;
             try {
-                event = getEvent();
+                event = getEvent(currLog);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            int currnumberoflog = event.size();
-            if (numberoflog < currnumberoflog) {
-                for (int i = numberoflog; i < currnumberoflog; i++) {
-                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i),
-                            "AccessLogEvent");
-                }
-                numberoflog = currnumberoflog;
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+//            int currnumberoflog = event.size();
+//            if (numberoflog < currnumberoflog) {
+//                for (int i = numberoflog; i < currnumberoflog; i++) {
+//                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
+//                }
+//                numberoflog = currnumberoflog;
+//            }
+            for (int i = 0; i < event.size(); i++) {
+                CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
             }
         }
     }
 
-    private ArrayList<AccessLogEvent> getEvent() throws IOException {
+    private int runfirst() throws IOException{
+        BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
+        int n = 0;
+        while (reader.readLine() != null) {
+            n+=1;
+        }
+        return n;
+    }
+
+
+    private ArrayList<AccessLogEvent> getEvent(int n) throws IOException {
+        int rdLog = 0;
         ArrayList<AccessLogEvent> rs = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
-        String line = null;
+        String line;
         String logformat = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"";
         Parser<AccessLogEvent> dummyParser = new HttpdLoglineParser<AccessLogEvent>(AccessLogEvent.class, logformat);
+        while (rdLog <= n){
+            reader.readLine();
+            rdLog+=1;
+        }
         while ((line = reader.readLine()) != null) {
             AccessLogEvent logObj;
             try {

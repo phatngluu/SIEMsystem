@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,6 +46,22 @@ public class Counting{
         SortedList<EventCount> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(counttable.comparatorProperty());
         counttable.setItems(masterData);
+        this.update();
     }
+
+    private void update(){
+        Task<Void> myUpdatingTask = new Task<Void>(){
+            @Override
+            protected Void call() throws Exception{
+                public void run(){
+                    counttable.refresh();
+                }
+            }
+        };
+        Thread hilo = new Thread(myUpdatingTask);
+        hilo.setDaemon(true);
+        hilo.start();
+    }
+
 
 }
