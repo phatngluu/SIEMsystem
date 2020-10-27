@@ -29,10 +29,10 @@ public class ResourceModule extends Module {
 
     engine.compileAndDeploy("insert into HighCPUUsageEvent " + 
       "select a[4].cpuLoad as cpuLoad " + 
-      "from pattern[every [5] (a = ResourceMonitorEvent(cpuLoad > " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(cpuLoad <= " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + "))];");
+      "from pattern[every [" + engine.getProperty("RESOURCE_TIME_OF_WINDOW_IN_SECONDS") + "] (a = ResourceMonitorEvent(cpuLoad > " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(cpuLoad <= " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + "))];");
     engine.compileAndDeploy("select * from HighCPUUsageEvent;").addListener((newData, __, ___, ____) -> {
       Double CPU = (Double) newData[0].get("cpuLoad");
-      HighCPUUsageAlert alert = new HighCPUUsageAlert(CPU);
+      HighCPUUsageAlert alert = new HighCPUUsageAlert(CPU, Integer.valueOf(engine.getProperty("RESOURCE_TIME_OF_WINDOW_IN_SECONDS")));
       AlertManager am = AlertManager.getInstance();
       am.acceptAlert(alert);
       engine.countEvent(HighCPUUsageEvent.class);
@@ -40,10 +40,10 @@ public class ResourceModule extends Module {
 
     engine.compileAndDeploy("insert into HighMemoryUsageEvent " + 
       "select a[4].memLoad as memLoad " + 
-      "from pattern[every [5] (a = ResourceMonitorEvent(memLoad > " + engine.getProperty("RESOURCE_MEM_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(memLoad <= " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + "))];");
+      "from pattern[every [" + engine.getProperty("RESOURCE_TIME_OF_WINDOW_IN_SECONDS") + "] (a = ResourceMonitorEvent(memLoad > " + engine.getProperty("RESOURCE_MEM_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(memLoad <= " + engine.getProperty("RESOURCE_MEM_USAGE_THRESHOLD") + "))];");
     engine.compileAndDeploy("select * from HighMemoryUsageEvent;").addListener((newData, __, ___, ____) -> {
       Double MEM = (Double) newData[0].get("memLoad");
-      HighMemUsageAlert alert = new HighMemUsageAlert(MEM);
+      HighMemUsageAlert alert = new HighMemUsageAlert(MEM, Integer.valueOf(engine.getProperty("RESOURCE_TIME_OF_WINDOW_IN_SECONDS")));
       AlertManager am = AlertManager.getInstance();
       am.acceptAlert(alert);
       engine.countEvent(HighMemoryUsageEvent.class);

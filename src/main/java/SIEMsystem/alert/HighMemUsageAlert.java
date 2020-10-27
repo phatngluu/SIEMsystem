@@ -10,11 +10,11 @@ public class HighMemUsageAlert extends Alert {
     return this.currentMemUsage;
   }
 
-  public HighMemUsageAlert(double memUsage) {
+  public HighMemUsageAlert(double memUsage, int timeWindow) {
     super();
     this.name = this.getClass().getSimpleName();
     this.setCurrentMemUsage(memUsage);
-    this.setMessage("Memory usage exceeds threshold for 5 seconds. Current memory usage : " + roundDown(this.getCurrentMemUsage()) + "%");
+    this.setMessage("Memory usage exceeds threshold for " + timeWindow + " seconds. Current memory usage : " + roundDown(this.getCurrentMemUsage()) + "%");
   }
 
   public static double roundDown(double d) {
