@@ -29,7 +29,7 @@ public class ResourceModule extends Module {
 
     engine.compileAndDeploy("insert into HighCPUUsageEvent " + 
       "select a[4].cpuLoad as cpuLoad " + 
-      "from pattern[every [5] (a = ResourceMonitorEvent(cpuLoad > " + engine.getProperty("CPU_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(cpuLoad <= " + engine.getProperty("CPU_USAGE_THRESHOLD") + "))];");
+      "from pattern[every [5] (a = ResourceMonitorEvent(cpuLoad > " + engine.getProperty("RESOURCE_CPU_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(cpuLoad <= " + engine.getProperty("CPU_USAGE_THRESHOLD") + "))];");
     engine.compileAndDeploy("select * from HighCPUUsageEvent;").addListener((newData, __, ___, ____) -> {
       Double CPU = (Double) newData[0].get("cpuLoad");
       HighCPUUsageAlert alert = new HighCPUUsageAlert(CPU);
@@ -40,7 +40,7 @@ public class ResourceModule extends Module {
 
     engine.compileAndDeploy("insert into HighMemoryUsageEvent " + 
       "select a[4].memLoad as memLoad " + 
-      "from pattern[every [5] (a = ResourceMonitorEvent(memLoad > " + engine.getProperty("MEM_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(memLoad <= " + engine.getProperty("MEM_USAGE_THRESHOLD") + "))];");
+      "from pattern[every [5] (a = ResourceMonitorEvent(memLoad > " + engine.getProperty("RESOURCE_MEM_USAGE_THRESHOLD") + ") and not ResourceMonitorEvent(memLoad <= " + engine.getProperty("MEM_USAGE_THRESHOLD") + "))];");
     engine.compileAndDeploy("select * from HighMemoryUsageEvent;").addListener((newData, __, ___, ____) -> {
       Double MEM = (Double) newData[0].get("memLoad");
       HighMemUsageAlert alert = new HighMemUsageAlert(MEM);
