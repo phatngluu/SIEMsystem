@@ -62,6 +62,8 @@ public class EngineConfiguration {
                         if (Pcaps.getDevByName(valueTextField.getText()) == null) {
                             System.out.println("Interface " + valueTextField.getText() + " is unavailable.");
                             validConfig = false;
+                        } else {
+                            System.out.println("Interface " + valueTextField.getText() + " is chosen.");
                         }
                     } catch (PcapNativeException e1) {
                         System.out.println("Interface " + valueTextField.getText() + " is unavailable.");
