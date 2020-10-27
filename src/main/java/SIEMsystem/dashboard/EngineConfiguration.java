@@ -1,15 +1,22 @@
 package SIEMsystem.dashboard;
 
 import SIEMsystem.cep.CEPEngine;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import com.espertech.esper.common.client.configuration.Configuration;
 
+import javafx.stage.WindowEvent;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
@@ -28,7 +35,12 @@ import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.ForbiddenEvent;
 import SIEMsystem.cep.PortscanModule;
 import SIEMsystem.cep.WebserverModule;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
 
 public class EngineConfiguration {
@@ -41,8 +53,10 @@ public class EngineConfiguration {
     @FXML
     private Button cancelButton = new Button();
     @FXML
+    private Button okButton = new Button();
+    @FXML
     private Label notifyLabel = new Label();
-
+    Stage primaryStage;
     public EngineConfiguration() {
     }
 
@@ -90,6 +104,29 @@ public class EngineConfiguration {
         cancelButton.setOnAction(e -> {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
+        });
+        okButton.setOnAction(e -> {
+            Stage stage = (Stage) okButton.getScene().getWindow();
+            stage.close();
+            URL url = null;
+            try {
+                url = new File("src/main/java/SIEMsystem/dashboard/restartNotification.fxml").toURI().toURL();
+            } catch (MalformedURLException ex) {
+                ex.printStackTrace();
+            }
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(url);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Stage newStage = new Stage();
+            //set what you want on your stage
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.setTitle("Change Priority");
+            newStage.setScene(new Scene(root));
+            newStage.setResizable(false);
+            newStage.show();
         });
     }
 
