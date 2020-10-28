@@ -16,7 +16,7 @@ import nl.basjes.parse.httpdlog.HttpdLoglineParser;
 public class WebserverCollector extends Thread {
     @Override
     public void run() {
-        int numberoflog = 0;
+        //int numberoflog = 0;
         int currLog = 0;
         try {
             currLog = runfirst();
@@ -49,6 +49,7 @@ public class WebserverCollector extends Thread {
         while (reader.readLine() != null) {
             n+=1;
         }
+        reader.close();
         return n;
     }
 

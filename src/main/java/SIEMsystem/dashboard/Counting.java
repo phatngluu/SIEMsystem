@@ -49,19 +49,18 @@ public class Counting{
         this.update();
     }
 
+    
     private void update(){
-        Task<Void> myUpdatingTask = new Task<Void>(){
+        Task<Void>  myUpdatingTask = new Task<Void>(){
             @Override
             protected Void call() throws Exception{
-                public void run(){
-                    counttable.refresh();
-                }
-            }
+                counttable.refresh();
+                return null;
+            }            
         };
         Thread hilo = new Thread(myUpdatingTask);
         hilo.setDaemon(true);
         hilo.start();
     }
-
 
 }
