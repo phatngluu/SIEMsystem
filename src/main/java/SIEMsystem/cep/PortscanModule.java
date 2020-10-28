@@ -11,6 +11,7 @@ import SIEMsystem.event.BlockPortScanEvent;
 import SIEMsystem.event.ClosedPortScanEvent;
 import SIEMsystem.event.OpenPortScanEvent;
 import SIEMsystem.event.PortCountSourceEvent;
+import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.SourceCountPortEvent;
 import SIEMsystem.event.TcpPacketEvent;
 
@@ -56,26 +57,29 @@ public class PortscanModule extends Module {
 
         /* Port Scan Event */
         engine.compileAndDeploy("insert into PortScanEvent\n"
-                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from ClosedPortScanEvent;")
+                + "select ipHeader.dstAddr as dstAddr, tcpHeader.dstPort as dstPort from ClosedPortScanEvent;")
                 .addListener((newData, __, ___, ____) -> {
                     engine.countEvent(ClosedPortScanEvent.class);
                 });
         engine.compileAndDeploy("insert into PortScanEvent\n"
-                + "select ipHeader.srcAddr as srcAddr, tcpHeader.dstPort as dstPort from OpenPortScanEvent;").addListener((newData, __, ___, ____) -> {
+                + "select ipHeader.dstAddr as dstAddr, tcpHeader.dstPort as dstPort from OpenPortScanEvent;").addListener((newData, __, ___, ____) -> {
                     engine.countEvent(OpenPortScanEvent.class);
                 });
+        engine.compileAndDeploy("select * from PortScanEvent;").addListener((newData, __, ___, ____) -> {
+                engine.countEvent(PortScanEvent.class);
+        });
 
         /* Vertical Port Scan */
         engine.compileAndDeploy(
-                "insert into SourceCountPortEvent\n" + "select srcAddr, count(distinct(dstPort)) as countPort\n"
+                "insert into SourceCountPortEvent\n" + "select dstAddr, count(distinct(dstPort)) as countPort\n"
                         + "from PortScanEvent#time(" + engine.getProperty("PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS")
-                        + ")\n" + "group by srcAddr\n" + "having count(distinct(dstPort)) >= "
+                        + ")\n" + "group by dstAddr\n" + "having count(distinct(dstPort)) >= "
                         + engine.getProperty("PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS") + ";");
 
         engine.compileAndDeploy("select * from SourceCountPortEvent output last every "
                 + engine.getProperty("PORTSCAN_V_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
-                    String srcAddr = ((InetAddress) newData[0].get("srcAddr")).toString();
+                    String srcAddr = ((InetAddress) newData[0].get("dstAddr")).toString();
                     long countPort = (long) newData[0].get("countPort");
                     AlertManager alertManager = AlertManager.getInstance();
                     alertManager.acceptAlert(new VerticalPortScanAlert(srcAddr, countPort));
@@ -84,9 +88,9 @@ public class PortscanModule extends Module {
 
         /* Horizontal Port Scan */
         engine.compileAndDeploy(
-                "insert into PortCountSourceEvent\n" + "select dstPort, count(distinct(srcAddr)) as countSource\n"
+                "insert into PortCountSourceEvent\n" + "select dstPort, count(distinct(dstAddr)) as countSource\n"
                         + "from PortScanEvent#time(" + engine.getProperty("PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS")
-                        + ")\n" + "group by dstPort\n" + "having count(distinct(srcAddr)) >= "
+                        + ")\n" + "group by dstPort\n" + "having count(distinct(dstAddr)) >= "
                         + engine.getProperty("PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS") + ";");
 
         engine.compileAndDeploy("select * from PortCountSourceEvent output last every "

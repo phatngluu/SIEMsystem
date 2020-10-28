@@ -25,16 +25,21 @@ public class Counting{
     private ObservableList<EventCount> masterData = FXCollections.observableArrayList();
 
     public Counting(){
-        masterData.add(new EventCount("AccessLog", CEPEngine.getCreatedInstance().getCountOfEvent(AccessLogEvent.class)));
-        masterData.add(new EventCount("BlockPortScan", CEPEngine.getCreatedInstance().getCountOfEvent(BlockPortScanEvent.class)));
-        masterData.add(new EventCount("BruteForceAttack", CEPEngine.getCreatedInstance().getCountOfEvent(BruteForceAttackEvent.class)));
-        masterData.add(new EventCount("ConsecutiveFailedLogin", CEPEngine.getCreatedInstance().getCountOfEvent(ConsecutiveFailedLoginEvent.class)));
-        masterData.add(new EventCount("FailedLogin", CEPEngine.getCreatedInstance().getCountOfEvent(FailedLoginEvent.class)));
-        masterData.add(new EventCount("ClosedPortScan", CEPEngine.getCreatedInstance().getCountOfEvent(ClosedPortScanEvent.class)));
-        masterData.add(new EventCount("PortCountSource", CEPEngine.getCreatedInstance().getCountOfEvent(PortCountSourceEvent.class)));
+        masterData.add(new EventCount("AccessLogEvent", CEPEngine.getCreatedInstance().getCountOfEvent(AccessLogEvent.class)));
+        masterData.add(new EventCount("BlockPortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(BlockPortScanEvent.class)));
+        masterData.add(new EventCount("BruteForceAttackEvent", CEPEngine.getCreatedInstance().getCountOfEvent(BruteForceAttackEvent.class)));
+        masterData.add(new EventCount("ClosedPortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ClosedPortScanEvent.class)));
+        masterData.add(new EventCount("ConsecutiveFailedLoginEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ConsecutiveFailedLoginEvent.class)));
+        masterData.add(new EventCount("FailedLoginEvent", CEPEngine.getCreatedInstance().getCountOfEvent(FailedLoginEvent.class)));
+        masterData.add(new EventCount("ForbiddenEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ForbiddenEvent.class)));
+        masterData.add(new EventCount("HighCPUUsageEvent", CEPEngine.getCreatedInstance().getCountOfEvent(HighCPUUsageEvent.class)));
+        masterData.add(new EventCount("HighMemoryUsageEvent", CEPEngine.getCreatedInstance().getCountOfEvent(HighMemoryUsageEvent.class)));
+        masterData.add(new EventCount("OpenPortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(OpenPortScanEvent.class)));
+        masterData.add(new EventCount("PortCountSourceEvent", CEPEngine.getCreatedInstance().getCountOfEvent(PortCountSourceEvent.class)));
         masterData.add(new EventCount("PortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(PortScanEvent.class)));
-        masterData.add(new EventCount("TcpPacket", CEPEngine.getCreatedInstance().getCountOfEvent(TcpPacketEvent.class)));
-        masterData.add(new EventCount("Forbidden", CEPEngine.getCreatedInstance().getCountOfEvent(ForbiddenEvent.class)));
+        masterData.add(new EventCount("ResourceMonitorEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ResourceMonitorEvent.class)));
+        masterData.add(new EventCount("SourceCountPortEvent", CEPEngine.getCreatedInstance().getCountOfEvent(SourceCountPortEvent.class)));
+        masterData.add(new EventCount("TcpPacketEvent", CEPEngine.getCreatedInstance().getCountOfEvent(TcpPacketEvent.class)));
     }
 
     @FXML

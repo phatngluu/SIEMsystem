@@ -3,15 +3,20 @@ package SIEMsystem.event;
 import java.net.InetAddress;
 
 public class SourceCountPortEvent {
-    private InetAddress srcAddr;
+    private InetAddress dstAddr;
     private long countPort;
 
-    public InetAddress getSrcAddr() {
-        return srcAddr;
+    public SourceCountPortEvent(InetAddress dstAddr, long countPort) {
+        this.dstAddr = dstAddr;
+        this.countPort = countPort;
     }
 
-    public void setSrcAddr(InetAddress srcAddr) {
-        this.srcAddr = srcAddr;
+    public InetAddress getDstAddr() {
+        return dstAddr;
+    }
+
+    public void setDstAddr(InetAddress dstAddr) {
+        this.dstAddr = dstAddr;
     }
 
     public long getCountPort() {
@@ -21,5 +26,6 @@ public class SourceCountPortEvent {
     public void setCountPort(long countPort) {
         this.countPort = countPort;
     }
-    
+
+        
 }
