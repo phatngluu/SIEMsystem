@@ -14,10 +14,10 @@ import nl.basjes.parse.core.exceptions.MissingDissectorsException;
 import nl.basjes.parse.httpdlog.HttpdLoglineParser;
 
 public class WebserverCollector extends Thread {
+    private static int currLog = 0;
     @Override
     public void run() {
         //int numberoflog = 0;
-        int currLog = 0;
         try {
             currLog = runfirst();
         } catch (IOException e) {
@@ -26,7 +26,7 @@ public class WebserverCollector extends Thread {
         while (true) {
             ArrayList<AccessLogEvent> event = null;
             try {
-                event = getEvent(currLog);
+                event = getEvent();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -54,14 +54,14 @@ public class WebserverCollector extends Thread {
     }
 
 
-    private ArrayList<AccessLogEvent> getEvent(int n) throws IOException {
+    private ArrayList<AccessLogEvent> getEvent() throws IOException {
         int rdLog = 0;
         ArrayList<AccessLogEvent> rs = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
         String line;
         String logformat = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"";
         Parser<AccessLogEvent> dummyParser = new HttpdLoglineParser<AccessLogEvent>(AccessLogEvent.class, logformat);
-        while (rdLog <= n){
+        while (rdLog < currLog){
             reader.readLine();
             rdLog+=1;
         }
@@ -73,6 +73,7 @@ public class WebserverCollector extends Thread {
             } catch (DissectionFailure | InvalidDissectorException | MissingDissectorsException e) {
                 System.out.println("Failed to parse.");
             }
+            currLog +=1;
         }
         reader.close();
         return rs;
