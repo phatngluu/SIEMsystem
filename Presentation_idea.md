@@ -7,3 +7,5 @@
 3. change config -> user custom the engine( have hint text ), save to prop.file 4 future use, close program and rs to make effected
 
 4. event stat -> summary #alerts, table view, update in realtime
+## Work in future: new feature?
+## Q&A
