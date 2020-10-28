@@ -51,16 +51,16 @@ public class App {
         configuration.getCommon().addEventType(HighMemoryUsageEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        // engine.activate(WebserverModule.getInstance());
-        // engine.activate(PortscanModule.getInstance());
+        engine.activate(WebserverModule.getInstance());
+        engine.activate(PortscanModule.getInstance());
         engine.activate(ResourceModule.getInstance());
 
-        // WebserverCollector webserverCollector = new WebserverCollector();
-        // PortscanCollector portscanCollector = new PortscanCollector();
+        WebserverCollector webserverCollector = new WebserverCollector();
+        PortscanCollector portscanCollector = new PortscanCollector();
         ResourceCollector resourceCollector = new ResourceCollector();
         
-        // webserverCollector.start();
-        // portscanCollector.start();
+        webserverCollector.start();
+        portscanCollector.start();
         resourceCollector.start();
 
         // long prev = System.currentTimeMillis();
