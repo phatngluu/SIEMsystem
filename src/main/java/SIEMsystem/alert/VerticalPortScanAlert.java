@@ -1,29 +1,9 @@
 package SIEMsystem.alert;
 
 public class VerticalPortScanAlert extends Alert {
-    // private String srcAddr;
-    // private long count;
-    
-    public VerticalPortScanAlert(String srcAddr, long count) {
+    public VerticalPortScanAlert(String dstAddr, long count) {
         super();
         this.name = this.getClass().getSimpleName();
-        this.setMessage("Vertical port scan detected from " + srcAddr);
+        this.setMessage("Vertical port scan detected on " + dstAddr);
     }
-
-    // public String getSrcAddr() {
-    //     return srcAddr;
-    // }
-
-    // public void setSrcAddr(String srcAddr) {
-    //     this.srcAddr = srcAddr;
-    // }
-
-    // public long getCount() {
-    //     return count;
-    // }
-
-    // public void setCount(long count) {
-    //     this.count = count;
-    // }
-    
 }
