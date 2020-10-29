@@ -78,7 +78,7 @@ public class EngineConfiguration {
                 case "RESOURCE_MEM_USAGE_THRESHOLD":
                 case "RESOURCE_TIME_OF_WINDOW_IN_SECONDS": {
                     try {
-                        if (Double.parseDouble(valueTextField.getText()) <= 0 || valueTextField.getText().equals("-0")) {
+                        if (Double.parseDouble(valueTextField.getText()) <= 0) {
                             notifyLabel.setText("Please enter positive number");
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
@@ -98,7 +98,7 @@ public class EngineConfiguration {
                 case "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD":
                 case "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS": {
                     try {
-                        if (Integer.parseInt(valueTextField.getText()) <= 0 || valueTextField.getText().equals("-0")) {
+                        if (Integer.parseInt(valueTextField.getText()) <= 0) {
                             notifyLabel.setText("Please enter positive number");
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
@@ -115,12 +115,12 @@ public class EngineConfiguration {
 
                 case "PORTSCAN_EXCLUDE_PORTS":
                     try {
-                        if (Integer.parseInt(valueTextField.getText()) < 0 || Integer.parseInt(valueTextField.getText()) > 65353 || valueTextField.getText().equals("-0")) {
+                        if (valueTextField.getText().matches("[A-Za-z]+")) {
                             notifyLabel.setText("Please enter port number from 0 to 65353");
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
                         } else {
-                            notifyLabel.setText("Value " + valueTextField.getText() + " is set");
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set. Make sure your ports are from 0 to 65353");
                             notifyLabel.setTextFill(Color.web("2ECF20"));
                         }
                     } catch (Exception ex) {
@@ -136,7 +136,7 @@ public class EngineConfiguration {
                         notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
                     } else {
-                        notifyLabel.setText("Webserver log file path is set");
+                        notifyLabel.setText("Webserver log file path is set. Make sure your path is correct!");
                         notifyLabel.setTextFill(Color.web("2ECF20"));
                     }
                     break;
