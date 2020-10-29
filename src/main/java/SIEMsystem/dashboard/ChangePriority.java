@@ -23,7 +23,8 @@ public class ChangePriority {
     @FXML
     private void initialize() {
         // choicebox
-        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert", "ConsecutiveFailedLoginAlert",
+        keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert",
+                "ConsecutiveFailedLoginAlert", "ClosedPortConnectionFailureAlert",
                 "FailedLoginAlert", "ForbiddenAlert", "HorizontalPortScanAlert", "HighCPUUsageAlert",
                 "HighMemUsageAlert", "VerticalPortScanAlert");
         keyChoice.setValue("BlockPortScanAlert");
