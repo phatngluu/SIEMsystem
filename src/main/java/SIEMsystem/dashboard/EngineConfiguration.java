@@ -115,7 +115,7 @@ public class EngineConfiguration {
 
                 case "PORTSCAN_EXCLUDE_PORTS":
                     try {
-                        if (valueTextField.getText().matches("[A-Za-z]+")) {
+                        if (valueTextField.getText().matches(".*[A-Za-z ]+$")) {
                             notifyLabel.setText("Please enter port number from 0 to 65353");
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
