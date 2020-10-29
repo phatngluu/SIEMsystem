@@ -40,9 +40,12 @@ public class EngineConfiguration {
         keyChoice.getItems().addAll("PORTSCAN_NETWORK_INTERFACE_NAME", "PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS",
                 "PORTSCAN_V_THROW_ALERT_EACH_SECONDS", "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS",
                 "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_H_THROW_ALERT_EACH_SECONDS", "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS",
-                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_EXCLUDE_PORTS", "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD",
-                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "WEBSERVER_LOG_FILE_PATH",
-                "RESOURCE_CPU_USAGE_THRESHOLD",  "RESOURCE_MEM_USAGE_THRESHOLD", "RESOURCE_TIME_OF_WINDOW_IN_SECONDS");
+                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS",
+                "PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_ATTEMPT_THRESHOLD", "PORTSCAN_EXCLUDE_PORTS",
+                "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD", "WEBSERVER_BRUTE_FORCE_TIME_WINDOW_IN_SECONDS",
+                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_TIME_WINDOW_IN_SECONDS",
+                "WEBSERVER_LOG_FILE_PATH", "RESOURCE_CPU_USAGE_THRESHOLD",
+                "RESOURCE_MEM_USAGE_THRESHOLD", "RESOURCE_TIME_OF_WINDOW_IN_SECONDS");
         keyChoice.setValue("PORTSCAN_NETWORK_INTERFACE_NAME");
         valueTextField.setText(CEPEngine.getCreatedInstance().getProperty(getKey(keyChoice)));
         keyChoice.setOnAction(e -> {
@@ -74,6 +77,9 @@ public class EngineConfiguration {
                 case "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS":
                 case "PORTSCAN_H_THROW_ALERT_EACH_SECONDS":
                 case "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS":
+                case "WEBSERVER_BRUTE_FORCE_TIME_WINDOW_IN_SECONDS":
+                case "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_TIME_WINDOW_IN_SECONDS":
+                case "PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS":
                 case "RESOURCE_CPU_USAGE_THRESHOLD":
                 case "RESOURCE_MEM_USAGE_THRESHOLD":
                 case "RESOURCE_TIME_OF_WINDOW_IN_SECONDS": {
@@ -96,6 +102,7 @@ public class EngineConfiguration {
                 case "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS":
                 case "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD":
                 case "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD":
+                case "PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_ATTEMPT_THRESHOLD":
                 case "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS": {
                     try {
                         if (Integer.parseInt(valueTextField.getText()) <= 0) {
@@ -115,7 +122,7 @@ public class EngineConfiguration {
 
                 case "PORTSCAN_EXCLUDE_PORTS":
                     try {
-                        if (valueTextField.getText().matches(".*[A-Za-z ]+$")) {
+                        if (valueTextField.getText().matches(".*[A-Za-z-+_!@#$%^&*, ?;:\"']")) {
                             notifyLabel.setText("Please enter port number from 0 to 65353");
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
@@ -131,7 +138,7 @@ public class EngineConfiguration {
                     break;
 
                 case "WEBSERVER_LOG_FILE_PATH":
-                    if (valueTextField.getText().matches("^+(?=.*[-+_!@#$%^&*, ?]).+$")) {
+                    if (valueTextField.getText().matches("^+(?=.*[-+_!@#$%^&*, ?;:\"']).+$")) {
                         notifyLabel.setText("File path can not contain special character");
                         notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
