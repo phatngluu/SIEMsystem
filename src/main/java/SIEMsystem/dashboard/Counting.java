@@ -35,10 +35,10 @@ public class Counting{
         masterData.add(new EventCount("HighCPUUsageEvent", CEPEngine.getCreatedInstance().getCountOfEvent(HighCPUUsageEvent.class)));
         masterData.add(new EventCount("HighMemoryUsageEvent", CEPEngine.getCreatedInstance().getCountOfEvent(HighMemoryUsageEvent.class)));
         masterData.add(new EventCount("OpenPortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(OpenPortScanEvent.class)));
-        masterData.add(new EventCount("PortCountSourceEvent", CEPEngine.getCreatedInstance().getCountOfEvent(PortCountSourceEvent.class)));
+        masterData.add(new EventCount("HorizontalPortscanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(HorizontalPortscanEvent.class)));
         masterData.add(new EventCount("PortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(PortScanEvent.class)));
         masterData.add(new EventCount("ResourceMonitorEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ResourceMonitorEvent.class)));
-        masterData.add(new EventCount("SourceCountPortEvent", CEPEngine.getCreatedInstance().getCountOfEvent(SourceCountPortEvent.class)));
+        masterData.add(new EventCount("VerticalPortscanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(VerticalPortscanEvent.class)));
         masterData.add(new EventCount("TcpPacketEvent", CEPEngine.getCreatedInstance().getCountOfEvent(TcpPacketEvent.class)));
     }
 

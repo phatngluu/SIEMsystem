@@ -2,7 +2,7 @@ package SIEMsystem.event;
 
 import org.pcap4j.packet.namednumber.Port;
 
-public class PortCountSourceEvent {
+public class HorizontalPortscanEvent {
     private Port dstPort;
     private long countSource;
 

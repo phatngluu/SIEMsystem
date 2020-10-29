@@ -2,11 +2,11 @@ package SIEMsystem.event;
 
 import java.net.InetAddress;
 
-public class SourceCountPortEvent {
+public class VerticalPortscanEvent {
     private InetAddress dstAddr;
     private long countPort;
 
-    public SourceCountPortEvent(InetAddress dstAddr, long countPort) {
+    public VerticalPortscanEvent(InetAddress dstAddr, long countPort) {
         this.dstAddr = dstAddr;
         this.countPort = countPort;
     }

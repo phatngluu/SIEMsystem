@@ -10,9 +10,9 @@ import SIEMsystem.alert.VerticalPortScanAlert;
 import SIEMsystem.event.BlockPortScanEvent;
 import SIEMsystem.event.ClosedPortScanEvent;
 import SIEMsystem.event.OpenPortScanEvent;
-import SIEMsystem.event.PortCountSourceEvent;
+import SIEMsystem.event.HorizontalPortscanEvent;
 import SIEMsystem.event.PortScanEvent;
-import SIEMsystem.event.SourceCountPortEvent;
+import SIEMsystem.event.VerticalPortscanEvent;
 import SIEMsystem.event.TcpPacketEvent;
 
 public class PortscanModule extends Module {
@@ -71,44 +71,44 @@ public class PortscanModule extends Module {
 
         /* Vertical Port Scan */
         engine.compileAndDeploy(
-                "insert into SourceCountPortEvent\n" + "select dstAddr, count(distinct(dstPort)) as countPort\n"
+                "insert into VerticalPortscanEvent\n" + "select dstAddr, count(distinct(dstPort)) as countPort\n"
                         + "from PortScanEvent#time(" + engine.getProperty("PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS")
                         + ")\n" + "group by dstAddr\n" + "having count(distinct(dstPort)) >= "
                         + engine.getProperty("PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS") + ";");
 
-        engine.compileAndDeploy("select * from SourceCountPortEvent output last every "
+        engine.compileAndDeploy("select * from VerticalPortscanEvent output last every "
                 + engine.getProperty("PORTSCAN_V_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
                     String srcAddr = ((InetAddress) newData[0].get("dstAddr")).toString();
                     long countPort = (long) newData[0].get("countPort");
                     AlertManager alertManager = AlertManager.getInstance();
                     alertManager.acceptAlert(new VerticalPortScanAlert(srcAddr, countPort));
-                    engine.countEvent(SourceCountPortEvent.class);
+                    engine.countEvent(VerticalPortscanEvent.class);
                 });
 
         /* Horizontal Port Scan */
         engine.compileAndDeploy(
-                "insert into PortCountSourceEvent\n" + "select dstPort, count(distinct(dstAddr)) as countSource\n"
+                "insert into HorizontalPortscanEvent\n" + "select dstPort, count(distinct(dstAddr)) as countSource\n"
                         + "from PortScanEvent#time(" + engine.getProperty("PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS")
                         + ")\n" + "group by dstPort\n" + "having count(distinct(dstAddr)) >= "
                         + engine.getProperty("PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS") + ";");
 
-        engine.compileAndDeploy("select * from PortCountSourceEvent output last every "
+        engine.compileAndDeploy("select * from HorizontalPortscanEvent output last every "
                 + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
                     int dstPort = ((Port) newData[0].get("dstPort")).valueAsInt();
                     long countSource = (long) newData[0].get("countSource");
                     AlertManager alertManager = AlertManager.getInstance();
                     alertManager.acceptAlert(new HorizontalPortScanAlert(dstPort, countSource));
-                    engine.countEvent(PortCountSourceEvent.class);
+                    engine.countEvent(HorizontalPortscanEvent.class);
                 });
 
         /* Block port scan */
         engine.compileAndDeploy("insert into BlockPortScanEvent\n" + "select \"Vertical\" as portScan\n"
-                + "from SourceCountPortEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS")
+                + "from VerticalPortscanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS")
                 + ")\n");
         engine.compileAndDeploy("insert into BlockPortScanEvent\n" + "select \"Horizontal\" as portScan\n"
-                + "from PortCountSourceEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS")
+                + "from HorizontalPortscanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS")
                 + ")\n");
         engine.compileAndDeploy("select * from BlockPortScanEvent\n"
                 + "where exists(select * from BlockPortScanEvent where portScan = \"Vertical\")\n"
