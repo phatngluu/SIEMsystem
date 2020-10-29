@@ -77,13 +77,19 @@ public class EngineConfiguration {
                 case "RESOURCE_CPU_USAGE_THRESHOLD":
                 case "RESOURCE_MEM_USAGE_THRESHOLD":
                 case "RESOURCE_TIME_OF_WINDOW_IN_SECONDS": {
-                    if (Double.parseDouble(valueTextField.getText()) <= 0 || valueTextField.getText().equals("-0")) {
+                    try {
+                        if (Double.parseDouble(valueTextField.getText()) <= 0 || valueTextField.getText().equals("-0")) {
+                            notifyLabel.setText("Please enter positive number");
+                            notifyLabel.setTextFill(Color.web("#FF0000"));
+                            validConfig = false;
+                        } else {
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set");
+                            notifyLabel.setTextFill(Color.web("2ECF20"));
+                        }
+                    } catch (Exception ex) {
                         notifyLabel.setText("Please enter positive number");
                         notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
-                    } else {
-                        notifyLabel.setText("Value " + valueTextField.getText() + " is set");
-                        notifyLabel.setTextFill(Color.web("2ECF20"));
                     }
                 } break;
 
@@ -103,6 +109,7 @@ public class EngineConfiguration {
                     } catch (Exception ex) {
                         notifyLabel.setText("Please enter positive number");
                         notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
                     }
                 } break;
 
@@ -119,6 +126,7 @@ public class EngineConfiguration {
                     } catch (Exception ex) {
                         notifyLabel.setText("Please enter port number from 0 to 65353");
                         notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
                     }
                     break;
 

@@ -20,7 +20,7 @@
             <TextField id="valueTextField" fx:id="valueTextField" layoutX="244.0" layoutY="77.0" onAction="#initialize" />
             <Button id="saveButton" fx:id="saveButton" layoutX="182.0" layoutY="143.0" minHeight="25.0" minWidth="52.0" mnemonicParsing="false" onAction="#initialize" text="Save" />
             <Button id="cancelButton" fx:id="cancelButton" layoutX="267.0" layoutY="143.0" mnemonicParsing="false" onAction="#initialize" text="Cancel" />
-            <Label id="notifyLabel" fx:id="notifyLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="181.0" prefHeight="35.0" prefWidth="370.0" text="All hail Ur anus" />
+            <Label id="notifyLabel" fx:id="notifyLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="23.0" layoutY="181.0" prefHeight="35.0" prefWidth="370.0" text=" " />
             <Button id="okButton" fx:id="okButton" layoutX="97.0" layoutY="143.0" minHeight="25.0" minWidth="52.0" mnemonicParsing="false" onAction="#initialize" text="OK" />
          </children>
       </AnchorPane>
