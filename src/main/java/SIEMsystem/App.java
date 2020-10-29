@@ -53,17 +53,17 @@ public class App {
         configuration.getCommon().addEventType(ClosedPortConnectionFailureEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        // engine.activate(WebserverModule.getInstance());
+        engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
-        // engine.activate(ResourceModule.getInstance());
+        engine.activate(ResourceModule.getInstance());
 
-        // WebserverCollector webserverCollector = new WebserverCollector();
+        WebserverCollector webserverCollector = new WebserverCollector();
         PortscanCollector portscanCollector = new PortscanCollector();
-        // ResourceCollector resourceCollector = new ResourceCollector();
+        ResourceCollector resourceCollector = new ResourceCollector();
         
-        // webserverCollector.start();
+        webserverCollector.start();
         portscanCollector.start();
-        // resourceCollector.start();
+        resourceCollector.start();
 
         // long prev = System.currentTimeMillis();
         // while (true){

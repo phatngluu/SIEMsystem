@@ -130,11 +130,12 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy("insert into BlockPortScanEvent\n" + "select \"Horizontal\" as portScan\n"
                 + "from HorizontalPortscanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS")
                 + ")\n");
-        engine.compileAndDeploy("select * from BlockPortScanEvent\n"
-                + "where exists(select * from BlockPortScanEvent where portScan = \"Vertical\")\n"
-                + "and exists(select * from BlockPortScanEvent where portScan = \"Horizontal\")\n"
+        engine.compileAndDeploy("select portScan, count(*) as countBlock from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ")\n"
+                + "where exists(select * from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ") where portScan = \"Vertical\")\n"
+                + "and exists(select * from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ") where portScan = \"Horizontal\")\n"
                 + "output last every " + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
+                    System.out.println(newData[0].get("countBlock") + " item(s) in BlockPortScanEvent.");
                     AlertManager alertManager = AlertManager.getInstance();
                     alertManager.acceptAlert(new BlockPortScanAlert());
                     engine.countEvent(BlockPortScanEvent.class);
