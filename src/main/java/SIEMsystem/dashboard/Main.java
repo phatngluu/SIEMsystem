@@ -31,6 +31,7 @@ import SIEMsystem.event.ResourceMonitorEvent;
 import SIEMsystem.event.ForbiddenEvent;
 import SIEMsystem.event.HighCPUUsageEvent;
 import SIEMsystem.event.HighMemoryUsageEvent;
+import SIEMsystem.event.ClosedPortConnectionFailureEvent;
 import javafx.stage.WindowEvent;
 
 public class Main extends Application {
@@ -83,6 +84,7 @@ public class Main extends Application {
             configuration.getCommon().addEventType(ResourceMonitorEvent.class);
             configuration.getCommon().addEventType(HighCPUUsageEvent.class);
             configuration.getCommon().addEventType(HighMemoryUsageEvent.class);
+            configuration.getCommon().addEventType(ClosedPortConnectionFailureEvent.class);
 
             CEPEngine engine = CEPEngine.getNewInstance(configuration);
             engine.activate(WebserverModule.getInstance());
