@@ -127,7 +127,7 @@ public class EngineConfiguration {
                             notifyLabel.setTextFill(Color.web("#FF0000"));
                             validConfig = false;
                         } else {
-                            notifyLabel.setText("Value " + valueTextField.getText() + " is set. Make sure your ports are from 0 to 65353");
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set. \nMake sure your ports are from 0 to 65353");
                             notifyLabel.setTextFill(Color.web("2ECF20"));
                         }
                     } catch (Exception ex) {
@@ -143,7 +143,7 @@ public class EngineConfiguration {
                         notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
                     } else {
-                        notifyLabel.setText("Webserver log file path is set. Make sure your path is correct!");
+                        notifyLabel.setText("Webserver log file path is set. \nMake sure your path is correct!");
                         notifyLabel.setTextFill(Color.web("2ECF20"));
                     }
                     break;
