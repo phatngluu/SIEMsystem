@@ -26,6 +26,7 @@ import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.ForbiddenEvent;
 import SIEMsystem.event.HighCPUUsageEvent;
 import SIEMsystem.event.HighMemoryUsageEvent;
+import SIEMsystem.event.ClosedPortConnectionFailureEvent;
 
 /**
  * Hello world!
@@ -49,19 +50,20 @@ public class App {
         configuration.getCommon().addEventType(ResourceMonitorEvent.class);
         configuration.getCommon().addEventType(HighCPUUsageEvent.class);
         configuration.getCommon().addEventType(HighMemoryUsageEvent.class);
+        configuration.getCommon().addEventType(ClosedPortConnectionFailureEvent.class);
 
         CEPEngine engine = CEPEngine.getNewInstance(configuration);
-        engine.activate(WebserverModule.getInstance());
+        // engine.activate(WebserverModule.getInstance());
         engine.activate(PortscanModule.getInstance());
-        engine.activate(ResourceModule.getInstance());
+        // engine.activate(ResourceModule.getInstance());
 
-        WebserverCollector webserverCollector = new WebserverCollector();
+        // WebserverCollector webserverCollector = new WebserverCollector();
         PortscanCollector portscanCollector = new PortscanCollector();
-        ResourceCollector resourceCollector = new ResourceCollector();
+        // ResourceCollector resourceCollector = new ResourceCollector();
         
-        webserverCollector.start();
+        // webserverCollector.start();
         portscanCollector.start();
-        resourceCollector.start();
+        // resourceCollector.start();
 
         // long prev = System.currentTimeMillis();
         // while (true){
@@ -76,6 +78,8 @@ public class App {
         //             engine.getCountOfEvent(VerticalPortscanEvent.class) + " - " +
         //             engine.getCountOfEvent(HorizontalPortscanEvent.class) + " - " +
         //             engine.getCountOfEvent(BlockPortScanEvent.class) + " - "
+        //             engine.getCountOfEvent(ClosedPortScanEvent.class) + " - " +
+        //             engine.getCountOfEvent(ClosedPortConnectionFailureEvent.class)
         //         );
         //         prev = System.currentTimeMillis();
         //     }

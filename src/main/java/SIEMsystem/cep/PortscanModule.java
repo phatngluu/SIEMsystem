@@ -5,6 +5,7 @@ import org.pcap4j.packet.namednumber.Port;
 
 import SIEMsystem.alert.AlertManager;
 import SIEMsystem.alert.BlockPortScanAlert;
+import SIEMsystem.alert.ClosedPortConnectionFailureAlert;
 import SIEMsystem.alert.HorizontalPortScanAlert;
 import SIEMsystem.alert.VerticalPortScanAlert;
 import SIEMsystem.event.BlockPortScanEvent;
@@ -14,6 +15,7 @@ import SIEMsystem.event.HorizontalPortscanEvent;
 import SIEMsystem.event.PortScanEvent;
 import SIEMsystem.event.VerticalPortscanEvent;
 import SIEMsystem.event.TcpPacketEvent;
+import SIEMsystem.event.ClosedPortConnectionFailureEvent;
 
 public class PortscanModule extends Module {
     private static PortscanModule instance;
@@ -68,6 +70,24 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy("select * from PortScanEvent;").addListener((newData, __, ___, ____) -> {
                 engine.countEvent(PortScanEvent.class);
         });
+
+        /* Closed Port Connection Failure*/
+        engine.compileAndDeploy("insert into ClosedPortConnectionFailureEvent\n" +
+                "select ipHeader.srcAddr as srcAddr, tcpHeader.srcPort as srcPort, ipHeader.dstAddr as dstAddr, tcpHeader.dstPort as dstPort\n" + 
+                "from ClosedPortScanEvent#time(" + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS") + ");");
+        engine.compileAndDeploy("select count(*) as countAttempt, srcAddr, srcPort, dstAddr, dstPort\n" + 
+                "from ClosedPortConnectionFailureEvent#time(" + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS") + ")\n" +
+                "group by srcAddr, dstAddr, dstPort\n" +
+                "having count(*) > " + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_ATTEMPT_THRESHOLD") + ";").addListener((newData, __, ___, ____) -> {
+                        String SRCADDR = ((InetAddress) newData[0].get("srcAddr")).toString();
+                        String DSTADDR = ((InetAddress) newData[0].get("dstAddr")).toString();
+                        int DSTPORT = ((Port) newData[0].get("dstPort")).valueAsInt();
+                        long ATTEMPT = (long) newData[0].get("countAttempt");
+                        int TIMEWINDOW = Integer.valueOf(engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS"));
+                        AlertManager alertManager = AlertManager.getInstance();
+                        alertManager.acceptAlert(new ClosedPortConnectionFailureAlert(SRCADDR, DSTADDR, DSTPORT, ATTEMPT, TIMEWINDOW));
+                        engine.countEvent(ClosedPortConnectionFailureEvent.class);
+                });
 
         /* Vertical Port Scan */
         engine.compileAndDeploy(

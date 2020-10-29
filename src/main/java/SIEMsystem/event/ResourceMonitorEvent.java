@@ -7,6 +7,7 @@ public class ResourceMonitorEvent {
     public ResourceMonitorEvent(double cpuLoad, double memLoad) {
         this.cpuLoad = cpuLoad;
         this.memLoad = memLoad;
+        // System.out.println("CPU : " + cpuLoad + "%\tMemory : " + memLoad + "%");
     }
 
     public double getCpuLoad() {

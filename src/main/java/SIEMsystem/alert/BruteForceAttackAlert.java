@@ -1,9 +1,9 @@
 package SIEMsystem.alert;
 
 public class BruteForceAttackAlert extends Alert {
-  public BruteForceAttackAlert(String time, Long count) {
+  public BruteForceAttackAlert(String time, Long count, int timeWindow) {
     super();
     this.name = this.getClass().getSimpleName();
-    this.setMessage(count + " failed login attempts within 5 minutes detected.");
+    this.setMessage(count + " failed login attempts within " + timeWindow + " seconds detected.");
   }
 }

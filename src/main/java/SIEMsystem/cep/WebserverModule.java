@@ -61,27 +61,29 @@ public class WebserverModule extends Module {
                 });
 
         engine.compileAndDeploy("insert into ConsecutiveFailedLoginEvent "
-                + "select ip, time, status, count(*) as count " + "from FailedLoginEvent#time(5 minutes) "
+                + "select ip, time, status, count(*) as count " + "from FailedLoginEvent#time(" + engine.getProperty("WEBSERVER_CONSECUTIVE_FAILEDLOGIN_TIME_WINDOW_IN_SECONDS") + ") "
                 + "group by ip " + "having count(*) >= " + engine.getProperty("WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD") + ";");
         engine.compileAndDeploy("select count, ip, time from ConsecutiveFailedLoginEvent;")
                 .addListener((newData, oldData, stmt, rt) -> {
                     String IP = (String) newData[0].get("ip");
                     String TIME = (String) newData[0].get("time");
                     Long COUNT = (Long) newData[0].get("count");
-                    ConsecutiveFailedLoginAlert alert = new ConsecutiveFailedLoginAlert(IP, TIME, COUNT);
+                    int TIMEWINDOW = Integer.valueOf(engine.getProperty("WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD"));
+                    ConsecutiveFailedLoginAlert alert = new ConsecutiveFailedLoginAlert(IP, TIME, COUNT, TIMEWINDOW);
                     AlertManager am = AlertManager.getInstance();
                     am.acceptAlert(alert);
                     engine.countEvent(ConsecutiveFailedLoginEvent.class);
                 });
 
         engine.compileAndDeploy("insert into BruteForceAttackEvent " + "select time, count(*) as count "
-                + "from FailedLoginEvent#time(5 minutes) " + "having count(*) >= " + engine.getProperty("WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD") + ";");
+                + "from FailedLoginEvent#time(" + engine.getProperty("WEBSERVER_BRUTE_FORCE_TIME_WINDOW_IN_SECONDS") + ") " + "having count(*) >= " + engine.getProperty("WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD") + ";");
         engine.compileAndDeploy("select time, count from BruteForceAttackEvent;")
                 .addListener((newData, oldData, stmt, rt) -> {
                     // Bruteforce
                     String TIME = (String) newData[0].get("time");
                     Long COUNT = (Long) newData[0].get("count");
-                    BruteForceAttackAlert alert = new BruteForceAttackAlert(TIME, COUNT);
+                    int TIMEWINDOW = Integer.valueOf(engine.getProperty("WEBSERVER_BRUTE_FORCE_TIME_WINDOW_IN_SECONDS"));
+                    BruteForceAttackAlert alert = new BruteForceAttackAlert(TIME, COUNT, TIMEWINDOW);
                     AlertManager am = AlertManager.getInstance();
                     am.acceptAlert(alert);
                     engine.countEvent(BruteForceAttackEvent.class);
