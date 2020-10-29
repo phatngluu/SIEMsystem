@@ -15,6 +15,7 @@ import nl.basjes.parse.httpdlog.HttpdLoglineParser;
 
 public class WebserverCollector extends Thread {
     private static int currLog = 0;
+    private static String logFilePath = CEPEngine.getCreatedInstance().getProperty("WEBSERVER_LOG_FILE_PATH");
     @Override
     public void run() {
         //int numberoflog = 0;
@@ -44,7 +45,8 @@ public class WebserverCollector extends Thread {
     }
 
     private int runfirst() throws IOException{
-        BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
+        
+        BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
         int n = 0;
         while (reader.readLine() != null) {
             n+=1;
@@ -57,7 +59,7 @@ public class WebserverCollector extends Thread {
     private ArrayList<AccessLogEvent> getEvent() throws IOException {
         int rdLog = 0;
         ArrayList<AccessLogEvent> rs = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
+        BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
         String line;
         String logformat = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"";
         Parser<AccessLogEvent> dummyParser = new HttpdLoglineParser<AccessLogEvent>(AccessLogEvent.class, logformat);
