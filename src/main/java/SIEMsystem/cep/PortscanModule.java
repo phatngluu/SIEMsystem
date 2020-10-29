@@ -49,12 +49,12 @@ public class PortscanModule extends Module {
 
         /* Open Port Scan Event */
         engine.compileAndDeploy("insert into OpenPortScanEvent\n" + "select a.ipHeader, a.tcpHeader from pattern [\n"
-                + "    every a=TcpPacketEvent(tcpHeader.syn = false and tcpHeader.ack = true) ->\n"
-                + "    b=TcpPacketEvent(\n" + "        tcpHeader.rst = true and\n"
-                + "        tcpHeader.ack = true and\n" + "        ipHeader.srcAddr = a.ipHeader.srcAddr and\n"
-                + "        ipHeader.dstAddr = a.ipHeader.dstAddr and\n"
-                + "        tcpHeader.srcPort = a.tcpHeader.srcPort and\n"
-                + "        tcpHeader.dstPort = a.tcpHeader.dstPort\n" + "    )\n"
+                + "    every a=TcpPacketEvent(tcpHeader.syn = true and tcpHeader.ack = false) ->\n"
+                + "    b=TcpPacketEvent(\n" + "        tcpHeader.syn = true and\n"
+                + "        tcpHeader.ack = true and\n" + "        ipHeader.dstAddr = a.ipHeader.srcAddr and\n"
+                + "        ipHeader.srcAddr = a.ipHeader.dstAddr and\n"
+                + "        tcpHeader.dstPort = a.tcpHeader.srcPort and\n"
+                + "        tcpHeader.srcPort = a.tcpHeader.dstPort\n" + "    )\n"
                 + "    where timer:within(100 millisecond)\n" + "];\n");
 
         /* Port Scan Event */
