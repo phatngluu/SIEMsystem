@@ -37,13 +37,12 @@ public class EngineConfiguration {
     @FXML
     private void initialize() {
         // choicebox
-        keyChoice.getItems().addAll("PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS", "RESOURCE_MEM_USAGE_THRESHOLD",
-                "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS",
-                "PORTSCAN_V_THROW_ALERT_EACH_SECONDS", "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD",
-                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS",
-                "WEBSERVER_LOG_FILE_PATH", "PORTSCAN_EXCLUDE_PORTS", "PORTSCAN_H_THROW_ALERT_EACH_SECONDS",
-                "PORTSCAN_NETWORK_INTERFACE_NAME", "RESOURCE_CPU_USAGE_THRESHOLD", "RESOURCE_TIME_OF_WINDOW_IN_SECONDS",
-                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS");
+        keyChoice.getItems().addAll("PORTSCAN_NETWORK_INTERFACE_NAME", "PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS",
+                "PORTSCAN_V_THROW_ALERT_EACH_SECONDS", "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS",
+                "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_H_THROW_ALERT_EACH_SECONDS", "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS",
+                "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS", "PORTSCAN_EXCLUDE_PORTS", "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD",
+                "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD", "WEBSERVER_LOG_FILE_PATH",
+                "RESOURCE_CPU_USAGE_THRESHOLD",  "RESOURCE_MEM_USAGE_THRESHOLD", "RESOURCE_TIME_OF_WINDOW_IN_SECONDS");
         keyChoice.setValue("PORTSCAN_NETWORK_INTERFACE_NAME");
         valueTextField.setText(CEPEngine.getCreatedInstance().getProperty(getKey(keyChoice)));
         keyChoice.setOnAction(e -> {
@@ -68,6 +67,77 @@ public class EngineConfiguration {
                         notifyLabel.setText("Interface " + valueTextField.getText() + " is unavailable.");
                         notifyLabel.setTextFill(Color.web("#FF0000"));
                         validConfig = false;
+                    }
+                    break;
+                case "PORTSCAN_V_TIME_OF_WINDOW_IN_SECONDS":
+                case "PORTSCAN_V_THROW_ALERT_EACH_SECONDS":
+                case "PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS":
+                case "PORTSCAN_H_THROW_ALERT_EACH_SECONDS":
+                case "PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS":
+                case "RESOURCE_CPU_USAGE_THRESHOLD":
+                case "RESOURCE_MEM_USAGE_THRESHOLD":
+                case "RESOURCE_TIME_OF_WINDOW_IN_SECONDS": {
+                    try {
+                        if (Double.parseDouble(valueTextField.getText()) <= 0) {
+                            notifyLabel.setText("Please enter positive number");
+                            notifyLabel.setTextFill(Color.web("#FF0000"));
+                            validConfig = false;
+                        } else {
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set");
+                            notifyLabel.setTextFill(Color.web("2ECF20"));
+                        }
+                    } catch (Exception ex) {
+                        notifyLabel.setText("Please enter positive number");
+                        notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
+                    }
+                } break;
+
+                case "PORTSCAN_V_MINIMUM_NUMBER_OF_PORTS":
+                case "WEBSERVER_BRUTEFORCE_LOWER_THRESHOLD":
+                case "WEBSERVER_CONSECUTIVE_FAILEDLOGIN_LOWER_THRESHOLD":
+                case "PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS": {
+                    try {
+                        if (Integer.parseInt(valueTextField.getText()) <= 0) {
+                            notifyLabel.setText("Please enter positive number");
+                            notifyLabel.setTextFill(Color.web("#FF0000"));
+                            validConfig = false;
+                        } else {
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set");
+                            notifyLabel.setTextFill(Color.web("2ECF20"));
+                        }
+                    } catch (Exception ex) {
+                        notifyLabel.setText("Please enter positive number");
+                        notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
+                    }
+                } break;
+
+                case "PORTSCAN_EXCLUDE_PORTS":
+                    try {
+                        if (valueTextField.getText().matches(".*[A-Za-z ]+$")) {
+                            notifyLabel.setText("Please enter port number from 0 to 65353");
+                            notifyLabel.setTextFill(Color.web("#FF0000"));
+                            validConfig = false;
+                        } else {
+                            notifyLabel.setText("Value " + valueTextField.getText() + " is set. Make sure your ports are from 0 to 65353");
+                            notifyLabel.setTextFill(Color.web("2ECF20"));
+                        }
+                    } catch (Exception ex) {
+                        notifyLabel.setText("Please enter port number from 0 to 65353");
+                        notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
+                    }
+                    break;
+
+                case "WEBSERVER_LOG_FILE_PATH":
+                    if (valueTextField.getText().matches("^+(?=.*[-+_!@#$%^&*, ?]).+$")) {
+                        notifyLabel.setText("File path can not contain special character");
+                        notifyLabel.setTextFill(Color.web("#FF0000"));
+                        validConfig = false;
+                    } else {
+                        notifyLabel.setText("Webserver log file path is set. Make sure your path is correct!");
+                        notifyLabel.setTextFill(Color.web("2ECF20"));
                     }
                     break;
             }
