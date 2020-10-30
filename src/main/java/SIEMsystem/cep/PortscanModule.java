@@ -78,7 +78,7 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy("select count(*) as countAttempt, srcAddr, srcPort, dstAddr, dstPort\n" + 
                 "from ClosedPortConnectionFailureEvent#time(" + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_TIME_WINDOW_IN_SECONDS") + ")\n" +
                 "group by srcAddr, dstAddr, dstPort\n" +
-                "having count(*) > " + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_ATTEMPT_THRESHOLD") + ";").addListener((newData, __, ___, ____) -> {
+                "having count(*) >= " + engine.getProperty("PORTSCAN_CLOSED_PORT_CONNECTION_FAILURE_ATTEMPT_THRESHOLD") + ";").addListener((newData, __, ___, ____) -> {
                         String SRCADDR = ((InetAddress) newData[0].get("srcAddr")).toString();
                         String DSTADDR = ((InetAddress) newData[0].get("dstAddr")).toString();
                         int DSTPORT = ((Port) newData[0].get("dstPort")).valueAsInt();
