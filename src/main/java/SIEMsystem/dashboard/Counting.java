@@ -24,7 +24,8 @@ public class Counting{
 
     private ObservableList<EventCount> masterData = FXCollections.observableArrayList();
 
-    public Counting(){
+    public void update1(){
+        masterData.clear();
         masterData.add(new EventCount("AccessLogEvent", CEPEngine.getCreatedInstance().getCountOfEvent(AccessLogEvent.class)));
         masterData.add(new EventCount("BlockPortScanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(BlockPortScanEvent.class)));
         masterData.add(new EventCount("BruteForceAttackEvent", CEPEngine.getCreatedInstance().getCountOfEvent(BruteForceAttackEvent.class)));
@@ -40,6 +41,10 @@ public class Counting{
         masterData.add(new EventCount("ResourceMonitorEvent", CEPEngine.getCreatedInstance().getCountOfEvent(ResourceMonitorEvent.class)));
         masterData.add(new EventCount("VerticalPortscanEvent", CEPEngine.getCreatedInstance().getCountOfEvent(VerticalPortscanEvent.class)));
         masterData.add(new EventCount("TcpPacketEvent", CEPEngine.getCreatedInstance().getCountOfEvent(TcpPacketEvent.class)));
+    }
+
+    public Counting(){
+        update1();
     }
 
     @FXML
@@ -59,8 +64,10 @@ public class Counting{
         Task<Void>  myUpdatingTask = new Task<Void>(){
             @Override
             protected Void call() throws Exception{
-                counttable.refresh();
-                return null;
+                while(true){
+                    update1();
+                    Thread.sleep(1000);
+                }
             }            
         };
         Thread hilo = new Thread(myUpdatingTask);
