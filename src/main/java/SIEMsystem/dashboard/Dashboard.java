@@ -56,7 +56,7 @@ public class Dashboard {
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Change Priority");
+        stage.setTitle("Event Statistics");
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
@@ -84,7 +84,7 @@ public class Dashboard {
         Stage stage = new Stage();
         //set what you want on your stage
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("Change configuration");
+        stage.setTitle("Change Configuration");
         stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
