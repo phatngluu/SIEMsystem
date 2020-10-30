@@ -15,7 +15,7 @@ public class AlertManager {
     private File configFile = new File(".resources/properties/priorities.properties");
 
     /**
-     * 
+     *
      * @return return single instance of alert manager
      */
     public static AlertManager getInstance(){
@@ -47,7 +47,7 @@ public class AlertManager {
     }
 
     /**
-     * 
+     *
      * @param alertClass is a specific alert class (not an instance). Eg: UnauthorizedAlert
      * @param newPriority can be "Low", "Medium", "High".
      */
@@ -60,5 +60,9 @@ public class AlertManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getProperty(Class alertClass){
+        return this.properties.getProperty(alertClass.getSimpleName());
     }
 }
