@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 import com.espertech.esper.common.client.EPCompiled;
@@ -12,10 +13,12 @@ import com.espertech.esper.compiler.client.CompilerArguments;
 import com.espertech.esper.compiler.client.EPCompilerProvider;
 import com.espertech.esper.runtime.client.*;
 
+@SuppressWarnings("rawtypes")
 public class CEPEngine {
     private static CEPEngine cepEngine;
     private EPRuntime runtime;
     private Configuration configuration;
+    private HashMap<Class, Long> eventCounter;
     private Properties properties = new Properties();
     private File configFile = new File(".resources/properties/cepengine.properties");
 
@@ -33,6 +36,7 @@ public class CEPEngine {
     private CEPEngine(Configuration configuration){
         this.configuration = configuration;
         this.runtime = EPRuntimeProvider.getDefaultRuntime(this.configuration);
+        this.eventCounter = new HashMap<Class, Long>();
         try {
             FileReader reader = new FileReader(configFile);
             properties.load(reader);
@@ -78,6 +82,20 @@ public class CEPEngine {
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    public void countEvent(Class clazz){
+        if (eventCounter.containsKey(clazz)){
+            eventCounter.replace(clazz, eventCounter.get(clazz) + 1);
+        } else {
+            eventCounter.put(clazz, (long) 1);
+        }
+    }
+    public long getCountOfEvent(Class clazz){
+        if (eventCounter.containsKey(clazz)){
+            return eventCounter.get(clazz);
+        } else {
+            return (long) 0;
         }
     }
 }

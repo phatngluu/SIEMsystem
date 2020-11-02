@@ -1,51 +1,96 @@
 package SIEMsystem.dashboard;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import SIEMsystem.alert.Alert;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import java.io.IOException;
 
 public class Dashboard {
-    public static void main(String[] args) {
-        new Dashboard();
+    @FXML
+    private TableView<Alert> alertview;
+    @FXML
+    private TableColumn<Alert, String> namecol;
+    @FXML
+    private TableColumn<Alert, java.util.Date> Datecol;
+    @FXML
+    private TableColumn<Alert, String> messagecol;
+    @FXML
+    private TableColumn<Alert, String> prioritycol;
+    @FXML
+    private Button changePriorityButton = new Button();
+    @FXML
+    private Button changeConfigurationButton = new Button();
+
+    private static ObservableList<Alert> masterData = FXCollections.observableArrayList();
+
+    public Dashboard(){
     }
 
-    private int count = 0;
-    private JLabel label;
-    private JFrame frame;
-    private JPanel panel;
+    @FXML
+    private void initialize(){
+        namecol.setCellValueFactory(new PropertyValueFactory<Alert, String>("name"));
+        messagecol.setCellValueFactory(new PropertyValueFactory<Alert, String>("message"));
+        Datecol.setCellValueFactory(new PropertyValueFactory<Alert, java.util.Date>("timestamp"));
+        prioritycol.setCellValueFactory(new PropertyValueFactory<Alert, String>("priority"));
 
-    public Dashboard() {
-        frame = new JFrame();
-
-        JButton button = new JButton("Click me");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                count++;
-                label.setText("Number of clicks: " + count);
-            }
-        });
-
-        label = new JLabel("Number of clicks: 0");
-
-        panel = new JPanel();
-
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-        panel.setLayout(new GridLayout(0, 1));
-        panel.add(button);
-        panel.add(label);
-
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("SIEM System Dashboard");
-        frame.pack();
-        frame.setVisible(true);
+        alertview.setItems(masterData);
     }
 
+    // open change priority window
+    @FXML
+    public void handleCountingButtonClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/Counting.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Event Statistics");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
+    public void handleButtonClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/changePriority.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Change Priority");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    @FXML
+    public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/engineConfiguration.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        //set what you want on your stage
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Change Configuration");
+        stage.setScene(new Scene(root));
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public static void acceptAlert(Alert alert){
+        masterData.add(alert);
+    }
 }

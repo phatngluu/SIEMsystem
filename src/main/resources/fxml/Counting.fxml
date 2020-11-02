@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="368.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SIEMsystem.dashboard.Counting">
+   <children>
+      <Label layoutX="14.0" prefHeight="37.0" prefWidth="328.0" text="Event Statistics">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="counttable" layoutY="37.0" prefHeight="335.0" prefWidth="359.0">
+        <columns>
+          <TableColumn fx:id="name" prefWidth="248.0" text="Event Name" />
+          <TableColumn fx:id="num" minWidth="6.0" prefWidth="110.0" text="Amount" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

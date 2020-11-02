@@ -3,10 +3,12 @@ package SIEMsystem.alert;
 import java.util.Date;
 
 public abstract class Alert {
+    protected String name;
     private Date timestamp;
     private String message;
     private String priority;
     public Alert(){
+        this.name = this.getClass().getSimpleName();
         this.timestamp = new Date();
         this.priority = "Low";
         this.message = "This alert message comes from abstract alert.";
@@ -34,5 +36,13 @@ public abstract class Alert {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

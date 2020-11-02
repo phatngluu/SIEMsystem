@@ -2,17 +2,20 @@ package SIEMsystem.alert;
 
 import java.io.*;
 import java.util.Properties;
+
+import SIEMsystem.dashboard.Dashboard;
 /**
  * This class is about attaching priority and forwarding alert to dashboard.
  * @author Nguyen T. Nguyen
  */
+@SuppressWarnings("rawtypes")
 public class AlertManager {
     private static AlertManager instance;
     private Properties properties = new Properties();
     private File configFile = new File(".resources/properties/priorities.properties");
 
     /**
-     * 
+     *
      * @return return single instance of alert manager
      */
     public static AlertManager getInstance(){
@@ -39,11 +42,12 @@ public class AlertManager {
     public Alert acceptAlert(Alert alert) {
         alert.setPriority(this.properties.getProperty(alert.getClass().getSimpleName()));
         System.out.println(alert.getMessage());
+        Dashboard.acceptAlert(alert);
         return alert;
-        // Dashboard.acceptAlert(alert);
     }
+
     /**
-     * 
+     *
      * @param alertClass is a specific alert class (not an instance). Eg: UnauthorizedAlert
      * @param newPriority can be "Low", "Medium", "High".
      */
@@ -56,5 +60,9 @@ public class AlertManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getProperty(Class alertClass){
+        return this.properties.getProperty(alertClass.getSimpleName());
     }
 }

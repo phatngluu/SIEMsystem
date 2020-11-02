@@ -1,54 +1,50 @@
 package SIEMsystem.collector;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import org.pcap4j.core.*;
+import org.pcap4j.packet.IpV4Packet;
+import org.pcap4j.packet.Packet;
+import org.pcap4j.packet.TcpPacket;
 
 import SIEMsystem.cep.CEPEngine;
-import SIEMsystem.event.AccessLogEvent;
-import nl.basjes.parse.core.Parser;
-import nl.basjes.parse.core.exceptions.DissectionFailure;
-import nl.basjes.parse.core.exceptions.InvalidDissectorException;
-import nl.basjes.parse.core.exceptions.MissingDissectorsException;
-import nl.basjes.parse.httpdlog.HttpdLoglineParser;
+import SIEMsystem.event.TcpPacketEvent;
 
 public class PortscanCollector extends Thread {
     @Override
     public void run() {
-        int numberoflog = 0;
-        while (true) {
-            ArrayList<AccessLogEvent> event = null;
-            try {
-                event = getEvent();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int currnumberoflog = event.size();
-            if (numberoflog < currnumberoflog) {
-                for (int i = numberoflog; i < currnumberoflog; i++) {
-                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
-                }
-                numberoflog = currnumberoflog;
-            }
-        }
-    }
+        String filter = "tcp"; // Filter TCP packets
+        int PACKET_COUNT = -1; // Infinite
+        int READ_TIMEOUT = 100; // Milisec
+        int SNAPLEN = 65536; // Bytes
+        String nifName = CEPEngine.getCreatedInstance().getProperty("PORTSCAN_NETWORK_INTERFACE_NAME");
 
-    private ArrayList<AccessLogEvent> getEvent() throws IOException {
-        ArrayList<AccessLogEvent> rs = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader("/var/log/apache2/access.log"));
-        String line = null;
-        String logformat = "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"";
-        Parser<AccessLogEvent> dummyParser = new HttpdLoglineParser<AccessLogEvent>(AccessLogEvent.class, logformat);
-        while ((line = reader.readLine()) != null) {
-            AccessLogEvent logObj;
-            try {
-                logObj = dummyParser.parse(line);
-                rs.add(logObj);
-            } catch (DissectionFailure | InvalidDissectorException | MissingDissectorsException e) {
-                System.out.println("Failed to parse.");
+        try {
+            PcapNetworkInterface nif = Pcaps.getDevByName(nifName);
+            if (nif == null) System.out.println("Interface " + nifName + " is unavailable.");
+
+            PcapHandle handle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
+            handle.setFilter(filter, BpfProgram.BpfCompileMode.OPTIMIZE);
+            handle.loop(PACKET_COUNT, new PacketListener() {
+                @Override
+                public void gotPacket(Packet packet) {
+                    IpV4Packet ipV4Packet = packet.get(IpV4Packet.class);
+                    TcpPacket tcpPacket = ipV4Packet.get(TcpPacket.class);
+
+                    TcpPacketEvent event = new TcpPacketEvent(
+                            ipV4Packet.getHeader(),
+                            tcpPacket.getHeader()
+                    );
+                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event, "TcpPacketEvent");
+                }
+            });
+            handle.close();
+        } catch (PcapNativeException | NotOpenException | InterruptedException e) {
+            if (e instanceof NotOpenException){
+                System.out.println("Set filter failed.");
             }
+            if (e instanceof InterruptedException){
+                System.out.println("Set loop failed.");
+            }
+            e.printStackTrace();
         }
-        return rs;
     }
 }
