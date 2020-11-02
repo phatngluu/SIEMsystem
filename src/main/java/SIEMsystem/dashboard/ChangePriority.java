@@ -4,6 +4,8 @@ import SIEMsystem.alert.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 @SuppressWarnings("rawtypes")
@@ -16,12 +18,15 @@ public class ChangePriority {
     private Button saveButton = new Button();
     @FXML
     private Button cancelButton = new Button();
+    @FXML
+    private TextField textField = new TextField();
+    AlertManager alertManager = AlertManager.getInstance();
 
     public ChangePriority() throws ClassNotFoundException {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() throws ClassNotFoundException {
         // choicebox
         keyChoice.getItems().addAll("BlockPortScanAlert", "BruteForceAttackAlert",
                 "ConsecutiveFailedLoginAlert", "ClosedPortConnectionFailureAlert",
@@ -30,10 +35,17 @@ public class ChangePriority {
         keyChoice.setValue("BlockPortScanAlert");
 
         valueChoice.getItems().addAll("Low", "Medium", "High");
-        valueChoice.setValue("Low");
+        valueChoice.setValue(alertManager.getProperty(getKey(keyChoice)));
+        keyChoice.setOnAction(e -> {
+            try {
+                valueChoice.setValue(alertManager.getProperty(getKey(keyChoice)));
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         // change priority scene
-        AlertManager alertManager = AlertManager.getInstance();
+
         saveButton.setOnAction(e -> {
             try {
                 alertManager.setPriority(getKey(keyChoice), getValue(valueChoice));
