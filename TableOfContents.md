@@ -17,15 +17,15 @@
 ## 4. System description
 - Alert manager
 - Collector and CEP engine
-..- Webserver monitor
-....- Collector
-....- CEP engine
-..- Port scan detector
-....- Collector
-....- CEP engine
-..- Resource monitor
-....- Collector
-....- CEP engine
+..* Webserver monitor
+....+ Collector
+....+ CEP engine
+..* Port scan detector
+....+ Collector
+....+ CEP engine
+..* Resource monitor
+....+ Collector
+....+ CEP engine
 - Dashboard
 ## 5. Implementation
 ## 6. Conclusion
