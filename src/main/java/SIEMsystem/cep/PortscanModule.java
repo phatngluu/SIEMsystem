@@ -2,7 +2,6 @@ package SIEMsystem.cep;
 
 import java.net.InetAddress;
 import org.pcap4j.packet.namednumber.Port;
-
 import SIEMsystem.alert.AlertManager;
 import SIEMsystem.alert.BlockPortScanAlert;
 import SIEMsystem.alert.ClosedPortConnectionFailureAlert;
@@ -17,12 +16,21 @@ import SIEMsystem.event.VerticalPortscanEvent;
 import SIEMsystem.event.TcpPacketEvent;
 import SIEMsystem.event.ClosedPortConnectionFailureEvent;
 
+/**
+ * Class for running the port scan detection module
+ * @author Luu Nguyen Phat
+ * @author Nguyen Dinh Thi
+ */
 public class PortscanModule extends Module {
     private static PortscanModule instance;
 
     private PortscanModule() {
     }
-
+    /**
+     * Method that returns an instance of this class (PortScanModule)
+     * @return
+     *  Returns an instance of the class PortScanModule
+     */
     public static PortscanModule getInstance() {
         if (instance == null) {
             instance = new PortscanModule();
@@ -30,7 +38,11 @@ public class PortscanModule extends Module {
         }
         return instance;
     }
-
+    /**
+     * Method that compiles and deploys the EPL statements for the port scan detection module
+     * @param engine
+     *  The CEP engine used in this module
+     */
     @Override
     protected void activate(CEPEngine engine) {
         engine.compileAndDeploy("select * from TcpPacketEvent;").addListener((newData, __, ___, ____) -> {

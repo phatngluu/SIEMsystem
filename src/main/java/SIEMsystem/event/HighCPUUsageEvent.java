@@ -1,5 +1,8 @@
 package SIEMsystem.event;
-
+/**
+ * Class for representing the event in which CPU usage exceeds a threshold for a defined time window
+ * @author Nguyen Dinh Thi
+ */
 public class HighCPUUsageEvent {
   private double cpuLoad;
 
