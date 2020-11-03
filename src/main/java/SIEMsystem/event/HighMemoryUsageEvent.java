@@ -1,5 +1,8 @@
 package SIEMsystem.event;
-
+/**
+ * Class for representing the event in which memory usage exceeds a threshold for a defined time window
+ * @author Nguyen Dinh Thi
+ */
 public class HighMemoryUsageEvent {
   private double memLoad;
 

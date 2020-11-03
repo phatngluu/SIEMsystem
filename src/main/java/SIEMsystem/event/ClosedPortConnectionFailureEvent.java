@@ -1,9 +1,11 @@
 package SIEMsystem.event;
 
 import java.net.InetAddress;
-
 import org.pcap4j.packet.namednumber.Port;
-
+/**
+ * Class for representing a closed port connection failure event
+ * @author Nguyen Dinh Thi
+ */
 public class ClosedPortConnectionFailureEvent {
     private InetAddress srcAddr;
     private InetAddress dstAddr;
@@ -15,7 +17,6 @@ public class ClosedPortConnectionFailureEvent {
         this.dstAddr = dstAddr;
         this.srcPort = srcPort;
         this.dstPort = dstPort;
-        System.out.println(this.srcAddr + " " + this.srcPort + " " + this.dstAddr + " " + this.dstPort);
     }
 
     public InetAddress getSrcAddr() {

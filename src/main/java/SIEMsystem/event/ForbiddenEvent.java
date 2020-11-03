@@ -28,6 +28,5 @@ public class ForbiddenEvent {
         this.bytes = al.getBytes();
         this.referer = al.getReferer();
         this.useragent = al.getUseragent();
-        System.out.println("UnauthorizedEvent created");
     }
 }

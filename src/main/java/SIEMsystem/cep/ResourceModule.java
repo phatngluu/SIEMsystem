@@ -6,13 +6,20 @@ import SIEMsystem.alert.HighMemUsageAlert;
 import SIEMsystem.event.HighCPUUsageEvent;
 import SIEMsystem.event.HighMemoryUsageEvent;
 import SIEMsystem.event.ResourceMonitorEvent;
-
+/**
+ * Class for running the resource monitoring module
+ * @author Nguyen Dinh Thi
+ */
 public class ResourceModule extends Module {
   private static ResourceModule instance;
 
   private ResourceModule() {
   }
-
+  /**
+   * Method that returns an instance of this class (ResourceModule)
+   * @return
+   *  Returns an instance of the class ResourceModule
+   */
   public static ResourceModule getInstance() {
     if (instance == null) {
       instance = new ResourceModule();
@@ -20,7 +27,11 @@ public class ResourceModule extends Module {
     }
     return instance;
   }
-
+  /**
+   * Method that compiles and deploys the EPL statements for the resource monitoring module
+   * @param engine
+   *  The CEP engine used in this module
+   */
   @Override
   protected void activate(CEPEngine engine) {
     engine.compileAndDeploy("select * from ResourceMonitorEvent;").addListener((newData, __, ___, ____) -> {
