@@ -15,7 +15,11 @@ import javafx.stage.Stage;
 import org.pcap4j.core.PcapNativeException;
 import org.pcap4j.core.Pcaps;
 import java.io.IOException;
-
+/**
+ * This class is about creating the Change configuration scene to change the CEP engine configuration
+ * and store to cepengine.properties.
+ * @author Nguyen T. Nguyen
+ */
 public class EngineConfiguration {
     @FXML
     private ChoiceBox<String> keyChoice = new ChoiceBox<>();
@@ -31,9 +35,22 @@ public class EngineConfiguration {
     private Label notifyLabel = new Label();
     Stage primaryStage;
 
+    /**
+     * this method is about creating an empty constructor.
+     */
     public EngineConfiguration() {
     }
 
+    /**
+     * this method is about creating functionality for ChoiceBox, TextField and Button.
+     * keyChoice is the key field in cepengine.properties. Eg.: PORTSCAN_NETWORK_INTERFACE_NAME
+     * keyChoice is read and pass to CEPEngine.getCreatedInstance().getProperty() and CEPEngine.getCreatedInstance().setProperty() as String type.
+     * valueTextField is the value field in cepengine.properties. Eg.: docker0
+     * valueTextField is read and pass to CEPEngine.getCreatedInstance().setProperty() as String type.
+     * saveButton is about executing method CEPEngine.getCreatedInstance().setProperty() with keyChoice and valueTextField value if the conditions are satisfied.
+     * cancelButton is about closing the Change configuration window on click.
+     * okButton is about opening to RestartNotification scene on click.
+     */
     @FXML
     private void initialize() {
         // choicebox
@@ -177,7 +194,11 @@ public class EngineConfiguration {
             }
         });
     }
-
+    /**
+     * this method is about getting keyChoice value as String and return as String type.
+     * @param keyChoice is the selected value from ChoiceBox.
+     * @return keyChoice value as String type.
+     */
     public String getKey(ChoiceBox<String> keyChoice) {
         return keyChoice.getValue();
     }

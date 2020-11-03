@@ -7,7 +7,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+/**
+ * This class is about creating the ChangePriority scene to change the alert priority
+ * and store to priorities.properties.
+ * @author Nguyen T. Nguyen
+ */
 @SuppressWarnings("rawtypes")
 public class ChangePriority {
     @FXML
@@ -22,9 +26,21 @@ public class ChangePriority {
     private TextField textField = new TextField();
     AlertManager alertManager = AlertManager.getInstance();
 
+    /**
+     * this method is about creating an empty constructor.
+     */
     public ChangePriority() throws ClassNotFoundException {
     }
 
+    /**
+     * this method is about creating functionality for ChoiceBox and Button.
+     * keyChoice is the key field in priorities.properties. Eg.: HorizontalPortScanAlert
+     * keyChoice is read as String and pass to alertManager.getProperty() and alertManager.setProperty() as Class type.
+     * valueChoice is the value field in priorities.properties. Eg.: Low
+     * valueChoice is read and pass to alertManager.gerProperty() as String type.
+     * saveButton is about executing method alertManager.setPriority() with keyChoice and valueChoice value.
+     * cancelButton is about closing the Change priority window on click.
+     */
     @FXML
     private void initialize() throws ClassNotFoundException {
         // choicebox
@@ -59,10 +75,20 @@ public class ChangePriority {
         });
     }
 
+    /**
+     * this method is about getting keyChoice value as String and return as Class type.
+     * @param keyChoice is the selected value from ChoiceBox.
+     * @return keyChoice value as Class type.
+     */
     public Class getKey(ChoiceBox<String> keyChoice) throws ClassNotFoundException {
         return Class.forName("SIEMsystem.alert." + keyChoice.getValue());
     }
 
+    /**
+     * this method is about getting valueChoice value as String and return as String type.
+     * @param valueChoice is the selected value from ChoiceBox.
+     * @return keyChoice value as String type.
+     */
     public String getValue(ChoiceBox<String> valueChoice) {
         return valueChoice.getValue();
     }

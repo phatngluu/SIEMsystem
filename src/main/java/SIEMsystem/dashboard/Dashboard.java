@@ -15,7 +15,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
-
+/**
+ * This class is about creating the dashboard scene with table view and functional button.
+ */
 public class Dashboard {
     @FXML
     private TableView<Alert> alertview;
@@ -62,8 +64,13 @@ public class Dashboard {
         stage.show();
     }
 
+    /**
+     * this method attachs the Change Priority button with functions to open Change priority scene
+     * after clicking the button.
+     * @author Nguyen T. Nguyen
+     */
     @FXML
-    public void handleButtonClick(ActionEvent actionEvent) throws IOException {
+    public void handleButtonClick() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/changePriority.fxml"));
         Parent root = loader.load();
@@ -76,6 +83,11 @@ public class Dashboard {
         stage.show();
     }
 
+    /**
+     * this method attachs the Change configuration button with functions to open Change configuration scene
+     * after clicking the button.
+     * @author Nguyen T. Nguyen
+     */
     @FXML
     public void handleConfigurationClick(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
