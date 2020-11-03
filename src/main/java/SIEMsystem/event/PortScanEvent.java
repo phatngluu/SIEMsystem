@@ -4,10 +4,26 @@ import java.net.InetAddress;
 
 import org.pcap4j.packet.namednumber.Port;
 
+/**
+ * This class represents a port scan event (aggregated from open and closed port scan event).
+ * @author Luu Nguyen Phat
+ */
 public class PortScanEvent {
+    /**
+     * Source address (the attacker)
+     */
     private InetAddress srcAddr;
+    /**
+     * Destination address (the victim)
+     */
     private InetAddress dstAddr;
+    /**
+     * Source port (the attacker)
+     */
     private Port srcPort;
+    /**
+     * Destination port (the victim)
+     */
     private Port dstPort;
 
     public PortScanEvent(InetAddress srcAddr, InetAddress dstAddr, Port srcPort, Port dstPort) {

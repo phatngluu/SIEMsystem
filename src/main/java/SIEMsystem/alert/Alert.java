@@ -2,6 +2,11 @@ package SIEMsystem.alert;
 
 import java.util.Date;
 
+
+/**
+ * This is an abstract class for all alerts of the system
+ * @author Luu Nguyen Phat
+ */
 public abstract class Alert {
     protected String name;
     private Date timestamp;

@@ -2,9 +2,19 @@ package SIEMsystem.event;
 
 import org.pcap4j.packet.namednumber.Port;
 
+/**
+ * This class represents a horizontal port scan event.
+ * @author Luu Nguyen Phat
+ */
 public class HorizontalPortscanEvent {
+    /**
+     * Destination port of the victims
+     */
     private Port dstPort;
-    private long countSource;
+    /**
+     * Number of victims are scanned
+     */
+    private long countDst;
 
     public Port getDstPort() {
         return dstPort;
@@ -14,12 +24,12 @@ public class HorizontalPortscanEvent {
         this.dstPort = dstPort;
     }
 
-    public long getCountSource() {
-        return countSource;
+    public long getCountDst() {
+        return countDst;
     }
 
-    public void setCountSource(long countSource) {
-        this.countSource = countSource;
+    public void setCountDst(long countDst) {
+        this.countDst = countDst;
     }
     
 }

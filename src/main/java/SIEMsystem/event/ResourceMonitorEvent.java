@@ -1,5 +1,10 @@
 package SIEMsystem.event;
 
+/**
+ * This class represents an event of system resources (ie. CPU, RAM load).
+ * @author Luu Nguyen Phat
+ * @author Nguyen Tri Nguyen
+ */
 public class ResourceMonitorEvent {
     private double cpuLoad;
     private double memLoad;

@@ -120,7 +120,7 @@ public class PortscanModule extends Module {
 
         /* Horizontal Port Scan */
         engine.compileAndDeploy(
-                "insert into HorizontalPortscanEvent\n" + "select dstPort, count(distinct(dstAddr)) as countSource\n"
+                "insert into HorizontalPortscanEvent\n" + "select dstPort, count(distinct(dstAddr)) as countDst\n"
                         + "from PortScanEvent#time(" + engine.getProperty("PORTSCAN_H_TIME_OF_WINDOW_IN_SECONDS")
                         + ")\n" + "group by dstPort\n" + "having count(distinct(dstAddr)) >= "
                         + engine.getProperty("PORTSCAN_H_MINIMUM_NUMBER_OF_HOSTS") + ";");
@@ -129,9 +129,9 @@ public class PortscanModule extends Module {
                 + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
                     int dstPort = ((Port) newData[0].get("dstPort")).valueAsInt();
-                    long countSource = (long) newData[0].get("countSource");
+                    long countDst = (long) newData[0].get("countDst");
                     AlertManager alertManager = AlertManager.getInstance();
-                    alertManager.acceptAlert(new HorizontalPortScanAlert(dstPort, countSource));
+                    alertManager.acceptAlert(new HorizontalPortScanAlert(dstPort, countDst));
                     engine.countEvent(HorizontalPortscanEvent.class);
                 });
 

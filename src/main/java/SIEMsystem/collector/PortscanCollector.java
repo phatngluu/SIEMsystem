@@ -8,6 +8,10 @@ import org.pcap4j.packet.TcpPacket;
 import SIEMsystem.cep.CEPEngine;
 import SIEMsystem.event.TcpPacketEvent;
 
+/**
+ * This class is for collecting events for port scanning module.
+ * @author Luu Nguyen Phat
+ */
 public class PortscanCollector extends Thread {
     @Override
     public void run() {

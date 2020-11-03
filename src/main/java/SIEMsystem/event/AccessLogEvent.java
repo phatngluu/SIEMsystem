@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.basjes.parse.core.Field;
 
+/**
+ * This class represents for raw event that comes from web server log file.
+ * @author Luu Nguyen Phat
+ */
 public class AccessLogEvent{
     @Getter @Setter(onMethod=@__(@Field("IP:connection.client.host"))) private String ip;
     @Getter @Setter(onMethod=@__(@Field("STRING:connection.client.user"))) private String user;
