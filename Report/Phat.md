@@ -70,7 +70,7 @@ The SIEM system requires listening on the virtual network. Follow these steps to
    apt-get install libpcap-dev
    ```
 
-2. Project requires dependency `Pcap4J` please make sure it is presented in the host machine.
+2. Project requires Java dependency `Pcap4J` please make sure it is presented in the host machine.
 
 3. Pcap4J needs administrator/root privileges. You can run Pcap4J with a non-root user by granting capabilities `CAP_NET_RAW` and `CAP_NET_ADMIN` to your java command by the following command:
 
@@ -84,8 +84,20 @@ The SIEM system requires listening on the virtual network. Follow these steps to
 
 No set up is required for this.
 
-##### 3.1.5. SIEM system:
+##### 3.1.5. The host machine:
 
-The SIEM system requires JavaFX to run. Please make sure JavaFX 11 is installed. Download at https://gluonhq.com/products/javafx/. For development machine, `JavaFX armv6hf SDK` is chosen.
+The SIEM system requires the host machine has JavaFX to run. Please make sure JavaFX 11 is installed. Download at https://gluonhq.com/products/javafx/. For development machine, `JavaFX armv6hf SDK` is chosen.
+
+##### 3.1.6. SIEM system:
+
+If you running the project from an IDE, you must specify using JavaFX with the run argument:
+
+```
+--module-path /usr/lib/jvm/javafx-arm-sdk/lib --add-modules javafx.controls,javafx.fxml
+```
+
+If you run the project by running `run.sh` file. Using JavaFX is already specified.
 
 #### 3.2. System architecture:
+
+
