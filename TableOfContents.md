@@ -16,16 +16,15 @@
 - Software architecture
 ## 4. System description
 - Alert manager
-- Collector and CEP engine
+- Collector
   * Webserver monitor
-    + Collector
-    + CEP engine
   * Port scan detector
-    + Collector
-    + CEP engine
   * Resource monitor
-    + Collector
-    + CEP engine
+- CEP engine
+  * CEP engine initialisation
+  * Webserver module
+  * Port scan module
+  * Resource module
 - Dashboard
 ## 5. Implementation
 ## 6. Conclusion
