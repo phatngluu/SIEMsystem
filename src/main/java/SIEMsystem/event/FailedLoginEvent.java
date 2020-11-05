@@ -1,25 +1,10 @@
 package SIEMsystem.event;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * This class represents for an event happens whenever a web server's user failed to authenticate him-/herself.
  * @author Luu Nguyen Phat
  */
-public class FailedLoginEvent {
-    @Getter @Setter private String ip;
-    @Getter @Setter private String user;
-    @Getter @Setter private String time;
-    @Getter @Setter private String method;
-    @Getter @Setter private String uri;
-    @Getter @Setter private String query;
-    @Getter @Setter private String protocol;
-    @Getter @Setter private String status;
-    @Getter @Setter private String bytes;
-    @Getter @Setter private String referer;
-    @Getter @Setter private String useragent;
-
+public class FailedLoginEvent extends AccessLogEvent {
     public FailedLoginEvent(AccessLogEvent al) {
         this.ip = al.getIp();
         this.user = al.getUser();
