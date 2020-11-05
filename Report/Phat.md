@@ -102,11 +102,69 @@ If you run the project by running `run.sh` file. Using JavaFX is already specifi
 
 #### 3.3. Software architecture:
 This section refers how we implement the system proposed in section 3.2 "System architecture" in the aspect of software design. 
-#### 3.3.1. Overview:
-We have the main package named "SIEMsystem" represents for the system itself. In that, SIEMsystem package is a combination of 5 packages:
-- Package "collector":
-- Package "cep":
-- Package "event":
-- Package "alert":
-- Package "dashboard":
+##### 3.3.1. Overview:
+We have the main package named *SIEMsystem* represents for the system itself. In that, SIEMsystem package is a combination of 5 packages:
+- Package *collector*: the package contains Java classes for collecting raw data, creating events (package event) and feeding the *CEPEngine* (package cep).
+- Package *cep*: the package contains Java classes for analysing events (package event) and raising the alerts to *AlertManager* (package alert).
+- Package *event*: the package contains all Java classes represent for events used in the *CEPEngine*.
+- Package *alert*: the package contains all Java classes represent for *AlertManager* and alerts raised by *CEPEngine*.
+- Package *dashboard*: the package contains all Java classes which defined a graphical user interface of the system – *Dashboard*.
 
+![Package SIEMsystem](images/Package%20SIEMsystem.png)
+
+##### 3.3.2. Package collector:
+
+This package contains Java classes for: collecting raw data from the web server, virtual network and the host machine resource information; creating events from raw data (package event) and feeding the *CEPEngine* (package cep). In particular, this package contains 3 classes:
+
+- WebserverCollector: a class that reads Apache Webserver log file, watches for new logs in realtime, parses new logs into a class – AccessLogEvent – then feeds the CEPEngine with that class.
+- ResourceCollector: a class that reads system resource information, creates a class – ResourceMonitorEvent – and feeds the CEPEngine with that class.
+- PortscanCollector: a class that captures the TCP packets on a network interface, creates a class – TcpPacketEvent – and feeds the CEPEngine with that class.
+- WebserverCollector, ResourceCollector and PortscanCollector are extended from Thread in order to they can run independently and in parallel.
+
+![Package collector](images/Package%20collector.png)
+
+##### 3.3.3. Package cep:
+
+This package contains Java classes for processing events from collectors and raising corresponding alerts (if any). It contains 2 main classes:
+
+- CEPEngine: a class that manages the configurations, its modules, counting events and an entry for collectors send events to.
+- Module: an abstract class that là một module đơn giản, nó được tạo ra nhằm để đảm bảo rằng các concrete modules sẽ được kết nối với CEPEngine một cách đúng đắn.
+
+The remaining 3 classes extend Module, they are responsible for defining how events are processed and producing corresponding alerts and send them to the AlertManager (package alert).:
+
+- PortscanModule: this does everything related to port scan monitoring.
+- ResourceModule: this does everything related to system resource monitoring.
+- WebserverModule: this does everything related to web server monitoring.
+
+![Package cep](images/Package%20cep.png)
+
+##### 3.3.4. Package event:
+
+This package contains Java classes those represent events used in the modules of the CEPEngine. They are grouped into 3 groups:
+
+- Classes related to port scan monitoring: TcpPacketEvent, ClosedPortScanEvent, OpenPortScanEvent, PortScanEvent, ClosedPortConnectionFailureEvent, VerticalPortscanEvent, HorizontalPortscanEvent and BlockPortScanEvent.
+- Classes related to system resource monitoring: ResourceMonitorEvent, HighCPUUsageEvent and HighMemoryUsageEvent.
+- Classes related to web server monitoring: AccessLogEvent, FailedLoginEvent, ForbiddenEvent, ConsecutiveFailedLoginEvent, and BruteForceAttackEvent.
+
+For the usage of these events, please refer to section "4. System Implementation". 
+
+![Package event](images/Package%20event.png)
+
+##### 3.3.5. Package alert:
+
+This package contains Java classes those represent alerts used in the modules of the CEPEngine, AlertManager and Dashboard. It contains 2 main classes:
+
+- AlertManager: a class that attachs predefined priority to the corresponding alert which is raised in modules of CEPEngine and reads/writes priorities of alerts from/to configuration file.
+- Alert: an abstract class that forms a uniform for all alerts in order to the client code can treat them as in the same way with no distinction.
+
+![image-20201105222524719](images/image-20201105222524719.png)
+
+![image-20201105222536957](images/image-20201105222536957.png)
+
+
+
+##### 3.3.6. Package dashboard:
+
+This package is the entry of the system. It is about initializing the system engine, displaying the alerts, system configurations, priorities of alerts and number of processed events for each event type. 
+
+![Package dashboard](images/Package%20dashboard.png)
