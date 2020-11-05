@@ -100,4 +100,13 @@ If you run the project by running `run.sh` file. Using JavaFX is already specifi
 
 #### 3.2. System architecture:
 
+#### 3.3. Software architecture:
+This section refers how we implement the system proposed in section 3.2 "System architecture" in the aspect of software design. 
+#### 3.3.1. Overview:
+We have the main package named "SIEMsystem" represents for the system itself. In that, SIEMsystem package is a combination of 5 packages:
+- Package "collector":
+- Package "cep":
+- Package "event":
+- Package "alert":
+- Package "dashboard":
 
