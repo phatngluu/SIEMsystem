@@ -241,7 +241,7 @@ For every incoming packet, we create corresponding TcpPacketEvent and feed the C
 
 ![image-20201106125109829](images/image-20201106125109829.png)
 
-4.1. CEP engine initialisation
+### 4.1. CEP engine initialisation
 The CEPEngine is designed to have a higher level to the user can use it more easier than Esper CEP engine. 
 In particular, the CEPEngine is modularized:
 - When you want to monitor a new system, then you create a new module. 
