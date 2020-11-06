@@ -179,3 +179,65 @@ This package is the entry of the system, it is about initializing the system eng
 
 ![Package dashboard](images/Package%20dashboard.png)
 
+### 4. System description:
+
+#### 4.2. Collectors:
+
+##### 4.2.2. Portscan collector:
+
+This collector captures all TCP packets on an network interface, then it sends them to the CEPEngine for further processing and analysing.
+
+Further more, it also enables clients select network interface on the computer. However, not every network interfaces are valid to work with the system, the valid network interfaces are the network of more than or equal to 3 machines that connect to that network and make sure you have the right for capturing packets on it. The virtual network in section "3.1.3 Virtual network" is highly recommended.
+
+##### 4.2.3.1. Library - Pcap4J:
+
+To monitor network connection from within Java, Pcap4J is used. It enables to capture network every packets from the network interface with the help of the libpcap4 native library.
+
+Please refer to section 3.1 "Environment Setup" if you have not set up the environment.
+
+##### 4.2.3.2. "PortscanCollector" class:
+
+This class implements TCP packets capture and sends them to the CEPEngine. It is a Java Thread in order to run independent with other processes. 
+
+We imported several classes of the Pcap4J library:
+
+```java
+import org.pcap4j.core.*;
+import org.pcap4j.packet.IpV4Packet;
+import org.pcap4j.packet.Packet;
+import org.pcap4j.packet.TcpPacket;
+```
+
+We created an instance of the network interface so that we can manipulate it by using Java, the `nifName` is the network interface name, `docker0` for example:
+
+```java
+String nifName = "docker0";
+PcapNetworkInterface nif = Pcaps.getDevByName(nifName);
+```
+
+Before open the network interface live, we need some parameters:
+
+- `SNAPLEN`: Snapshot length, which is the number of bytes captured for each packet.
+- `MODE`:  Capturing mode. We have chosen `PROMISCUOUS` to capture all packets. 
+- `READ_TIMEOUT`: Read timeout. Most OSs buffer packets. The OSs pass the packets to Pcap4j after the buffer gets full or the read timeout expires. Must be non-negative. May be ignored by some OSs. 0 means disable buffering on Solaris. 0 means infinite on the other OSs. 1 through 9 means infinite on Solaris.
+
+Below line of code is to open live, it will throw exception PcapNativeException if an error occurs in the pcap native library:
+
+```java
+int READ_TIMEOUT = 100; // Milisec
+int SNAPLEN = 65536; // Bytes
+
+PcapHandle handle = nif.openLive(SNAPLEN, PcapNetworkInterface.PromiscuousMode.PROMISCUOUS, READ_TIMEOUT);
+```
+
+To capture only TCP packets, it will throw exception NotOpenException if this PcapHandle is not open:
+
+```java
+String filter = "tcp";
+handle.setFilter(filter, BpfProgram.BpfCompileMode.OPTIMIZE);
+```
+
+For every incoming packet, we create corresponding TcpPacketEvent and feed the CEPEngine, it will throw exception InterruptedException if the loop terminated due to a call to breakLoop():
+
+![image-20201106125109829](images/image-20201106125109829.png)
+
