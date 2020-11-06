@@ -165,6 +165,17 @@ This package contains Java classes those represent alerts used in the modules of
 
 ##### 3.3.6. Package dashboard:
 
-This package is the entry of the system. It is about initializing the system engine, displaying the alerts, system configurations, priorities of alerts and number of processed events for each event type. 
+This package is the entry of the system, it is about initializing the system engine, displaying the alerts, system configurations, priorities of alerts and number of processed events for each event type. In particular:
+
+- Dashboard: a class that takes responsibility for rendering the main window of the system – alerts are displayed to clients via this window.
+- ChangePriority: a class that renders the change priority window – clients use this window to change priorities of alerts.
+- EngineConfiguration: a class that renders the engine configuration window – clients use this window to configure the engine of the system.
+- RestartNotification: a class that renders the restart notification window – informs clients to restart the system after configuring.
+- Counting: a class that renders the event counting window – clients use this window to see the number of processed events for each event type.
+- EventCount: a class that represents a data structure for a pair of event type and its number processed events. It is used in Counting class.
+- Main: a class that is an entry of the whole system. It initializes the collectors, CEP engine and renders above windows. 
+
+
 
 ![Package dashboard](images/Package%20dashboard.png)
+
