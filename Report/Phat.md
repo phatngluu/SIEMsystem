@@ -189,13 +189,13 @@ This collector captures all TCP packets on an network interface, then it sends t
 
 Further more, it also enables clients select network interface on the computer. However, not every network interfaces are valid to work with the system, the valid network interfaces are the network of more than or equal to 3 machines that connect to that network and make sure you have the right for capturing packets on it. The virtual network in section "3.1.3 Virtual network" is highly recommended.
 
-##### 4.2.3.1. Library - Pcap4J:
+##### 4.2.2.1. Library - Pcap4J:
 
 To monitor network connection from within Java, Pcap4J is used. It enables to capture network every packets from the network interface with the help of the libpcap4 native library.
 
 Please refer to section 3.1 "Environment Setup" if you have not set up the environment.
 
-##### 4.2.3.2. "PortscanCollector" class:
+##### 4.2.2.2. "PortscanCollector" class:
 
 This class implements TCP packets capture and sends them to the CEPEngine. It is a Java Thread in order to run independent with other processes. 
 
