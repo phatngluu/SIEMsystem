@@ -241,3 +241,20 @@ For every incoming packet, we create corresponding TcpPacketEvent and feed the C
 
 ![image-20201106125109829](images/image-20201106125109829.png)
 
+4.1. CEP engine initialisation
+The CEPEngine is designed to have a higher level to the user can use it more easier than Esper CEP engine. 
+In particular, the CEPEngine is modularized:
+- When you want to monitor a new system, then you create a new module. 
+- When you want to modify an existed module, you modify the class of the existed module not the whole CEP engine.
+
+By modularizing the CEP engine, when you modify or add new module. You will not break the CEPEngine code that is in stable. 
+However, using the constructor of the CEPEngine class is not enough to get the CEP engine working. We need an initializer to manage the CEP engine - CEPEngineInitializer. It will be changed everytime we modify or add a new module to the CEP engine.
+
+You need to follow these steps to get the CEP engine working:
+- Step 1: register event type to the configuration class
+- Step 2: create an instance of CEPEngine with above configuration
+- Step 3: activate all modules of the CEP engine
+- Step 4: activate all collectors to feed the CEP engine
+
+Below is the sample code to initialize the CEP engine to get it fully working:
+![](images/64D910BD-AC2F-4B23-8193-FE69105EBB06.jpeg)
