@@ -145,7 +145,7 @@ public class PortscanModule extends Module {
         engine.compileAndDeploy("select portScan, count(*) as countBlock from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ")\n"
                 + "where exists(select * from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ") where portScan = \"Vertical\")\n"
                 + "and exists(select * from BlockPortScanEvent#time(" + engine.getProperty("PORTSCAN_B_TIME_OF_WINDOW_IN_SECONDS") + ") where portScan = \"Horizontal\")\n"
-                + "output last every " + engine.getProperty("PORTSCAN_H_THROW_ALERT_EACH_SECONDS") + " seconds")
+                + "output last every " + engine.getProperty("PORTSCAN_B_THROW_ALERT_EACH_SECONDS") + " seconds")
                 .addListener((newData, __, ___, ____) -> {
                     System.out.println(newData[0].get("countBlock") + " item(s) in BlockPortScanEvent.");
                     AlertManager alertManager = AlertManager.getInstance();
