@@ -1,9 +1,11 @@
 package SIEMsystem.dashboard;
 
 import SIEMsystem.alert.Alert;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
 import java.io.IOException;
 /**
  * This class is about creating the dashboard scene with table view and functional button.
@@ -61,6 +65,13 @@ public class Dashboard {
         stage.setTitle("Event Statistics");
         stage.setScene(new Scene(root));
         stage.setResizable(false);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
+            @Override
+            public void handle(WindowEvent e){
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         stage.show();
     }
 

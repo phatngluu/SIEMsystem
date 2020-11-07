@@ -60,6 +60,20 @@ public class Counting {
         update1();
     }
 
+    Thread thread = new Thread() {
+        public void run() {
+            while (true) {
+                update1();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
     @FXML
     private void initialize() {
         name.setCellValueFactory(new PropertyValueFactory<EventCount, String>("name"));
@@ -70,36 +84,8 @@ public class Counting {
         sortedData.comparatorProperty().bind(counttable.comparatorProperty());
         counttable.setItems(masterData);
         // this.update();
-        Thread thread = new Thread() {
-            public void run() {
-                while (true) {
-                    update1();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-          };
         thread.start();
+
     }
-
     
-    // private void update(){
-    //     Task<Void>  myUpdatingTask = new Task<Void>(){
-    //         @Override
-    //         protected Void call() throws Exception{
-    //             while(true){
-    //                 update1();
-    //                 Thread.sleep(1000);
-    //             }
-    //         }            
-    //     };
-    //     Thread hilo = new Thread(myUpdatingTask);
-    //     hilo.setDaemon(true);
-    //     hilo.start();
-    // }
-
 }
