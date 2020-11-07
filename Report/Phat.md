@@ -223,8 +223,8 @@ private int runfirst() throws IOException{
         reader.close();
         return n;
     }
- ```
- 
+```
+
 Now we will need an array to store all the new event that our reader just read, then we will send its element to the CEPEngine
 
 ```java
@@ -312,3 +312,94 @@ You need to follow these steps to get the CEP engine working:
 
 Below is the sample code to initialize the CEP engine to get it fully working:
 ![](images/64D910BD-AC2F-4B23-8193-FE69105EBB06.jpeg)
+
+### 5. Validation
+
+The SIEM system has a graphical user interface called Dashboard. In this Dashboard, it has below functionalities:
+
+- configuring SIEM system
+- setting alerts' priority
+- showing number of processed events.
+- displaying alerts
+
+In this section, we will validate above functionalities by giving a short demo. Some cases will be validated very simple due to the validation steps are massive.
+
+#### 5.1.  Validation of system settings and event statistics:
+
+This section validates about:
+
+- configuring SIEM system
+- setting alerts' priority
+- showing number of processed events.
+
+##### 5.1.1. Configuring SIEM system
+
+This part validates the network interface selection feature, it is one of many properties of the SIEM system. 
+
+For example, this result show when the user choose an available network interface:
+
+![image-20201107103316068](images/image-20201107103316068.png)
+
+This case show when the user choose an unavailable network interface:
+
+![image-20201107103512018](images/image-20201107103512018.png)
+
+##### 5.1.2. Setting alerts' priority
+
+This part validates changing the priority of an alert. For example, the block scan alert will be set to Medium. The chosen priority of the alert will be shown in section 5.2.3. Port scan detection.
+
+![image-20201107103554635](images/image-20201107103554635.png)
+
+##### 5.1.3. Showing number of processed events
+
+The number of events will be update in realtime. In the figure below, only the resouce event is sent to the CEP engine. Other events is not happened.
+
+![image-20201107103757922](images/image-20201107103757922.png)
+
+#### 5.2. Validation of system alerts:
+
+##### 5.2.1. Webserver monitor
+
+The figure below is our scenario, the SIEM system monitor our webserver, a webserver user manipulates with the webserver, alerts will be raised (if any) to the dashboard to users:
+
+![image-20201107104116465](images/image-20201107104116465.png)
+
+All alerts and their corresponding actions on the web server are:
+
+- Failed login: user fails to authenticate him-/herself.
+- Consecutive failed login: user exceeds 3 times of failed login.
+- Brute force attack: user exceeds 10 times of failed login.
+- Forbidden: user access the restricted resource.
+
+![image-20201107173714450](images/image-20201107173714450.png)
+
+##### 5.2.2. System resource monitor
+
+The figure below is our scenario, the SIEM system monitor our host machine resource, a user uses applications in the host machine, alerts will be raised (if any) to the dashboard to users:
+
+![image-20201107175131619](images/image-20201107175131619.png)
+
+All alerts and corresponding actions with the host machine's resource are:
+
+- High CPU usage: raise alerts if CPU load exceeds 80%
+- High memory (RAM) usage: raise alerts if RAM load exceeds 40%.
+
+Alerts shown on the SIEM system:
+
+![image-20201107175532733](images/image-20201107175532733.png)
+
+##### 5.2.3. Port scan detection
+
+The figure below is our scenario, the SIEM system monitor the virtual netowrk, an attacker performs some port scanning methods, alerts will be raised (if any) to the dashboard to users:
+
+All alerts and corresponding actions with the virtual network are:
+
+- Vertical port scan alert: raise if a machine is scanned more than or equals 150 ports.
+- Horizontal port scan alert: raise if multiple machines (more than or equal 3) are scanned on the same port.
+- Block port scan alert: several machines are scanned on multiple ports.
+- Application misconfiguration leads to scan on closed port alert: a machine trying to scan a port of a different machine more than or equal 5 times in 5 minutes.
+
+Alerts shown on the SIEM system:
+
+![image-20201107181207316](images/image-20201107181207316.png)
+
