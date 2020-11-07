@@ -68,10 +68,9 @@ public class Dashboard {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
             @Override
             public void handle(WindowEvent e){
-                Platform.exit();
-                System.exit(0);
+                Counting.setStop();
             }
-        });
+        });        
         stage.show();
     }
 
