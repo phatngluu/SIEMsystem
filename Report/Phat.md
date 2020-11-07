@@ -183,6 +183,60 @@ This package is the entry of the system, it is about initializing the system eng
 
 #### 4.2. Collectors:
 
+##### 4.2.1 Webserver collector:
+
+This collector catch all the new event that added to the log file of the web server in realtime and send it to the CEPEngine for further processing and analysing
+
+##### 4.2.1.1 Libarary - BufferedReader and Parse:
+
+For reading the log file, we will use BufferReader to buffer the input and improve efficiency. Parse is used to parsing the log to the Java system. 
+
+##### 4.2.1.2 "Webserver" class:
+
+This class implements event capture and sends them to the CEPEngine. It is a Java Thread in order to run independent with other processes. 
+
+We imported serveral classes:
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import nl.basjes.parse.core.Parser;
+```
+
+We created a static variable to track the number of new lines in the log file so our system do not have to send all the event in the log file to the CEPEngine everytime.
+
+```java
+private static int currLog;
+```
+.
+Then to initalize the viriable, we created a class to get the current line of the log file. Let's call it `runfirst`.
+
+```java
+private int runfirst() throws IOException{
+        
+        BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
+        int n = 0;
+        while (reader.readLine() != null) {
+            n+=1;
+        }
+        reader.close();
+        return n;
+    }
+ ```
+ 
+Now we will need an array to store all the new event that our reader just read, then we will send its element to the CEPEngine
+
+```java
+ArrayList<AccessLogEvent> event = null;
+event = getEvent();
+for (int i = 0; i < event.size(); i++) {
+   CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
+   }
+```
+
+For class `getEvent()` above, first we will need to pass `currLog` line in the log file, then after an event is read, we update the `currLog`
+![image-Capture](images/Capture.png)
 ##### 4.2.2. Portscan collector:
 
 This collector captures all TCP packets on an network interface, then it sends them to the CEPEngine for further processing and analysing.
