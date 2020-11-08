@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +21,13 @@ public class Counting {
 
     private ObservableList<EventCount> masterData = FXCollections.observableArrayList();
 
-    public void update1() {
+    private static Boolean stop = true;
+
+    public static void setStop() {
+        stop = false;
+    }
+
+    public void update() {
         masterData.clear();
         masterData.add(
                 new EventCount("AccessLogEvent", CEPEngine.getCreatedInstance().getCountOfEvent(AccessLogEvent.class)));
@@ -57,49 +62,33 @@ public class Counting {
     }
 
     public Counting() {
-        update1();
+        update();
     }
+
+    Thread thread = new Thread() {
+        public void run() {
+            while (stop){
+                update();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }            
+            stop = true;
+        }
+    };
 
     @FXML
     private void initialize() {
         name.setCellValueFactory(new PropertyValueFactory<EventCount, String>("name"));
         num.setCellValueFactory(new PropertyValueFactory<EventCount, Long>("num"));
-
         FilteredList<EventCount> filteredData = new FilteredList<>(masterData, p -> true);
         SortedList<EventCount> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(counttable.comparatorProperty());
         counttable.setItems(masterData);
-        // this.update();
-        Thread thread = new Thread() {
-            public void run() {
-                while (true) {
-                    update1();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-          };
-        thread.start();
+        thread.start(); 
     }
-
     
-    // private void update(){
-    //     Task<Void>  myUpdatingTask = new Task<Void>(){
-    //         @Override
-    //         protected Void call() throws Exception{
-    //             while(true){
-    //                 update1();
-    //                 Thread.sleep(1000);
-    //             }
-    //         }            
-    //     };
-    //     Thread hilo = new Thread(myUpdatingTask);
-    //     hilo.setDaemon(true);
-    //     hilo.start();
-    // }
-
 }

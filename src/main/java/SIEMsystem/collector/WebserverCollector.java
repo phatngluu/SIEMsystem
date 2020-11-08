@@ -12,13 +12,19 @@ import nl.basjes.parse.core.exceptions.DissectionFailure;
 import nl.basjes.parse.core.exceptions.InvalidDissectorException;
 import nl.basjes.parse.core.exceptions.MissingDissectorsException;
 import nl.basjes.parse.httpdlog.HttpdLoglineParser;
-
+/**
+ * This class is for collecting events for web server module.
+ * @author Lam Hai Son
+ */
 public class WebserverCollector extends Thread {
     private static int currLog = 0;
     private static String logFilePath = CEPEngine.getCreatedInstance().getProperty("WEBSERVER_LOG_FILE_PATH");
+
+    /**
+     * This method forward the event to CEPEngine every second
+     */
     @Override
     public void run() {
-        //int numberoflog = 0;
         try {
             currLog = runfirst();
         } catch (IOException e) {
@@ -31,19 +37,17 @@ public class WebserverCollector extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            int currnumberoflog = event.size();
-//            if (numberoflog < currnumberoflog) {
-//                for (int i = numberoflog; i < currnumberoflog; i++) {
-//                    CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
-//                }
-//                numberoflog = currnumberoflog;
-//            }
             for (int i = 0; i < event.size(); i++) {
                 CEPEngine.getCreatedInstance().getRuntime().getEventService().sendEventBean(event.get(i), "AccessLogEvent");
             }
         }
     }
 
+    /**
+     * This class is for getting the first n lines in the log file
+     * @return current number of line in the log file
+     * @throws IOException
+     */
     private int runfirst() throws IOException{
         
         BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
@@ -55,7 +59,11 @@ public class WebserverCollector extends Thread {
         return n;
     }
 
-
+    /**
+     * This class is for getting the event from the log file
+     * @return the array of new event that just added to log file
+     * @throws IOException
+     */
     private ArrayList<AccessLogEvent> getEvent() throws IOException {
         int rdLog = 0;
         ArrayList<AccessLogEvent> rs = new ArrayList<>();

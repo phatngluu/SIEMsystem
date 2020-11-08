@@ -11,11 +11,11 @@ public class TcpPacketEvent {
     /**
      * TCP header of the packet.
      */
-    protected TcpPacket.TcpHeader tcpHeader;
+    private TcpPacket.TcpHeader tcpHeader;
     /**
      * IP header of the packet.
      */
-    protected IpPacket.IpHeader ipHeader;
+    private IpPacket.IpHeader ipHeader;
 
     public TcpPacketEvent(IpPacket.IpHeader ipHeader, TcpPacket.TcpHeader tcpHeader) {
         this.ipHeader = ipHeader;
